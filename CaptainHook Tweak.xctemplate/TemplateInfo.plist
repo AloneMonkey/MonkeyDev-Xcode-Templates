@@ -49,7 +49,7 @@
 				</dict>
 				<dict>
 					<key>ShellScript</key>
-					<string>/opt/iOSOpenDev/bin/iosod --xcbp</string>
+					<string>/opt/MonkeyDev/bin/md --xcbp</string>
 					<key>ShellPath</key>
 					<string>/bin/sh</string>
 					<key>RunOnlyForDeploymentPostprocessing</key>

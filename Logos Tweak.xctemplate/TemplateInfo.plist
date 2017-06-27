@@ -37,7 +37,7 @@
 			<array>
 				<dict>
 					<key>ShellScript</key>
-					<string>/opt/MonkeyDev/bin/iosod --xcbp-logos</string>
+					<string>/opt/MonkeyDev/bin/md --xcbp-logos</string>
 					<key>ShellPath</key>
 					<string>/bin/sh</string>
 					<key>RunOnlyForDeploymentPostprocessing</key>
@@ -59,7 +59,7 @@
 				</dict>
 				<dict>
 					<key>ShellScript</key>
-					<string>/opt/MonkeyDev/bin/iosod --xcbp</string>
+					<string>/opt/MonkeyDev/bin/md --xcbp</string>
 					<key>ShellPath</key>
 					<string>/bin/sh</string>
 					<key>RunOnlyForDeploymentPostprocessing</key>
