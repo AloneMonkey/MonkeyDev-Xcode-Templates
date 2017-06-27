@@ -46,6 +46,8 @@
 	<dict>
 		<key>SharedSettings</key>
 		<dict>
+			<key>THEOSPATH</key>
+			<string>/opt/theos</string>
 			<key>TARGETED_DEVICE_FAMILY</key>
 			<string>1,2</string>
 			<key>GCC_WARN_ABOUT_MISSING_PROTOTYPES</key>
@@ -61,15 +63,15 @@
 			<key>OTHER_CFLAGS</key>
 			<string>-DTHEOS_INSTANCE_NAME=&quot;\&quot;___PACKAGENAME___\&quot;&quot;</string>
 			<key>HEADER_SEARCH_PATHS</key>
-			<string>$(MonkeyDevPath)/include/** /opt/theos/vendor/include/**</string>
+			<string>$(THEOSPATH)/vendor/include/**</string>
 			<key>LIBRARY_SEARCH_PATHS</key>
-			<string>$(MonkeyDevPath)/lib/** /opt/theos/vendor/lib/**</string>
+			<string> $(THEOSPATH)/vendor/lib/**</string>
 			<key>MonkeyDevPath</key>
 			<string>/opt/MonkeyDev</string>
 			<key>IPHONEOS_DEPLOYMENT_TARGET</key>
 			<string>8.0</string>
 			<key>FRAMEWORK_SEARCH_PATHS</key>
-			<string>$(MonkeyDevPath)/frameworks/** $(SDKROOT)/System/Library/PrivateFrameworks</string>
+			<string>$(MonkeyDevPath)/frameworks/** $(THEOSPATH)/vendor/lib</string>
 		</dict>
 		<key>SDK</key>
 		<string>iphoneos</string>
@@ -148,6 +150,8 @@
 	</array>
 	<key>Definitions</key>
 	<dict>
+		<key>*:*:importTheosPrefix</key>
+		<string>#import &quot;/opt/theos/Prefix.pch&quot;  //path/to/theos/Prefix.pch</string>
 		<key>*:comments</key>
 		<string>//
 //  ___FILENAME___
@@ -184,8 +188,6 @@
 			<key>Indent</key>
 			<integer>1</integer>
 		</dict>
-		<key>___PACKAGENAME___-Prefix.pch:theos</key>
-		<string>#import &quot;/opt/theos/Prefix.pch&quot;</string>
 	</dict>
 </dict>
 </plist>

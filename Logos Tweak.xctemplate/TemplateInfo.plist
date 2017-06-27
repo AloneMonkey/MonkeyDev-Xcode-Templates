@@ -71,13 +71,14 @@
 			<key>Frameworks</key>
 			<array>
 				<string>Foundation</string>
+				<string>CydiaSubstrate</string>
 			</array>
 		</dict>
 	</array>
 	<key>Nodes</key>
 	<array>
 		<string>___PACKAGENAME___-Prefix.pch:objC:importFoundation</string>
-		<string>___PACKAGENAME___-Prefix.pch:theos</string>
+		<string>___PACKAGENAME___-Prefix.pch:objC:importTheosPrefix</string>
 		<string>___PACKAGENAMEASIDENTIFIER___.xm</string>
 		<string>___PACKAGENAMEASIDENTIFIER___.mm</string>
 		<string>Package/DEBIAN/control:debianControl:section</string>
