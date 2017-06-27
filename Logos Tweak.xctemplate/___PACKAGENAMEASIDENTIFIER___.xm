@@ -1,10 +1,8 @@
-
-// Logos by Dustin Howett
 // See http://iphonedevwiki.net/index.php/Logos
 
-#error iOSOpenDev post-project creation from template requirements (remove these lines after completed) -- \
-	Link to libsubstrate.dylib: \
-	(1) go to TARGETS > Build Phases > Link Binary With Libraries and add /opt/iOSOpenDev/lib/libsubstrate.dylib \
+#error MonkeyDev post-project creation from template requirements (remove these lines after completed) -- \
+	Link to CydiaSubstrate.framework: \
+	(1) go to TARGETS > Build Phases > Link Binary With Libraries and add /opt/theos/vendor/lib/CydiaSubstrate.framework \
 	(2) remove these lines from *.xm files (not *.mm files as they're automatically generated from *.xm files)
 
 %hook ClassName
