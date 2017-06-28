@@ -46,7 +46,7 @@
 	<dict>
 		<key>SharedSettings</key>
 		<dict>
-			<key>THEOSPATH</key>
+			<key>MonkeyDevTheosPath</key>
 			<string>/opt/theos</string>
 			<key>TARGETED_DEVICE_FAMILY</key>
 			<string>1,2</string>
@@ -63,15 +63,15 @@
 			<key>OTHER_CFLAGS</key>
 			<string>-DTHEOS_INSTANCE_NAME=&quot;\&quot;___PACKAGENAME___\&quot;&quot;</string>
 			<key>HEADER_SEARCH_PATHS</key>
-			<string>$(THEOSPATH)/vendor/include/**</string>
+			<string>$(MonkeyDevTheosPath)/vendor/include/**</string>
 			<key>LIBRARY_SEARCH_PATHS</key>
-			<string>$(THEOSPATH)/vendor/lib/**</string>
+			<string>$(MonkeyDevTheosPath)/vendor/lib/**</string>
 			<key>MonkeyDevPath</key>
 			<string>/opt/MonkeyDev</string>
 			<key>IPHONEOS_DEPLOYMENT_TARGET</key>
 			<string>8.0</string>
 			<key>FRAMEWORK_SEARCH_PATHS</key>
-			<string>$(MonkeyDevPath)/frameworks/** $(THEOSPATH)/vendor/lib</string>
+			<string>$(MonkeyDevPath)/frameworks/** $(MonkeyDevTheosPath)/vendor/lib</string>
 		</dict>
 		<key>SDK</key>
 		<string>iphoneos</string>
