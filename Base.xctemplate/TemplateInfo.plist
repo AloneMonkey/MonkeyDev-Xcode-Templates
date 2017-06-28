@@ -65,7 +65,7 @@
 			<key>HEADER_SEARCH_PATHS</key>
 			<string>$(THEOSPATH)/vendor/include/**</string>
 			<key>LIBRARY_SEARCH_PATHS</key>
-			<string> $(THEOSPATH)/vendor/lib/**</string>
+			<string>$(THEOSPATH)/vendor/lib/**</string>
 			<key>MonkeyDevPath</key>
 			<string>/opt/MonkeyDev</string>
 			<key>IPHONEOS_DEPLOYMENT_TARGET</key>
