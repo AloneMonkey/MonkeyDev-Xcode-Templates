@@ -70,6 +70,7 @@
 			</array>
 			<key>Frameworks</key>
 			<array>
+				<string>UIKit</string>
 				<string>Foundation</string>
 				<string>CydiaSubstrate</string>
 			</array>
