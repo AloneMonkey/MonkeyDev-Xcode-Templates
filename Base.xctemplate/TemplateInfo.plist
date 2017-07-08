@@ -27,7 +27,7 @@
 				<string>YES</string>
 				<key>MonkeyDevDeviceIP</key>
 				<string></string>
-				<key>MonkeyDevPort</key>
+				<key>MonkeyDevDevicePort</key>
 				<string></string>
 				<key>MonkeyDevInstallOnProfiling</key>
 				<string>YES</string>
