@@ -19,8 +19,10 @@
 			<string>___PACKAGENAME___</string>
 			<key>SharedSettings</key>
 			<dict>
+				<key>ONLY_ACTIVE_ARCH</key>
+				<string>NO</string>
 				<key>OTHER_LDFLAGS</key>
-				<string>-weak_library /usr/lib/libc++.dylib</string>
+				<string>-weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib</string>
 				<key>ENABLE_BITCODE</key>
 				<string>NO</string>
 				<key>PRODUCT_NAME</key>
