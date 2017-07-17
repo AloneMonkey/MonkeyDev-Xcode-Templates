@@ -34,7 +34,7 @@
 				<key>MonkeyDevCopyOnBuild</key>
 				<string>NO</string>
 				<key>MonkeyDevInstallOnAnyBuild</key>
-				<string>NO</string>
+				<string>YES</string>
 			</dict>
 		</dict>
 	</array>
