@@ -100,7 +100,7 @@
 			<key>IPHONEOS_DEPLOYMENT_TARGET</key>
 			<string>8.0</string>
 			<key>FRAMEWORK_SEARCH_PATHS</key>
-			<string>$(MonkeyDevPath)/Frameworks/** $(MonkeyDevPath)/Library/** $(MonkeyDevTheosPath)/vendor/lib</string>
+			<string>$(MonkeyDevPath)/Frameworks/** $(MonkeyDevPath)/Librarys/** $(MonkeyDevTheosPath)/vendor/lib</string>
 		</dict>
 		<key>SDK</key>
 		<string>iphoneos</string>
