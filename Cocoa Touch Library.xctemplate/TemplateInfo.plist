@@ -19,6 +19,8 @@
 			<string>___PACKAGENAME___</string>
 			<key>SharedSettings</key>
 			<dict>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<string>$(inherited) @executable_path/Frameworks</string>
 				<key>ONLY_ACTIVE_ARCH</key>
 				<string>NO</string>
 				<key>OTHER_LDFLAGS</key>

@@ -19,12 +19,14 @@
 			<string>___PACKAGENAME___</string>
 			<key>SharedSettings</key>
 			<dict>
+				<key>MonkeyDevClearUiCacheOnInstall</key>
+				<string>NO</string>
+				<key>MonkeyDevkillProcessOnInstall</key>
+				<string>SpringBoard</string>
 				<key>CODE_SIGN_IDENTITY</key>
 				<string></string>
 				<key>PRODUCT_NAME</key>
 				<string>$(TARGET_NAME)</string>
-				<key>MonkeyDevRespringOnInstall</key>
-				<string>YES</string>
 				<key>MonkeyDevDeviceIP</key>
 				<string></string>
 				<key>MonkeyDevDevicePort</key>
