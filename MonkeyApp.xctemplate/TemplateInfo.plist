@@ -34,6 +34,11 @@
 	<key>Targets</key>
 	<array>
 		<dict>
+			<key>SharedSettings</key>
+			<dict>
+				<key>ENABLE_BITCODE</key>
+				<string>NO</string>
+			</dict>
 			<key>BuildPhases</key>
 			<array>
 				<dict>
@@ -51,6 +56,14 @@
 			<string>com.monkey.monkeydev.TargetApp</string>
 		</dict>
 	</array>
+	<key>Project</key>
+	<dict>
+		<key>SharedSettings</key>
+		<dict>
+			<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+			<string>8.0</string>
+		</dict>
+	</dict>
 	<key>Components</key>
 	<array>
 		<dict>
