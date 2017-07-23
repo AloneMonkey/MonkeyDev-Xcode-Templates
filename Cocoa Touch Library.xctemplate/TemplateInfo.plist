@@ -22,7 +22,7 @@
 				<key>ONLY_ACTIVE_ARCH</key>
 				<string>NO</string>
 				<key>OTHER_LDFLAGS</key>
-				<string>-weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib</string>
+				<string>$(inherited)  -weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib</string>
 				<key>ENABLE_BITCODE</key>
 				<string>NO</string>
 				<key>PRODUCT_NAME</key>
@@ -88,17 +88,17 @@
 			<key>EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES</key>
 			<string>*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj</string>
 			<key>OTHER_CFLAGS</key>
-			<string>-DTHEOS_INSTANCE_NAME=&quot;\&quot;___PACKAGENAME___\&quot;&quot;</string>
+			<string>$(inherited)  -DTHEOS_INSTANCE_NAME=&quot;\&quot;___PACKAGENAME___\&quot;&quot;</string>
 			<key>HEADER_SEARCH_PATHS</key>
-			<string>$(MonkeyDevTheosPath)/vendor/include/**</string>
+			<string>$(inherited) $(MonkeyDevTheosPath)/vendor/include/**</string>
 			<key>LIBRARY_SEARCH_PATHS</key>
-			<string>$(MonkeyDevTheosPath)/vendor/lib/**</string>
+			<string>$(inherited) $(MonkeyDevTheosPath)/vendor/lib/**</string>
 			<key>MonkeyDevPath</key>
 			<string>/opt/MonkeyDev</string>
 			<key>IPHONEOS_DEPLOYMENT_TARGET</key>
 			<string>8.0</string>
 			<key>FRAMEWORK_SEARCH_PATHS</key>
-			<string>$(MonkeyDevPath)/Frameworks/** $(MonkeyDevPath)/Library/** $(MonkeyDevTheosPath)/vendor/lib</string>
+			<string>$(inherited) $(MonkeyDevPath)/Frameworks/** $(MonkeyDevPath)/Library/** $(MonkeyDevTheosPath)/vendor/lib</string>
 		</dict>
 		<key>SDK</key>
 		<string>iphoneos</string>
