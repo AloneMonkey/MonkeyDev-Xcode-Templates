@@ -9,9 +9,9 @@
 //
 
 #import "___FILEBASENAME___.h"
+#import "CaptainHook.h"
 #import <UIKit/UIKit.h>
 #import <Cycript/Cycript.h>
-#import <CaptainHook/CaptainHook.h>
 
 void initCycriptServer(){
     [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidFinishLaunchingNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {

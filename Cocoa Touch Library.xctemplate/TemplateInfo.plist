@@ -50,16 +50,6 @@
 					<key>Class</key>
 					<string>Headers</string>
 				</dict>
-				<dict>
-					<key>Class</key>
-					<string>ShellScript</string>
-					<key>RunOnlyForDeploymentPostprocessing</key>
-					<false/>
-					<key>ShellPath</key>
-					<string>/bin/sh</string>
-					<key>ShellScript</key>
-					<string>/opt/MonkeyDev/bin/md --xcbp</string>
-				</dict>
 			</array>
 			<key>Frameworks</key>
 			<array>
@@ -219,6 +209,7 @@
 	</array>
 	<key>Nodes</key>
 	<array>
+		<string>CaptainHook/CaptainHook.h</string>
 		<string>___PACKAGENAME___-Prefix.pch</string>
 		<string>AntiAntiDebug/AntiAntiDebug.m</string>
 		<string>fishhook/fishhook.c</string>
@@ -228,6 +219,15 @@
 	</array>
 	<key>Definitions</key>
 	<dict>
+		<key>CaptainHook/CaptainHook.h</key>
+		<dict>
+			<key>Path</key>
+			<string>CaptainHook/CaptainHook.h</string>
+			<key>Group</key>
+			<array>
+				<string>CaptainHook</string>
+			</array>
+		</dict>
 		<key>AntiAntiDebug/AntiAntiDebug.m</key>
 		<dict>
 			<key>Group</key>
