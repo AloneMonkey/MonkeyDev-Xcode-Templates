@@ -209,6 +209,10 @@
 	</array>
 	<key>Nodes</key>
 	<array>
+		<string>ZKSwizzle/ZKSwizzle.h</string>
+		<string>ZKSwizzle/ZKSwizzle.m</string>
+		<string>JRSwizzle/JRSwizzle.h</string>
+		<string>JRSwizzle/JRSwizzle.m</string>
 		<string>CaptainHook/CaptainHook.h</string>
 		<string>___PACKAGENAME___-Prefix.pch</string>
 		<string>AntiAntiDebug/AntiAntiDebug.m</string>
@@ -219,6 +223,42 @@
 	</array>
 	<key>Definitions</key>
 	<dict>
+		<key>ZKSwizzle/ZKSwizzle.h</key>
+		<dict>
+			<key>Path</key>
+			<string>ZKSwizzle/ZKSwizzle.h</string>
+			<key>Group</key>
+			<array>
+				<string>ZKSwizzle</string>
+			</array>
+		</dict>
+		<key>ZKSwizzle/ZKSwizzle.m</key>
+		<dict>
+			<key>Path</key>
+			<string>ZKSwizzle/ZKSwizzle.m</string>
+			<key>Group</key>
+			<array>
+				<string>ZKSwizzle</string>
+			</array>
+		</dict>
+		<key>JRSwizzle/JRSwizzle.h</key>
+		<dict>
+			<key>Path</key>
+			<string>JRSwizzle/JRSwizzle.h</string>
+			<key>Group</key>
+			<array>
+				<string>JRSwizzle</string>
+			</array>
+		</dict>
+		<key>JRSwizzle/JRSwizzle.m</key>
+		<dict>
+			<key>Path</key>
+			<string>JRSwizzle/JRSwizzle.m</string>
+			<key>Group</key>
+			<array>
+				<string>JRSwizzle</string>
+			</array>
+		</dict>
 		<key>CaptainHook/CaptainHook.h</key>
 		<dict>
 			<key>Path</key>
