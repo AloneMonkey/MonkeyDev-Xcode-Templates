@@ -36,6 +36,10 @@
 		<dict>
 			<key>SharedSettings</key>
 			<dict>
+				<key>MONKEYDEV_CLASS_DUMP</key>
+				<string>NO</string>
+				<key>MONKEYDEV_RESTORE_SYMBOL</key>
+				<string>NO</string>
 				<key>PODS_ROOT</key>
 				<string>${SRCROOT}/Pods</string>
 				<key>ENABLE_BITCODE</key>
