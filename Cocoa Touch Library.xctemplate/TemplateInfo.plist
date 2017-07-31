@@ -22,7 +22,7 @@
 				<key>LD_RUNPATH_SEARCH_PATHS</key>
 				<string>$(inherited) @executable_path/Frameworks</string>
 				<key>OTHER_LDFLAGS</key>
-				<string>$(inherited)  -weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib</string>
+				<string>$(inherited)  -weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib -lsubstrate</string>
 				<key>ENABLE_BITCODE</key>
 				<string>NO</string>
 				<key>PRODUCT_NAME</key>
@@ -82,7 +82,7 @@
 			<key>HEADER_SEARCH_PATHS</key>
 			<string>$(inherited) $(MonkeyDevTheosPath)/vendor/include/**</string>
 			<key>LIBRARY_SEARCH_PATHS</key>
-			<string>$(inherited) $(MonkeyDevTheosPath)/vendor/lib/**</string>
+			<string>$(inherited) $(MonkeyDevPath)/Frameworks $(MonkeyDevTheosPath)/vendor/lib/**</string>
 			<key>MonkeyDevPath</key>
 			<string>/opt/MonkeyDev</string>
 			<key>IPHONEOS_DEPLOYMENT_TARGET</key>
