@@ -14,17 +14,13 @@
 #import <Cycript/Cycript.h>
 #import <CydiaSubstrate/CydiaSubstrate.h>
 
-void initCycriptServer(){
+static __attribute__((constructor)) void entry(){
+    NSLog(@"\n               🎉!!！congratulations!!！🎉\n👍----------------insert dylib success----------------👍");
+    
     [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidFinishLaunchingNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
         
         CYListenServer(6666);
     }];
-}
-
-static __attribute__((constructor)) void entry(){
-    NSLog(@"\n               🎉!!！congratulations!!！🎉\n👍----------------insert dylib success----------------👍");
-    
-    initCycriptServer();
 }
 
 CHDeclareClass(CustomViewController)
