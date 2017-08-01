@@ -16,7 +16,6 @@ CHDeclareClass(CustomViewController)
 
 CHOptimizedMethod(0, self, NSString*, CustomViewController,getMyName){
     return @"MonkeyDevPod";
-    
 }
 
 CHConstructor{
