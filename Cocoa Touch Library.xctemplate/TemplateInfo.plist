@@ -22,7 +22,7 @@
 				<key>LD_RUNPATH_SEARCH_PATHS</key>
 				<string>$(inherited) @executable_path/Frameworks</string>
 				<key>OTHER_LDFLAGS</key>
-				<string>$(inherited)  -weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib -lsubstrate</string>
+				<string>$(inherited)  -weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib </string>
 				<key>ENABLE_BITCODE</key>
 				<string>NO</string>
 				<key>PRODUCT_NAME</key>
@@ -207,8 +207,6 @@
 	</array>
 	<key>Nodes</key>
 	<array>
-		<string>JRSwizzle/JRSwizzle.h</string>
-		<string>JRSwizzle/JRSwizzle.m</string>
 		<string>CaptainHook/CaptainHook.h</string>
 		<string>___PACKAGENAME___-Prefix.pch</string>
 		<string>AntiAntiDebug/AntiAntiDebug.m</string>
@@ -219,24 +217,6 @@
 	</array>
 	<key>Definitions</key>
 	<dict>
-		<key>JRSwizzle/JRSwizzle.h</key>
-		<dict>
-			<key>Path</key>
-			<string>JRSwizzle/JRSwizzle.h</string>
-			<key>Group</key>
-			<array>
-				<string>JRSwizzle</string>
-			</array>
-		</dict>
-		<key>JRSwizzle/JRSwizzle.m</key>
-		<dict>
-			<key>Path</key>
-			<string>JRSwizzle/JRSwizzle.m</string>
-			<key>Group</key>
-			<array>
-				<string>JRSwizzle</string>
-			</array>
-		</dict>
 		<key>CaptainHook/CaptainHook.h</key>
 		<dict>
 			<key>Path</key>
