@@ -17,8 +17,15 @@ typedef int (*sysctl_ptr_t)(int *,u_int, void*, size_t*,void*, size_t);
 
 static ptrace_ptr_t orig_ptrace = NULL;
 static dlsym_ptr_t orig_dlsym = NULL;
-static syscall_ptr_t origin_syscall = NULL;
 static sysctl_ptr_t orig_sysctl = NULL;
+
+#ifndef __LP64__
+static syscall_ptr_t origin_syscall = NULL;
+#endif
+
+int my_ptrace(int _request, pid_t _pid, caddr_t _addr, int _data);
+void* my_dlsym(void* __handle, const char* __symbol);
+int my_sysctl(int * name, u_int namelen, void * info, size_t * infosize, void * newinfo, size_t newinfosize);
 
 int my_ptrace(int _request, pid_t _pid, caddr_t _addr, int _data){
     if(_request != 31){

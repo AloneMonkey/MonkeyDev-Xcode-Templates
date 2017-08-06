@@ -23,6 +23,12 @@ static __attribute__((constructor)) void entry(){
     }];
 }
 
+@interface CustomViewController
+
+-(NSString*)getMyName;
+
+@end
+
 CHDeclareClass(CustomViewController)
 
 CHOptimizedMethod(0, self, NSString*, CustomViewController,getMyName){

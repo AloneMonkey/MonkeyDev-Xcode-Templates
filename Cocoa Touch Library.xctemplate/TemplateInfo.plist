@@ -28,7 +28,7 @@
 				<key>PRODUCT_NAME</key>
 				<string>$(TARGET_NAME)</string>
 				<key>INSTALL_PATH</key>
-				<string>/usr/lib</string>
+				<string>@executable_path/Frameworks/lib___PACKAGENAME___.dylib</string>
 				<key>GCC_PREFIX_HEADER</key>
 				<string>___PACKAGENAME___/___PACKAGENAME___-Prefix.pch</string>
 				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
