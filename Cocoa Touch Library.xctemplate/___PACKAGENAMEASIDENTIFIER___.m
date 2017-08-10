@@ -12,7 +12,6 @@
 #import "CaptainHook.h"
 #import <UIKit/UIKit.h>
 #import <Cycript/Cycript.h>
-#import <CydiaSubstrate/CydiaSubstrate.h>
 
 static __attribute__((constructor)) void entry(){
     NSLog(@"\n               🎉!!！congratulations!!！🎉\n👍----------------insert dylib success----------------👍");
