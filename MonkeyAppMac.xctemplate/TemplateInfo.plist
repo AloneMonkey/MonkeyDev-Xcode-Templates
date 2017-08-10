@@ -43,6 +43,16 @@
 					<key>Class</key>
 					<string>Headers</string>
 				</dict>
+				<dict>
+					<key>ShellScript</key>
+					<string>/opt/MonkeyDev/Tools/packformac.sh</string>
+					<key>ShellPath</key>
+					<string>/bin/sh</string>
+					<key>RunOnlyForDeploymentPostprocessing</key>
+					<false/>
+					<key>Class</key>
+					<string>ShellScript</string>
+				</dict>
 			</array>
 		</dict>
 	</array>
