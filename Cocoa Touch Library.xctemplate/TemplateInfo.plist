@@ -90,7 +90,7 @@
 			<key>OTHER_CFLAGS</key>
 			<string>$(inherited)  -DTHEOS_INSTANCE_NAME=&quot;\&quot;___PACKAGENAME___\&quot;&quot;</string>
 			<key>HEADER_SEARCH_PATHS</key>
-			<string>$(inherited) $(MonkeyDevTheosPath)/vendor/include/**</string>
+			<string>$(inherited) $(MonkeyDevPath)/include $(MonkeyDevTheosPath)/vendor/include/**</string>
 			<key>LIBRARY_SEARCH_PATHS</key>
 			<string>$(inherited) $(MonkeyDevPath)/Frameworks $(MonkeyDevTheosPath)/vendor/lib/**</string>
 			<key>MonkeyDevPath</key>
