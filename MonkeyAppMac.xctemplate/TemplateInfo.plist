@@ -24,6 +24,8 @@
 			<string>com.apple.dt.cocoaLibraryOrFrameworkTarget</string>
 			<key>SharedSettings</key>
 			<dict>
+				<key>INSTALL_PATH</key>
+				<string>@executable_path/lib___PACKAGENAME___.dylib</string>
 				<key>OTHER_LDFLAGS</key>
 				<string>$(inherited)  -lsubstitute</string>
 				<key>EXECUTABLE_PREFIX</key>
