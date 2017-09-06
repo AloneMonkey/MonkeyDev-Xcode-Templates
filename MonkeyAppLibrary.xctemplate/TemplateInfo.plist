@@ -217,6 +217,9 @@
 	</array>
 	<key>Nodes</key>
 	<array>
+		<string>MethodTrace/ANYMethodLog.h</string>
+		<string>MethodTrace/ANYMethodLog.m</string>
+		<string>MethodTrace/MethodTrace.m</string>
 		<string>___PACKAGENAME___-Prefix.pch:objC:importFoundation</string>
 		<string>___PACKAGENAME___-Prefix.pch:objC:importTheosPrefix</string>
 		<string>CaptainHook/CaptainHook.h</string>
@@ -230,6 +233,33 @@
 	</array>
 	<key>Definitions</key>
 	<dict>
+		<key>MethodTrace/ANYMethodLog.h</key>
+		<dict>
+			<key>Path</key>
+			<string>MethodTrace/ANYMethodLog.h</string>
+			<key>Group</key>
+			<array>
+				<string>MethodTrace</string>
+			</array>
+		</dict>
+		<key>MethodTrace/ANYMethodLog.m</key>
+		<dict>
+			<key>Path</key>
+			<string>MethodTrace/ANYMethodLog.m</string>
+			<key>Group</key>
+			<array>
+				<string>MethodTrace</string>
+			</array>
+		</dict>
+		<key>MethodTrace/MethodTrace.m</key>
+		<dict>
+			<key>Path</key>
+			<string>MethodTrace/MethodTrace.m</string>
+			<key>Group</key>
+			<array>
+				<string>MethodTrace</string>
+			</array>
+		</dict>
 		<key>___PACKAGENAME___-Prefix.pch:objC</key>
 		<dict>
 			<key>Beginning</key>
