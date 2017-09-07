@@ -87,9 +87,9 @@ void qhd_logMethod(Class aClass, BOOL(^condition)(SEL sel));
 @interface AMLBlock : NSObject
 
 @property (strong, nonatomic) NSString *targetClassName;
-@property (copy, nonatomic) BOOL(^condition)(SEL sel);
-@property (copy, nonatomic) void(^before)(id target, SEL sel, NSArray *args, int deep);
-@property (copy, nonatomic) void(^after)(id target, SEL sel, NSArray *args, NSTimeInterval interval, int deep, id retValue);
+@property (copy, nonatomic) ConditionBlock condition;
+@property (copy, nonatomic) BeforeBlock before;
+@property (copy, nonatomic) AfterBlock  after;
 
 @end
 
@@ -289,7 +289,6 @@ BOOL qhd_isCanHook(Method method, const char *returnType) {
     }
     return isCanHook;
 }
-
 
 //获取方法返回值
 id getReturnValue(NSInvocation *invocation){
@@ -539,9 +538,9 @@ void qhd_logMethod(Class aClass, BOOL(^condition)(SEL sel)) {
 @implementation ANYMethodLog
 
 + (void)logMethodWithClass:(Class)aClass
-                 condition:(BOOL(^)(SEL sel))condition
-                    before:(void(^)(id target, SEL sel, NSArray *args, int deep))before
-                     after:(void(^)(id target, SEL sel, NSArray *args, NSTimeInterval interval, int deep, id retValue))after {
+                 condition:(ConditionBlock) condition
+                    before:(BeforeBlock) before
+                     after:(AfterBlock) after {
     #ifndef DEBUG
         return;
     #endif

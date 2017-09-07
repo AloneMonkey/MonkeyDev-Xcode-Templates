@@ -219,6 +219,7 @@
 	<array>
 		<string>MethodTrace/ANYMethodLog.h</string>
 		<string>MethodTrace/ANYMethodLog.m</string>
+		<string>MethodTrace/MethodTrace.h</string>
 		<string>MethodTrace/MethodTrace.m</string>
 		<string>___PACKAGENAME___-Prefix.pch:objC:importFoundation</string>
 		<string>___PACKAGENAME___-Prefix.pch:objC:importTheosPrefix</string>
@@ -246,6 +247,15 @@
 		<dict>
 			<key>Path</key>
 			<string>MethodTrace/ANYMethodLog.m</string>
+			<key>Group</key>
+			<array>
+				<string>MethodTrace</string>
+			</array>
+		</dict>
+		<key>MethodTrace/MethodTrace.h</key>
+		<dict>
+			<key>Path</key>
+			<string>MethodTrace/MethodTrace.h</string>
 			<key>Group</key>
 			<array>
 				<string>MethodTrace</string>
