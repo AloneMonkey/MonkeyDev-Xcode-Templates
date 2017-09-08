@@ -111,6 +111,26 @@
 					<key>Class</key>
 					<string>Resources</string>
 				</dict>
+				<dict>
+					<key>RunOnlyForDeploymentPostprocessing</key>
+					<false/>
+					<key>DstSubfolderSpec</key>
+					<integer>10</integer>
+					<key>DstPath</key>
+					<string></string>
+					<key>Class</key>
+					<string>CopyFiles</string>
+				</dict>
+				<dict>
+					<key>RunOnlyForDeploymentPostprocessing</key>
+					<false/>
+					<key>Class</key>
+					<string>ShellScript</string>
+					<key>ShellPath</key>
+					<string>/bin/sh</string>
+					<key>ShellScript</key>
+					<string>/opt/MonkeyDev/Tools/pack.sh codesign</string>
+				</dict>
 			</array>
 			<key>TargetIdentifier</key>
 			<string>com.monkey.monkeydev.TargetApp</string>
