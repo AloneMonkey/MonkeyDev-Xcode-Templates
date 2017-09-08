@@ -92,12 +92,16 @@
 	</dict>
 	<key>Nodes</key>
 	<array>
-		<string>___PACKAGENAMEASIDENTIFIER___.podspec</string>
-		<string>CaptainHook/CaptainHook.h</string>
 		<string>___PACKAGENAMEASIDENTIFIER___.m</string>
+		<string>___PACKAGENAMEASIDENTIFIER___.podspec</string>
 	</array>
 	<key>Definitions</key>
 	<dict>
+		<key>___PACKAGENAMEASIDENTIFIER___.m</key>
+		<dict>
+			<key>Path</key>
+			<string>___PACKAGENAMEASIDENTIFIER___.m</string>
+		</dict>
 		<key>___PACKAGENAMEASIDENTIFIER___.podspec</key>
 		<dict>
 			<key>Path</key>
@@ -113,20 +117,6 @@
 			<array>
 				<string>Public</string>
 			</array>
-		</dict>
-		<key>CaptainHook/CaptainHook.h</key>
-		<dict>
-			<key>Group</key>
-			<array>
-				<string>CaptainHook</string>
-			</array>
-			<key>Path</key>
-			<string>CaptainHook/CaptainHook.h</string>
-		</dict>
-		<key>___PACKAGENAMEASIDENTIFIER___.m</key>
-		<dict>
-			<key>Path</key>
-			<string>___PACKAGENAMEASIDENTIFIER___.m</string>
 		</dict>
 	</dict>
 </dict>
