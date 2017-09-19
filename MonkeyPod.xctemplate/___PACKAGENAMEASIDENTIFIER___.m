@@ -9,7 +9,7 @@
 //
 
 #import "___FILEBASENAME___.h"
-#import "CaptainHook.h"
+#import <CaptainHook/CaptainHook.h>
 #import <UIKit/UIKit.h>
 
 CHDeclareClass(CustomViewController)
