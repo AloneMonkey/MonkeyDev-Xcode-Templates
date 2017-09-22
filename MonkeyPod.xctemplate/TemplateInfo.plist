@@ -86,6 +86,10 @@
 	<dict>
 		<key>SharedSettings</key>
 		<dict>
+			<key>HEADER_SEARCH_PATHS</key>
+			<string>$(inherited) $(MonkeyDevPath)/include</string>
+			<key>MonkeyDevPath</key>
+			<string>/opt/MonkeyDev</string>
 			<key>IPHONEOS_DEPLOYMENT_TARGET</key>
 			<string>8.0</string>
 		</dict>
