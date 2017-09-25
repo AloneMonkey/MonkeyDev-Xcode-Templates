@@ -18,14 +18,12 @@ typedef int (*sysctl_ptr_t)(int *,u_int, void*, size_t*,void*, size_t);
 static ptrace_ptr_t orig_ptrace = NULL;
 static dlsym_ptr_t orig_dlsym = NULL;
 static sysctl_ptr_t orig_sysctl = NULL;
-
-#ifndef __LP64__
-static syscall_ptr_t origin_syscall = NULL;
-#endif
+static syscall_ptr_t orig_syscall = NULL;
 
 int my_ptrace(int _request, pid_t _pid, caddr_t _addr, int _data);
 void* my_dlsym(void* __handle, const char* __symbol);
 int my_sysctl(int * name, u_int namelen, void * info, size_t * infosize, void * newinfo, size_t newinfosize);
+int my_syscall(int code, va_list args);
 
 int my_ptrace(int _request, pid_t _pid, caddr_t _addr, int _data){
     if(_request != 31){
@@ -64,21 +62,28 @@ int my_sysctl(int * name, u_int namelen, void * info, size_t * infosize, void * 
     return ret;
 }
 
-#ifndef __LP64__
-void * my_syscall(long code, va_list args){
+int my_syscall(int code, va_list args){
     int request;
     va_list newArgs;
     va_copy(newArgs, args);
     if(code == 26){
-        request = (int)args;
+#ifdef __LP64__
+        __asm__(
+                "ldr %w[result], [fp, #0x10]\n"
+                : [result] "=r" (request)
+                :
+                :
+                );
+#else
+        request = va_arg(args, int);
+#endif
         if(request == 31){
             NSLog(@"[AntiAntiDebug] - syscall call ptrace, and request is PT_DENY_ATTACH");
-            return nil;
+            return 0;
         }
     }
-    return (void*)origin_syscall(code, newArgs);
+    return orig_syscall(code, newArgs);
 }
-#endif
 
 __attribute__((constructor)) static void entry(){
     NSLog(@"[AntiAntiDebug Init]");
@@ -90,8 +95,6 @@ __attribute__((constructor)) static void entry(){
     //some app will crash with _dyld_debugger_notification
     //rebind_symbols((struct rebinding[1]){{"sysctl", my_sysctl, (void*)&orig_sysctl}},1);
     
-#ifndef __LP64__
-    rebind_symbols((struct rebinding[1]){{"syscall", my_syscall, (void*)&origin_syscall}},1);
-#endif
+    rebind_symbols((struct rebinding[1]){{"syscall", my_syscall, (void*)&orig_syscall}},1);
 }
 
