@@ -223,7 +223,6 @@
 		<string>MethodTrace/MethodTrace.m</string>
 		<string>___PACKAGENAME___-Prefix.pch:objC:importFoundation</string>
 		<string>___PACKAGENAME___-Prefix.pch:objC:importTheosPrefix</string>
-		<string>CaptainHook/CaptainHook.h</string>
 		<string>AntiAntiDebug/AntiAntiDebug.m</string>
 		<string>fishhook/fishhook.c</string>
 		<string>fishhook/fishhook.h</string>
@@ -305,15 +304,6 @@
 		<dict>
 			<key>Path</key>
 			<string>___PACKAGENAMEASIDENTIFIER___.mm</string>
-		</dict>
-		<key>CaptainHook/CaptainHook.h</key>
-		<dict>
-			<key>Path</key>
-			<string>CaptainHook/CaptainHook.h</string>
-			<key>Group</key>
-			<array>
-				<string>CaptainHook</string>
-			</array>
 		</dict>
 		<key>AntiAntiDebug/AntiAntiDebug.m</key>
 		<dict>
