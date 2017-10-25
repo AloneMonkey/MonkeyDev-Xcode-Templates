@@ -214,7 +214,7 @@ NSDictionary *qhd_canHandleTypeDic() {
                 [NSString stringWithUTF8String:@encode(CGAffineTransform)] : @"(CGAffineTransform)",
                 [NSString stringWithUTF8String:@encode(UIOffset)] : @"(UIOffset)",
                 [NSString stringWithUTF8String:@encode(UIEdgeInsets)] : @"(UIEdgeInsets)",
-                @"@?":@"(block)"
+                @"@?":@"(block)" // block类型
                 };//TODO:添加其他类型
     });
     return dic;

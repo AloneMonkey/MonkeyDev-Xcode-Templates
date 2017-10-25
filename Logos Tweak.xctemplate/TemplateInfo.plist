@@ -13,7 +13,6 @@
 	<key>Ancestors</key>
 	<array>
 		<string>com.monkey.monkeydev.base</string>
-		<string>com.monkey.monkeydev.unitTests</string>
 	</array>
 	<key>Targets</key>
 	<array>
