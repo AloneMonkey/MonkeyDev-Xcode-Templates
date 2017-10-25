@@ -78,6 +78,8 @@
 			<string>com.apple.product-type.application</string>
 			<key>SharedSettings</key>
 			<dict>
+				<key>PODS_CONFIGURATION_BUILD_DIR</key>
+				<string>$BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)</string>
 				<key>MONKEYDEV_CLASS_DUMP</key>
 				<string>NO</string>
 				<key>MONKEYDEV_RESTORE_SYMBOL</key>
