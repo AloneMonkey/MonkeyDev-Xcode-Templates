@@ -6,6 +6,8 @@
 #import "___FILEBASENAME___.h"
 #import "substrate.h"
 
+#warning 以下代码只针对QQ，如果是其它应用的话，需要将下面的代码删除
+
 @class MQAIOChatViewController;
 @class QQMessageRevokeEngine;
 
