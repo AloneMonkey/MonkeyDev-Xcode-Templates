@@ -48,8 +48,8 @@ void* my_dlsym(void* __handle, const char* __symbol){
 typedef struct kinfo_proc _kinfo_proc;
 
 int my_sysctl(int * name, u_int namelen, void * info, size_t * infosize, void * newinfo, size_t newinfosize){
-    int ret = orig_sysctl(name, namelen, info, infosize, newinfo, newinfosize);
-    if(namelen == 4 && name[0] == CTL_KERN && name[1] == KERN_PROC && name[2] == KERN_PROC_PID && info && infosize && (*infosize == sizeof(_kinfo_proc))){
+    if(namelen == 4 && name[0] == CTL_KERN && name[1] == KERN_PROC && name[2] == KERN_PROC_PID && info && infosize && ((int)*infosize == sizeof(_kinfo_proc))){
+        int ret = orig_sysctl(name, namelen, info, infosize, newinfo, newinfosize);
         struct kinfo_proc *info_ptr = (struct kinfo_proc *)info;
         if(info_ptr && (info_ptr->kp_proc.p_flag & P_TRACED) != 0){
             NSLog(@"[AntiAntiDebug] - sysctl query trace status.");
@@ -58,8 +58,9 @@ int my_sysctl(int * name, u_int namelen, void * info, size_t * infosize, void * 
                 NSLog(@"trace status reomve success!");
             }
         }
+        return ret;
     }
-    return ret;
+    return orig_sysctl(name, namelen, info, infosize, newinfo, newinfosize);
 }
 
 int my_syscall(int code, va_list args){
@@ -93,7 +94,7 @@ __attribute__((constructor)) static void entry(){
     rebind_symbols((struct rebinding[1]){{"dlsym", my_dlsym, (void*)&orig_dlsym}},1);
     
     //some app will crash with _dyld_debugger_notification
-    //rebind_symbols((struct rebinding[1]){{"sysctl", my_sysctl, (void*)&orig_sysctl}},1);
+    //    rebind_symbols((struct rebinding[1]){{"sysctl", my_sysctl, (void*)&orig_sysctl}},1);
     
     rebind_symbols((struct rebinding[1]){{"syscall", my_syscall, (void*)&orig_syscall}},1);
 }
