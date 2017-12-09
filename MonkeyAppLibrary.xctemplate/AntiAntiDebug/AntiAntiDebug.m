@@ -5,6 +5,10 @@
 //  Copyright © 2017年 Coder. All rights reserved.
 //
 
+#if TARGET_OS_SIMULATOR
+#error Do not support the simulator, please use the real iPhone Device.
+#endif
+
 #import "fishhook.h"
 #import <Foundation/Foundation.h>
 #import <sys/sysctl.h>

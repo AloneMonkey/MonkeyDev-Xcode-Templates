@@ -9,6 +9,10 @@
 // CaptainHook by Ryan Petrich
 // see https://github.com/rpetrich/CaptainHook/
 
+#if TARGET_OS_SIMULATOR
+#error Do not support the simulator, please use the real iPhone Device.
+#endif
+
 #import <Foundation/Foundation.h>
 #import "CaptainHook/CaptainHook.h"
 #include <notify.h> // not required; for examples only
