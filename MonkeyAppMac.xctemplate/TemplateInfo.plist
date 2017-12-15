@@ -47,7 +47,7 @@
 				</dict>
 				<dict>
 					<key>ShellScript</key>
-					<string>/opt/MonkeyDev/Tools/packformac.sh</string>
+					<string>/opt/MonkeyDev/Tools/mpack.sh</string>
 					<key>ShellPath</key>
 					<string>/bin/sh</string>
 					<key>RunOnlyForDeploymentPostprocessing</key>
@@ -220,9 +220,9 @@
 			<key>MonkeyDevPath</key>
 			<string>/opt/MonkeyDev</string>
 			<key>LIBRARY_SEARCH_PATHS</key>
-			<string>$(inherited) $(MonkeyDevPath)/FrameworksForMac</string>
+			<string>$(inherited) $(MonkeyDevPath)/MFrameworks</string>
 			<key>HEADER_SEARCH_PATHS</key>
-			<string>$(inherited) $(MonkeyDevPath)/FrameworksForMac</string>
+			<string>$(inherited) $(MonkeyDevPath)/MFrameworks</string>
 		</dict>
 	</dict>
 	<key>Definitions</key>
