@@ -31,6 +31,8 @@
 				<string></string>
 				<key>MonkeyDevDevicePort</key>
 				<string></string>
+				<key>MonkeyDevDevicePassword</key>
+				<string></string>
 				<key>MonkeyDevInstallOnProfiling</key>
 				<string>YES</string>
 				<key>MonkeyDevCopyOnBuild</key>
