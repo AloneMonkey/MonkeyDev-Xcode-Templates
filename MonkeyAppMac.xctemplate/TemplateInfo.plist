@@ -227,6 +227,33 @@
 	</dict>
 	<key>Definitions</key>
 	<dict>
+		<key>fishhook/fishhook.c</key>
+		<dict>
+			<key>Path</key>
+			<string>fishhook/fishhook.c</string>
+			<key>Group</key>
+			<array>
+				<string>fishhook</string>
+			</array>
+		</dict>
+		<key>fishhook/fishhook.h</key>
+		<dict>
+			<key>Path</key>
+			<string>fishhook/fishhook.h</string>
+			<key>Group</key>
+			<array>
+				<string>fishhook</string>
+			</array>
+		</dict>
+		<key>AntiAntiDebug/AntiAntiDebug.m</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>AntiAntiDebug</string>
+			</array>
+			<key>Path</key>
+			<string>AntiAntiDebug/AntiAntiDebug.m</string>
+		</dict>
 		<key>TargetApp/put mac app here</key>
 		<dict>
 			<key>Group</key>
@@ -237,6 +264,9 @@
 	</dict>
 	<key>Nodes</key>
 	<array>
+		<string>AntiAntiDebug/AntiAntiDebug.m</string>
+		<string>fishhook/fishhook.c</string>
+		<string>fishhook/fishhook.h</string>
 		<string>TargetApp/put mac app here</string>
 	</array>
 </dict>
