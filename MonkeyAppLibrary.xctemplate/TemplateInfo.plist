@@ -61,9 +61,7 @@
 			</array>
 			<key>Frameworks</key>
 			<array>
-				<string>Cycript</string>
 				<string>JavaScriptCore</string>
-				<string>RevealServer</string>
 				<string>Foundation</string>
 				<string>UIKit</string>
 			</array>
@@ -106,6 +104,8 @@
 		<dict>
 			<key>Debug</key>
 			<dict>
+				<key>OTHER_LDFLAGS</key>
+				<string>$(inherited)  -weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib -lsubstrate -framework Cycript -framework RevealServer</string>
 				<key>VALIDATE_PRODUCT</key>
 				<string>NO</string>
 				<key>GCC_OPTIMIZATION_LEVEL</key>

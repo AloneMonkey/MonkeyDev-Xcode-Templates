@@ -18,7 +18,10 @@ static __attribute__((constructor)) void entry(){
     
     [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidFinishLaunchingNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
         
+#ifndef __OPTIMIZE__
         CYListenServer(6666);
+#endif
+        
     }];
 }
 
