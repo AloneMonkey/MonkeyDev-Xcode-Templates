@@ -21,6 +21,8 @@
 			<string>com.apple.product-type.library.dynamic</string>
 			<key>SharedSettings</key>
 			<dict>
+				<key>CLANG_ENABLE_OBJC_ARC</key>
+				<string>YES</string>
 				<key>HEADER_SEARCH_PATHS</key>
 				<string>$(MonkeyDevPath)/include $(MonkeyDevTheosPath)/vendor/include/**</string>
 				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>

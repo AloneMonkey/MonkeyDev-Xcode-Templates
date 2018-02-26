@@ -19,6 +19,8 @@
 		<dict>
 			<key>SharedSettings</key>
 			<dict>
+				<key>CLANG_ENABLE_OBJC_ARC</key>
+				<string>YES</string>
 				<key>MonkeyDevkillProcessOnInstall</key>
 				<string></string>
 				<key>CODE_SIGN_IDENTITY</key>

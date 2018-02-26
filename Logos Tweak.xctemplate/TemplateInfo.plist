@@ -21,6 +21,8 @@
 			<string>com.apple.product-type.library.dynamic</string>
 			<key>SharedSettings</key>
 			<dict>
+				<key>CLANG_ENABLE_OBJC_ARC</key>
+				<string>YES</string>
 				<key>INSTALL_PATH</key>
 				<string>/Library/MobileSubstrate/DynamicLibraries</string>
 				<key>DYLIB_CURRENT_VERSION</key>
