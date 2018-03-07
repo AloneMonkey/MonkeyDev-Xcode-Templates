@@ -217,8 +217,8 @@
 	</array>
 	<key>Nodes</key>
 	<array>
-		<string>___PACKAGENAMEASIDENTIFIER___.xm</string>
-		<string>___PACKAGENAMEASIDENTIFIER___.mm</string>
+		<string>Logos/___PACKAGENAMEASIDENTIFIER___.xm</string>
+		<string>Logos/___PACKAGENAMEASIDENTIFIER___.mm</string>
 		<string>MethodTrace/ANYMethodLog.h</string>
 		<string>MethodTrace/ANYMethodLog.m</string>
 		<string>MethodTrace/MethodTrace.h</string>
@@ -233,7 +233,7 @@
 	</array>
 	<key>Definitions</key>
 	<dict>
-		<key>___PACKAGENAMEASIDENTIFIER___.xm</key>
+		<key>Logos/___PACKAGENAMEASIDENTIFIER___.xm</key>
 		<dict>
 			<key>Group</key>
 			<array>
@@ -242,7 +242,7 @@
 			<key>Path</key>
 			<string>Logos/___PACKAGENAMEASIDENTIFIER___.xm</string>
 		</dict>
-		<key>___PACKAGENAMEASIDENTIFIER___.mm</key>
+		<key>Logos/___PACKAGENAMEASIDENTIFIER___.mm</key>
 		<dict>
 			<key>Group</key>
 			<array>

@@ -19,32 +19,21 @@
 	<integer>1</integer>
 	<key>Nodes</key>
 	<array>
-		<string>MethodTraceConfig.plist</string>
+		<string>Config/MethodTraceConfig.plist</string>
 		<string>Info.plist:PackageType</string>
 		<string>TargetApp/put ipa or app here</string>
 	</array>
 	<key>Definitions</key>
 	<dict>
-		<key>MethodTraceConfig.plist</key>
-		<string>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
-&lt;plist version=&quot;1.0&quot;&gt;
-&lt;dict&gt;
-	&lt;key&gt;ENABLE_METHODTRACE&lt;/key&gt;
-	&lt;false/&gt;
-	&lt;key&gt;TARGET_CLASS_LIST&lt;/key&gt;
-	&lt;dict&gt;
-		&lt;key&gt;BaseMsgContentViewController&lt;/key&gt;
-		&lt;string&gt;&lt;/string&gt;
-		&lt;key&gt;CMessageMgr&lt;/key&gt;
-		&lt;array&gt;
-			&lt;string&gt;AsyncOnAddMsg:MsgWrap:&lt;/string&gt;
-			&lt;string&gt;onRevokeMsg:&lt;/string&gt;
-		&lt;/array&gt;
-	&lt;/dict&gt;
-&lt;/dict&gt;
-&lt;/plist&gt;
-</string>
+		<key>Config/MethodTraceConfig.plist</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>Config</string>
+			</array>
+			<key>Path</key>
+			<string>Config/MethodTraceConfig.plist</string>
+		</dict>
 		<key>main.m:main</key>
 		<dict>
 			<key>Beginning</key>
