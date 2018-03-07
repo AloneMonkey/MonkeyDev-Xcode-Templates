@@ -217,6 +217,8 @@
 	</array>
 	<key>Nodes</key>
 	<array>
+		<string>___PACKAGENAMEASIDENTIFIER___.xm</string>
+		<string>___PACKAGENAMEASIDENTIFIER___.mm</string>
 		<string>MethodTrace/ANYMethodLog.h</string>
 		<string>MethodTrace/ANYMethodLog.m</string>
 		<string>MethodTrace/MethodTrace.h</string>
@@ -226,13 +228,29 @@
 		<string>AntiAntiDebug/AntiAntiDebug.m</string>
 		<string>fishhook/fishhook.c</string>
 		<string>fishhook/fishhook.h</string>
-		<string>___PACKAGENAMEASIDENTIFIER___.xm</string>
-		<string>___PACKAGENAMEASIDENTIFIER___.mm</string>
 		<string>___PACKAGENAMEASIDENTIFIER___.h</string>
 		<string>___PACKAGENAMEASIDENTIFIER___.m</string>
 	</array>
 	<key>Definitions</key>
 	<dict>
+		<key>___PACKAGENAMEASIDENTIFIER___.xm</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>Logos</string>
+			</array>
+			<key>Path</key>
+			<string>Logos/___PACKAGENAMEASIDENTIFIER___.xm</string>
+		</dict>
+		<key>___PACKAGENAMEASIDENTIFIER___.mm</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>Logos</string>
+			</array>
+			<key>Path</key>
+			<string>Logos/___PACKAGENAMEASIDENTIFIER___.mm</string>
+		</dict>
 		<key>MethodTrace/ANYMethodLog.h</key>
 		<dict>
 			<key>Path</key>
@@ -295,16 +313,6 @@
 		<key>*:*:importFoundation</key>
 		<string>#import &lt;Foundation/Foundation.h&gt;
 </string>
-		<key>___PACKAGENAMEASIDENTIFIER___.xm</key>
-		<dict>
-			<key>Path</key>
-			<string>___PACKAGENAMEASIDENTIFIER___.xm</string>
-		</dict>
-		<key>___PACKAGENAMEASIDENTIFIER___.mm</key>
-		<dict>
-			<key>Path</key>
-			<string>___PACKAGENAMEASIDENTIFIER___.mm</string>
-		</dict>
 		<key>AntiAntiDebug/AntiAntiDebug.m</key>
 		<dict>
 			<key>Group</key>
