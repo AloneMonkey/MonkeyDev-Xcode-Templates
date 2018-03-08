@@ -13,8 +13,8 @@
 #import <UIKit/UIKit.h>
 #import <Cycript/Cycript.h>
 
-static __attribute__((constructor)) void entry(){
-    NSLog(@"\n               🎉!!！congratulations!!！🎉\n👍----------------insert dylib success----------------👍");
+CHConstructor{
+    NSLog(INSERT_SUCCESS_WELCOME);
     
     [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidFinishLaunchingNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
         
@@ -25,15 +25,19 @@ static __attribute__((constructor)) void entry(){
     }];
 }
 
-@interface CustomViewController
-
--(NSString*)getMyName;
-
-@end
-
 CHDeclareClass(CustomViewController)
 
-CHOptimizedMethod(0, self, NSString*, CustomViewController,getMyName){
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wstrict-prototypes"
+
+//add new method
+CHDeclareMethod1(void, CustomViewController, newMethod, NSString*, output){
+    NSLog(@"This is a new method : %@", output);
+}
+
+#pragma clang diagnostic pop
+
+CHOptimizedMethod0(self, NSString*, CustomViewController,getMyName){
     //get origin value
     NSString* originName = CHSuper(0, CustomViewController, getMyName);
     
@@ -44,13 +48,26 @@ CHOptimizedMethod(0, self, NSString*, CustomViewController,getMyName){
     
     NSLog(@"password is %@",password);
     
+    [self newMethod:@"output"];
+    
+    //set new property
+    self.newProperty = @"newProperty";
+    
+    NSLog(@"newProperty : %@", self.newProperty);
+    
     //change the value
     return @"AloneMonkey";
     
 }
 
+//add new property
+CHPropertyRetainNonatomic(CustomViewController, NSString*, newProperty, setNewProperty);
+
 CHConstructor{
     CHLoadLateClass(CustomViewController);
-    CHClassHook(0, CustomViewController, getMyName);
+    CHClassHook0(CustomViewController, getMyName);
+    
+    CHHook0(CustomViewController, newProperty);
+    CHHook1(CustomViewController, setNewProperty);
 }
 
