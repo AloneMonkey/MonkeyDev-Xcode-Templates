@@ -219,6 +219,8 @@
 	<array>
 		<string>Logos/___PACKAGENAMEASIDENTIFIER___.xm</string>
 		<string>Logos/___PACKAGENAMEASIDENTIFIER___.mm</string>
+		<string>Tools/LLDBTools.h</string>
+		<string>Tools/LLDBTools.mm</string>
 		<string>MethodTrace/ANYMethodLog.h</string>
 		<string>MethodTrace/ANYMethodLog.m</string>
 		<string>MethodTrace/MethodTrace.h</string>
@@ -250,6 +252,24 @@
 			</array>
 			<key>Path</key>
 			<string>Logos/___PACKAGENAMEASIDENTIFIER___.mm</string>
+		</dict>
+		<key>Tools/LLDBTools.h</key>
+		<dict>
+			<key>Path</key>
+			<string>Tools/LLDBTools.h</string>
+			<key>Group</key>
+			<array>
+				<string>Tools</string>
+			</array>
+		</dict>
+		<key>Tools/LLDBTools.mm</key>
+		<dict>
+			<key>Path</key>
+			<string>Tools/LLDBTools.mm</string>
+			<key>Group</key>
+			<array>
+				<string>Tools</string>
+			</array>
 		</dict>
 		<key>MethodTrace/ANYMethodLog.h</key>
 		<dict>
