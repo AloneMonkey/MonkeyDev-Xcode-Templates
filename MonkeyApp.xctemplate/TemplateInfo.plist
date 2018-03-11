@@ -28,6 +28,8 @@
 	<dict>
 		<key>Scripts/quick-resign.sh</key>
 		<dict>
+			<key>TargetIndices</key>
+			<array/>
 			<key>Group</key>
 			<array>
 				<string>Scripts</string>
@@ -37,6 +39,8 @@
 		</dict>
 		<key>Config/MethodTraceConfig.plist</key>
 		<dict>
+			<key>TargetIndices</key>
+			<array/>
 			<key>Group</key>
 			<array>
 				<string>Config</string>
@@ -64,6 +68,8 @@
 </string>
 		<key>TargetApp/put ipa or app here</key>
 		<dict>
+			<key>TargetIndices</key>
+			<array/>
 			<key>Group</key>
 			<array>
 				<string>TargetApp</string>
