@@ -95,6 +95,8 @@
 			<string>com.apple.product-type.application</string>
 			<key>SharedSettings</key>
 			<dict>
+				<key>MONKEYDEV_TARGET_APP</key>
+				<string>___VARIABLE_TargetAppInfo___</string>
 				<key>MONKEYDEV_INSERT_DYLIB</key>
 				<string>YES</string>
 				<key>PODS_CONFIGURATION_BUILD_DIR</key>
@@ -161,28 +163,19 @@
 	<array>
 		<dict>
 			<key>Identifier</key>
-			<string>languageChoice</string>
-			<key>Units</key>
-			<dict>
-				<key>Swift</key>
-				<dict>
-					<key>Definitions</key>
-					<dict>
-						<key>main.swift</key>
-						<dict>
-							<key>SortOrder</key>
-							<integer>999</integer>
-						</dict>
-						<key>main.swift:main</key>
-						<dict>
-							<key>Beginning</key>
-							<string></string>
-							<key>End</key>
-							<string></string>
-						</dict>
-					</dict>
-				</dict>
-			</dict>
+			<string>TargetAppInfo</string>
+			<key>Required</key>
+			<false/>
+			<key>Name</key>
+			<string>Target App</string>
+			<key>NotPersisted</key>
+			<true/>
+			<key>Description</key>
+			<string>The displayname or bundle id of the application you debug.</string>
+			<key>Default</key>
+			<string>Optional</string>
+			<key>Type</key>
+			<string>text</string>
 		</dict>
 	</array>
 	<key>Project</key>
