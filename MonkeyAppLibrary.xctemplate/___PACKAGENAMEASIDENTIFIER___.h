@@ -16,6 +16,8 @@
 
 @property (nonatomic, copy) NSString* newProperty;
 
++ (void)classMethod;
+
 - (NSString*)getMyName;
 
 - (void)newMethod:(NSString*) output;

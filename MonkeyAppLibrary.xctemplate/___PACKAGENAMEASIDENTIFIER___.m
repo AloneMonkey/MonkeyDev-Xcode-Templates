@@ -25,6 +25,7 @@ CHConstructor{
     }];
 }
 
+
 CHDeclareClass(CustomViewController)
 
 #pragma clang diagnostic push
@@ -37,7 +38,12 @@ CHDeclareMethod1(void, CustomViewController, newMethod, NSString*, output){
 
 #pragma clang diagnostic pop
 
-CHOptimizedMethod0(self, NSString*, CustomViewController,getMyName){
+CHOptimizedClassMethod0(self, void, CustomViewController, classMethod){
+    NSLog(@"hook class method");
+    CHSuper0(CustomViewController, classMethod);
+}
+
+CHOptimizedMethod0(self, NSString*, CustomViewController, getMyName){
     //get origin value
     NSString* originName = CHSuper(0, CustomViewController, getMyName);
     
@@ -66,6 +72,7 @@ CHPropertyRetainNonatomic(CustomViewController, NSString*, newProperty, setNewPr
 CHConstructor{
     CHLoadLateClass(CustomViewController);
     CHClassHook0(CustomViewController, getMyName);
+    CHClassHook0(CustomViewController, classMethod);
     
     CHHook0(CustomViewController, newProperty);
     CHHook1(CustomViewController, setNewProperty);
