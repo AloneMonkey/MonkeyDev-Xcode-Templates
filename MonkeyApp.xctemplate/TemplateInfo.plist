@@ -103,6 +103,8 @@
 			<string>com.apple.product-type.application</string>
 			<key>SharedSettings</key>
 			<dict>
+				<key>MONKEYDEV_ADD_SUBSTRATE</key>
+				<string>YES</string>
 				<key>MONKEYDEV_TARGET_APP</key>
 				<string>___VARIABLE_TargetAppInfo___</string>
 				<key>MONKEYDEV_INSERT_DYLIB</key>
