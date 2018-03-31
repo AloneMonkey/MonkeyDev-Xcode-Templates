@@ -22,7 +22,7 @@
 				<key>LD_RUNPATH_SEARCH_PATHS</key>
 				<string>$(inherited) @executable_path/Frameworks</string>
 				<key>OTHER_LDFLAGS</key>
-				<string>$(inherited)  -weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib -lsubstrate </string>
+				<string>$(inherited)  -weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib -weak_library $(MonkeyDevPath)/Frameworks/libsubstrate.dylib</string>
 				<key>ENABLE_BITCODE</key>
 				<string>NO</string>
 				<key>PRODUCT_NAME</key>
@@ -105,7 +105,7 @@
 			<key>Debug</key>
 			<dict>
 				<key>OTHER_LDFLAGS</key>
-				<string>$(inherited)  -weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib -lsubstrate -framework Cycript -framework RevealServer</string>
+				<string>$(inherited)  -weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib -weak_library $(MonkeyDevPath)/Frameworks/libsubstrate.dylib -framework Cycript -framework RevealServer</string>
 				<key>VALIDATE_PRODUCT</key>
 				<string>NO</string>
 				<key>GCC_OPTIMIZATION_LEVEL</key>
