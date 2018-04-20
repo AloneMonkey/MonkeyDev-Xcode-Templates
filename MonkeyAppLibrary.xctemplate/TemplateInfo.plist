@@ -105,7 +105,7 @@
 			<key>Debug</key>
 			<dict>
 				<key>OTHER_LDFLAGS</key>
-				<string>$(inherited)  -weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib -weak_library $(MonkeyDevPath)/Frameworks/libsubstrate.dylib -framework Cycript -framework RevealServer</string>
+				<string>$(inherited)  -weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib -weak_library $(MonkeyDevPath)/Frameworks/libsubstrate.dylib -lcycript -framework RevealServer</string>
 				<key>VALIDATE_PRODUCT</key>
 				<string>NO</string>
 				<key>GCC_OPTIMIZATION_LEVEL</key>
@@ -219,6 +219,8 @@
 	<array>
 		<string>Logos/___PACKAGENAMEASIDENTIFIER___.xm</string>
 		<string>Logos/___PACKAGENAMEASIDENTIFIER___.mm</string>
+		<string>Cycript/CycriptManager.h</string>
+		<string>Cycript/CycriptManager.m</string>
 		<string>Tools/LLDBTools.h</string>
 		<string>Tools/LLDBTools.mm</string>
 		<string>MethodTrace/ANYMethodLog.h</string>
@@ -252,6 +254,24 @@
 			</array>
 			<key>Path</key>
 			<string>Logos/___PACKAGENAMEASIDENTIFIER___.mm</string>
+		</dict>
+		<key>Cycript/CycriptManager.h</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>Cycript</string>
+			</array>
+			<key>Path</key>
+			<string>Cycript/CycriptManager.h</string>
+		</dict>
+		<key>Cycript/CycriptManager.m</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>Cycript</string>
+			</array>
+			<key>Path</key>
+			<string>Cycript/CycriptManager.m</string>
 		</dict>
 		<key>Tools/LLDBTools.h</key>
 		<dict>
