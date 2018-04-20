@@ -12,6 +12,7 @@
 #import <CaptainHook/CaptainHook.h>
 #import <UIKit/UIKit.h>
 #import <Cycript/Cycript.h>
+#import "CycriptManager.h"
 
 CHConstructor{
     NSLog(INSERT_SUCCESS_WELCOME);
@@ -20,6 +21,8 @@ CHConstructor{
         
 #ifndef __OPTIMIZE__
         CYListenServer(6666);
+        CycriptManager* manager = [CycriptManager sharedInstance];
+        [manager startDownloadCycript:NO];
 #endif
         
     }];

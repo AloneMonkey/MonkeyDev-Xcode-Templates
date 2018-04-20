@@ -22,6 +22,7 @@
 		<string>icon.png</string>
 		<string>Target.plist</string>
 		<string>Scripts/quick-resign.sh</string>
+		<string>Config/CycriptConfig.plist</string>
 		<string>Config/MethodTraceConfig.plist</string>
 		<string>Info.plist:PackageType</string>
 		<string>Info.plist:IconFiles</string>
@@ -53,6 +54,15 @@
 			</array>
 			<key>Path</key>
 			<string>Scripts/quick-resign.sh</string>
+		</dict>
+		<key>Config/CycriptConfig.plist</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>Config</string>
+			</array>
+			<key>Path</key>
+			<string>Config/CycriptConfig.plist</string>
 		</dict>
 		<key>Config/MethodTraceConfig.plist</key>
 		<dict>
