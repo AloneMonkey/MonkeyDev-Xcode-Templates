@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>md</key>
+	<string>https://raw.githubusercontent.com/AloneMonkey/MDCycript/master/md.cy</string>
 	<key>utils</key>
 	<string>https://raw.githubusercontent.com/Tyilo/cycript-utils/master/utils.cy</string>
 </dict>

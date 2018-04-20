@@ -68,10 +68,14 @@
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLSessionDownloadTask *downloadTask = [session downloadTaskWithURL:url completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
-        NSString *fullPath = [[_cycriptDirectory stringByAppendingPathComponent:filename] stringByAppendingPathExtension:@"cy"];
-        [[NSFileManager defaultManager] moveItemAtURL:location toURL:[NSURL fileURLWithPath:fullPath] error:nil];
-        
-        NSLog(@"successful download script [%@]", filename);
+        if(error){
+            NSLog(@"failed download script [%@]: %@", filename, error.localizedDescription);
+        }else{
+            NSString *fullPath = [[_cycriptDirectory stringByAppendingPathComponent:filename] stringByAppendingPathExtension:@"cy"];
+            [[NSFileManager defaultManager] moveItemAtURL:location toURL:[NSURL fileURLWithPath:fullPath] error:nil];
+            
+            NSLog(@"successful download script [%@]", filename);
+        }
     }];
     [downloadTask resume];
 }
