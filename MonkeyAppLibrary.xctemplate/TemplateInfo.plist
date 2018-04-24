@@ -219,14 +219,16 @@
 	<array>
 		<string>Logos/___PACKAGENAMEASIDENTIFIER___.xm</string>
 		<string>Logos/___PACKAGENAMEASIDENTIFIER___.mm</string>
-		<string>Cycript/CycriptManager.h</string>
-		<string>Cycript/CycriptManager.m</string>
+		<string>Config/MDConfigManager.h</string>
+		<string>Config/MDConfigManager.m</string>
+		<string>Config/CycriptManager.h</string>
+		<string>Config/CycriptManager.m</string>
+		<string>Config/ANYMethodLog.h</string>
+		<string>Config/ANYMethodLog.m</string>
+		<string>Config/MethodTrace.h</string>
+		<string>Config/MethodTrace.m</string>
 		<string>Tools/LLDBTools.h</string>
 		<string>Tools/LLDBTools.mm</string>
-		<string>MethodTrace/ANYMethodLog.h</string>
-		<string>MethodTrace/ANYMethodLog.m</string>
-		<string>MethodTrace/MethodTrace.h</string>
-		<string>MethodTrace/MethodTrace.m</string>
 		<string>___PACKAGENAME___-Prefix.pch:objC:importFoundation</string>
 		<string>___PACKAGENAME___-Prefix.pch:objC:importTheosPrefix</string>
 		<string>AntiAntiDebug/AntiAntiDebug.m</string>
@@ -255,23 +257,77 @@
 			<key>Path</key>
 			<string>Logos/___PACKAGENAMEASIDENTIFIER___.mm</string>
 		</dict>
-		<key>Cycript/CycriptManager.h</key>
+		<key>Config/MDConfigManager.h</key>
 		<dict>
 			<key>Group</key>
 			<array>
-				<string>Cycript</string>
+				<string>Config</string>
 			</array>
 			<key>Path</key>
-			<string>Cycript/CycriptManager.h</string>
+			<string>Config/MDConfigManager.h</string>
 		</dict>
-		<key>Cycript/CycriptManager.m</key>
+		<key>Config/MDConfigManager.m</key>
 		<dict>
 			<key>Group</key>
 			<array>
-				<string>Cycript</string>
+				<string>Config</string>
 			</array>
 			<key>Path</key>
-			<string>Cycript/CycriptManager.m</string>
+			<string>Config/MDConfigManager.m</string>
+		</dict>
+		<key>Config/CycriptManager.h</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>Config</string>
+			</array>
+			<key>Path</key>
+			<string>Config/CycriptManager.h</string>
+		</dict>
+		<key>Config/CycriptManager.m</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>Config</string>
+			</array>
+			<key>Path</key>
+			<string>Config/CycriptManager.m</string>
+		</dict>
+		<key>Config/ANYMethodLog.h</key>
+		<dict>
+			<key>Path</key>
+			<string>Config/ANYMethodLog.h</string>
+			<key>Group</key>
+			<array>
+				<string>Config</string>
+			</array>
+		</dict>
+		<key>Config/ANYMethodLog.m</key>
+		<dict>
+			<key>Path</key>
+			<string>Config/ANYMethodLog.m</string>
+			<key>Group</key>
+			<array>
+				<string>Config</string>
+			</array>
+		</dict>
+		<key>Config/MethodTrace.h</key>
+		<dict>
+			<key>Path</key>
+			<string>Config/MethodTrace.h</string>
+			<key>Group</key>
+			<array>
+				<string>Config</string>
+			</array>
+		</dict>
+		<key>Config/MethodTrace.m</key>
+		<dict>
+			<key>Path</key>
+			<string>Config/MethodTrace.m</string>
+			<key>Group</key>
+			<array>
+				<string>Config</string>
+			</array>
 		</dict>
 		<key>Tools/LLDBTools.h</key>
 		<dict>
@@ -289,42 +345,6 @@
 			<key>Group</key>
 			<array>
 				<string>Tools</string>
-			</array>
-		</dict>
-		<key>MethodTrace/ANYMethodLog.h</key>
-		<dict>
-			<key>Path</key>
-			<string>MethodTrace/ANYMethodLog.h</string>
-			<key>Group</key>
-			<array>
-				<string>MethodTrace</string>
-			</array>
-		</dict>
-		<key>MethodTrace/ANYMethodLog.m</key>
-		<dict>
-			<key>Path</key>
-			<string>MethodTrace/ANYMethodLog.m</string>
-			<key>Group</key>
-			<array>
-				<string>MethodTrace</string>
-			</array>
-		</dict>
-		<key>MethodTrace/MethodTrace.h</key>
-		<dict>
-			<key>Path</key>
-			<string>MethodTrace/MethodTrace.h</string>
-			<key>Group</key>
-			<array>
-				<string>MethodTrace</string>
-			</array>
-		</dict>
-		<key>MethodTrace/MethodTrace.m</key>
-		<dict>
-			<key>Path</key>
-			<string>MethodTrace/MethodTrace.m</string>
-			<key>Group</key>
-			<array>
-				<string>MethodTrace</string>
 			</array>
 		</dict>
 		<key>___PACKAGENAME___-Prefix.pch:objC</key>
