@@ -8,8 +8,10 @@
 //  Copyright © 2018年 AloneMonkey. All rights reserved.
 //
 
-
 #import "CycriptManager.h"
+#import "MDConfigManager.h"
+
+#define MDLog(fmt, ...) NSLog((@"[Cycript] " fmt), ##__VA_ARGS__)
 
 @implementation CycriptManager{
     NSDictionary *_configItem;
@@ -42,12 +44,8 @@
 }
 
 -(void)readConfigFile{
-    NSString* configFilePath = [[NSBundle mainBundle] pathForResource:@"CycriptConfig" ofType:@"plist"];
-    if(configFilePath == nil){
-        NSLog(@"CycriptConfig.plsit is not exits!!!");
-    }else{
-       _configItem = [NSDictionary dictionaryWithContentsOfFile:configFilePath];
-    }
+    MDConfigManager * configManager = [MDConfigManager sharedInstance];
+    _configItem = [configManager readConfigByKey:MDCONFIG_CYCRIPT_KEY];
 }
 
 -(void)startDownloadCycript:(BOOL) update{
@@ -69,12 +67,12 @@
     NSURLSessionDownloadTask *downloadTask = [session downloadTaskWithURL:url completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         if(error){
-            NSLog(@"failed download script [%@]: %@", filename, error.localizedDescription);
+            MDLog(@"Failed download script [%@]: %@", filename, error.localizedDescription);
         }else{
             NSString *fullPath = [[_cycriptDirectory stringByAppendingPathComponent:filename] stringByAppendingPathExtension:@"cy"];
             [[NSFileManager defaultManager] moveItemAtURL:location toURL:[NSURL fileURLWithPath:fullPath] error:nil];
             
-            NSLog(@"successful download script [%@]", filename);
+            MDLog(@"Successful download script [%@]", filename);
         }
     }];
     [downloadTask resume];

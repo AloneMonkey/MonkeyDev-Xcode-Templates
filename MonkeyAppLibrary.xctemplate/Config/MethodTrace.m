@@ -12,6 +12,9 @@
 #import "MethodTrace.h"
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
+#import "MDConfigManager.h"
+
+#define MDLog(fmt, ...) NSLog((@"[MethodTrace] " fmt), ##__VA_ARGS__)
 
 @implementation MethodTrace : NSObject
 
@@ -30,12 +33,17 @@
             return (methodList == nil || methodList.count == 0) ? YES : [methodList containsObject:NSStringFromSelector(sel)];
         } before:^(id target, SEL sel, NSArray *args, int deep) {
             NSString *selector = NSStringFromSelector(sel);
-            NSArray *selectorArrary = [selector componentsSeparatedByString:@":"];
-            selectorArrary = [selectorArrary filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]];
-            NSMutableString *selectorString = [NSMutableString new];
-            for (int i = 0; i < selectorArrary.count; i++) {
-                [selectorString appendFormat:@"%@:%@ ", selectorArrary[i], args[i]];
+             NSMutableString *selectorString = [NSMutableString new];
+            if([selector containsString:@":"]){
+                NSArray *selectorArrary = [selector componentsSeparatedByString:@":"];
+                selectorArrary = [selectorArrary filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]];
+                for (int i = 0; i < selectorArrary.count; i++) {
+                    [selectorString appendFormat:@"%@:%@ ", selectorArrary[i], args[i]];
+                }
+            }else{
+                [selectorString appendString:selector];
             }
+           
             NSMutableString *deepString = [NSMutableString new];
             for (int i = 0; i < deep; i++) {
                 [deepString appendString:@"-"];
@@ -49,36 +57,34 @@
             NSLog(@"%@ret:%@", deepString, retValue);
         }];
     }else{
-        NSLog(@"canot find class %@", className);
+        MDLog(@"canot find class %@", className);
     }
 }
 
 @end
 
 static __attribute__((constructor)) void entry(){
-    NSString* configFilePath = [[NSBundle mainBundle] pathForResource:@"MethodTraceConfig" ofType:@"plist"];
-    if(configFilePath == nil){
-        NSLog(@"MethodTraceConfig.plist file is not exits!!!");
-        return;
-    }
-    NSMutableDictionary *configItem = [NSMutableDictionary dictionaryWithContentsOfFile:configFilePath];
-    BOOL isEnable = [[configItem valueForKey:@"ENABLE_METHODTRACE"] boolValue];
-    if(isEnable){
-        NSDictionary* classListDictionary = [configItem valueForKey:@"TARGET_CLASS_LIST"];
-        for (NSString* className in classListDictionary.allKeys) {
-            Class targetClass = objc_getClass([className UTF8String]);
-            if(targetClass != nil){
-                id methodList = [classListDictionary valueForKey:className];
-                if([methodList isKindOfClass:[NSArray class]]){
-                    [MethodTrace addClassTrace:className methodList:methodList];
+    MDConfigManager * configManager = [MDConfigManager sharedInstance];
+    NSDictionary* content = [configManager readConfigByKey:MDCONFIG_TRACE_KEY];
+    
+    if(content && [content valueForKey:MDCONFIG_ENABLE_KEY] && [content[MDCONFIG_ENABLE_KEY] boolValue]){
+        NSDictionary* classListDictionary = [content valueForKey:MDCONFIG_CLASS_LIST];
+        if(classListDictionary && classListDictionary.count > 0){
+            for (NSString* className in classListDictionary.allKeys) {
+                Class targetClass = objc_getClass([className UTF8String]);
+                if(targetClass != nil){
+                    id methodList = [classListDictionary valueForKey:className];
+                    if([methodList isKindOfClass:[NSArray class]]){
+                        [MethodTrace addClassTrace:className methodList:methodList];
+                    }else{
+                        [MethodTrace addClassTrace:className];
+                    }
                 }else{
-                    [MethodTrace addClassTrace:className];
+                    MDLog(@"Canot find class %@", className);
                 }
-            }else{
-                NSLog(@"canot find class %@", className);
             }
         }
     }else{
-        NSLog(@"Method Trace is disable");
+        MDLog(@"Method Trace is disabled");
     }
 }
