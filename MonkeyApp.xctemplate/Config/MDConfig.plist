@@ -26,6 +26,13 @@
 			<key>content</key>
 			<string>NSLog = function() { var types = &apos;v&apos;, args = [], count = arguments.length; for (var i = 0; i != count; ++i) { types += &apos;@&apos;; args.push(arguments[i]); } new Functor(dlsym(RTLD_DEFAULT, &quot;NSLog&quot;), types).apply(null, args); }</string>
 		</dict>
+		<key>ms</key>
+		<dict>
+			<key>LoadAtLaunch</key>
+			<true/>
+			<key>url</key>
+			<string>https://raw.githubusercontent.com/AloneMonkey/MDCycript/master/MS.cy</string>
+		</dict>
 		<key>md</key>
 		<dict>
 			<key>LoadAtLaunch</key>
