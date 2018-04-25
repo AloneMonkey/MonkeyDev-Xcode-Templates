@@ -13,7 +13,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MethodTrace : NSObject
+@interface MDMethodTrace : NSObject
 
 + (void)addClassTrace:(NSString*) className;
 

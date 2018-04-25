@@ -221,12 +221,12 @@
 		<string>Logos/___PACKAGENAMEASIDENTIFIER___.mm</string>
 		<string>Config/MDConfigManager.h</string>
 		<string>Config/MDConfigManager.m</string>
-		<string>Config/CycriptManager.h</string>
-		<string>Config/CycriptManager.m</string>
+		<string>Config/MDCycriptManager.h</string>
+		<string>Config/MDCycriptManager.m</string>
+		<string>Config/MDMethodTrace.h</string>
+		<string>Config/MDMethodTrace.m</string>
 		<string>Config/ANYMethodLog.h</string>
 		<string>Config/ANYMethodLog.m</string>
-		<string>Config/MethodTrace.h</string>
-		<string>Config/MethodTrace.m</string>
 		<string>Tools/LLDBTools.h</string>
 		<string>Tools/LLDBTools.mm</string>
 		<string>___PACKAGENAME___-Prefix.pch:objC:importFoundation</string>
@@ -275,23 +275,41 @@
 			<key>Path</key>
 			<string>Config/MDConfigManager.m</string>
 		</dict>
-		<key>Config/CycriptManager.h</key>
+		<key>Config/MDCycriptManager.h</key>
 		<dict>
 			<key>Group</key>
 			<array>
 				<string>Config</string>
 			</array>
 			<key>Path</key>
-			<string>Config/CycriptManager.h</string>
+			<string>Config/MDCycriptManager.h</string>
 		</dict>
-		<key>Config/CycriptManager.m</key>
+		<key>Config/MDCycriptManager.m</key>
 		<dict>
 			<key>Group</key>
 			<array>
 				<string>Config</string>
 			</array>
 			<key>Path</key>
-			<string>Config/CycriptManager.m</string>
+			<string>Config/MDCycriptManager.m</string>
+		</dict>
+		<key>Config/MDMethodTrace.h</key>
+		<dict>
+			<key>Path</key>
+			<string>Config/MDMethodTrace.h</string>
+			<key>Group</key>
+			<array>
+				<string>Config</string>
+			</array>
+		</dict>
+		<key>Config/MDMethodTrace.m</key>
+		<dict>
+			<key>Path</key>
+			<string>Config/MDMethodTrace.m</string>
+			<key>Group</key>
+			<array>
+				<string>Config</string>
+			</array>
 		</dict>
 		<key>Config/ANYMethodLog.h</key>
 		<dict>
@@ -306,24 +324,6 @@
 		<dict>
 			<key>Path</key>
 			<string>Config/ANYMethodLog.m</string>
-			<key>Group</key>
-			<array>
-				<string>Config</string>
-			</array>
-		</dict>
-		<key>Config/MethodTrace.h</key>
-		<dict>
-			<key>Path</key>
-			<string>Config/MethodTrace.h</string>
-			<key>Group</key>
-			<array>
-				<string>Config</string>
-			</array>
-		</dict>
-		<key>Config/MethodTrace.m</key>
-		<dict>
-			<key>Path</key>
-			<string>Config/MethodTrace.m</string>
 			<key>Group</key>
 			<array>
 				<string>Config</string>

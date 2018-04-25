@@ -9,14 +9,14 @@
 //
 
 #import "ANYMethodLog.h"
-#import "MethodTrace.h"
+#import "MDMethodTrace.h"
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 #import "MDConfigManager.h"
 
 #define MDLog(fmt, ...) NSLog((@"[MethodTrace] " fmt), ##__VA_ARGS__)
 
-@implementation MethodTrace : NSObject
+@implementation MDMethodTrace : NSObject
 
 +(void)addClassTrace:(NSString *)className{
     [self addClassTrace:className methodList:nil];
@@ -75,9 +75,9 @@ static __attribute__((constructor)) void entry(){
                 if(targetClass != nil){
                     id methodList = [classListDictionary valueForKey:className];
                     if([methodList isKindOfClass:[NSArray class]]){
-                        [MethodTrace addClassTrace:className methodList:methodList];
+                        [MDMethodTrace addClassTrace:className methodList:methodList];
                     }else{
-                        [MethodTrace addClassTrace:className];
+                        [MDMethodTrace addClassTrace:className];
                     }
                 }else{
                     MDLog(@"Canot find class %@", className);

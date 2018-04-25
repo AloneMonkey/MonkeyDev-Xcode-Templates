@@ -1,7 +1,7 @@
 //  weibo: http://weibo.com/xiaoqing28
 //  blog:  http://www.alonemonkey.com
 //
-//  CycriptManager.h
+//  MDCycriptManager.h
 //  MonkeyDev
 //
 //  Created by AloneMonkey on 2018/3/8.
@@ -12,7 +12,7 @@
 
 #define PORT            6666
 
-@interface CycriptManager : NSObject
+@interface MDCycriptManager : NSObject
 
 + (instancetype)sharedInstance;
 

@@ -19,8 +19,20 @@
 	</dict>
 	<key>Cycript</key>
 	<dict>
+		<key>nslog</key>
+		<dict>
+			<key>LoadAtLaunch</key>
+			<true/>
+			<key>content</key>
+			<string>NSLog = function() { var types = &apos;v&apos;, args = [], count = arguments.length; for (var i = 0; i != count; ++i) { types += &apos;@&apos;; args.push(arguments[i]); } new Functor(dlsym(RTLD_DEFAULT, &quot;NSLog&quot;), types).apply(null, args); }</string>
+		</dict>
 		<key>md</key>
-		<string>https://raw.githubusercontent.com/AloneMonkey/MDCycript/master/md.cy</string>
+		<dict>
+			<key>LoadAtLaunch</key>
+			<true/>
+			<key>url</key>
+			<string>https://raw.githubusercontent.com/AloneMonkey/MDCycript/master/md.cy</string>
+		</dict>
 	</dict>
 </dict>
 </plist>

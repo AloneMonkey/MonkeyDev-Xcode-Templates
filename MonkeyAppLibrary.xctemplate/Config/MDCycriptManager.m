@@ -1,14 +1,14 @@
 //  weibo: http://weibo.com/xiaoqing28
 //  blog:  http://www.alonemonkey.com
 //
-//  CycriptManager.m
+//  MDCycriptManager.m
 //  MonkeyDev
 //
 //  Created by AloneMonkey on 2018/3/8.
 //  Copyright © 2018年 AloneMonkey. All rights reserved.
 //
 
-#import "CycriptManager.h"
+#import "MDCycriptManager.h"
 #import "MDConfigManager.h"
 #include <ifaddrs.h>
 #include <arpa/inet.h>
@@ -20,15 +20,16 @@
 #define IP_ADDR_IPv6    @"ipv6"
 #define MDLog(fmt, ...) NSLog((@"[Cycript] " fmt), ##__VA_ARGS__)
 
-@implementation CycriptManager{
+@implementation MDCycriptManager{
     NSDictionary *_configItem;
+    NSMutableArray* _loadModulePaths;
     NSString* _cycriptDirectory;
 }
 
 + (instancetype)sharedInstance{
-    static CycriptManager *sharedInstance = nil;
+    static MDCycriptManager *sharedInstance = nil;
     if (!sharedInstance){
-        sharedInstance = [[CycriptManager alloc] init];
+        sharedInstance = [[MDCycriptManager alloc] init];
     }
     return sharedInstance;
 }
@@ -37,6 +38,8 @@
 {
     self = [super init];
     if (self) {
+        _loadModulePaths = [NSMutableArray array];
+        
         [self check];
         [self createCycriptDirectory];
         [self readConfigFile];
@@ -51,6 +54,10 @@
     }else{
         printf("\nPlease connect wifi before using cycript!\n\n");
     }
+}
+
+-(NSArray*)loadAtLaunchs{
+    return [_loadModulePaths copy];
 }
 
 -(void)createCycriptDirectory{
@@ -68,11 +75,27 @@
 -(void)startDownloadCycript:(BOOL) update{
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if(_configItem && _configItem.count > 0){
-        for (NSString* filename in _configItem.allKeys) {
-            NSString *fullPath = [[_cycriptDirectory stringByAppendingPathComponent:filename] stringByAppendingPathExtension:@"cy"];
+        for (NSString* moduleName in _configItem.allKeys) {
+            NSDictionary* setting = _configItem[moduleName];
+            NSString* url = setting[@"url"];
+            NSString* content = setting[@"content"];
+            BOOL loadAtLaunch = [setting[@"LoadAtLaunch"] boolValue];
             
-            if(![fileManager fileExistsAtPath:fullPath] || update){
-                [self downLoadUrl:_configItem[filename] saveName:filename];
+            NSString *fullPath = [[_cycriptDirectory stringByAppendingPathComponent:moduleName] stringByAppendingPathExtension:@"cy"];
+            
+            if(url){
+                if(![fileManager fileExistsAtPath:fullPath] || update){
+                    [self downLoadUrl:url saveName:moduleName];
+                }
+            }else if(content){
+                if(![fileManager fileExistsAtPath:fullPath] || update){
+                    NSString* writeContent = [NSString stringWithFormat:@"(function(exports) { %@ })(exports);", content];
+                    [writeContent writeToFile:fullPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+                }
+            }
+            
+            if(loadAtLaunch){
+                [_loadModulePaths addObject:fullPath];
             }
         }
     }
@@ -146,3 +169,10 @@
 }
 
 @end
+
+#ifndef __OPTIMIZE__
+static __attribute__((constructor)) void entry(){
+    MDCycriptManager* manager = [MDCycriptManager sharedInstance];
+    [manager startDownloadCycript:YES];
+}
+#endif
