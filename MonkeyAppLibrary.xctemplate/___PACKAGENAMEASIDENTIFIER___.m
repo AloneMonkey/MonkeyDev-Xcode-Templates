@@ -65,7 +65,7 @@ CHOptimizedMethod0(self, NSString*, CustomViewController, getMyName){
     NSLog(@"newProperty : %@", self.newProperty);
     
     //change the value
-    return @"AloneMonkey";
+    return @"___FULLUSERNAME___";
     
 }
 

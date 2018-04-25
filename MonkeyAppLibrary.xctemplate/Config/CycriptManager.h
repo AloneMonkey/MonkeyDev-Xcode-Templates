@@ -10,6 +10,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define PORT            6666
+
 @interface CycriptManager : NSObject
 
 + (instancetype)sharedInstance;
