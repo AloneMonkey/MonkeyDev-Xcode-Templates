@@ -22,7 +22,7 @@
 
 @implementation MDCycriptManager{
     NSDictionary *_configItem;
-    NSMutableArray* _loadModulePaths;
+    NSMutableDictionary* _loadModules;
     NSString* _cycriptDirectory;
 }
 
@@ -38,7 +38,7 @@
 {
     self = [super init];
     if (self) {
-        _loadModulePaths = [NSMutableArray array];
+        _loadModules = [NSMutableDictionary dictionary];
         
         [self check];
         [self createCycriptDirectory];
@@ -57,7 +57,20 @@
 }
 
 -(NSArray*)loadAtLaunchs{
-    return [_loadModulePaths copy];
+    
+    NSMutableArray* result = [NSMutableArray arrayWithCapacity:10];
+    
+    NSArray* sortedArray = [_loadModules.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSNumber*  _Nonnull number1, NSNumber*  _Nonnull number2) {
+        if ([number1 integerValue] > [number2 integerValue])
+            return NSOrderedDescending;
+        return NSOrderedAscending;
+    }];
+    
+    for (NSNumber* item in sortedArray) {
+        [result addObject:_loadModules[item]];
+    }
+    
+    return [result copy];
 }
 
 -(void)createCycriptDirectory{
@@ -79,6 +92,7 @@
             NSDictionary* setting = _configItem[moduleName];
             NSString* url = setting[@"url"];
             NSString* content = setting[@"content"];
+            NSNumber* priority = setting[@"priority"];
             BOOL loadAtLaunch = [setting[@"LoadAtLaunch"] boolValue];
             
             NSString *fullPath = [[_cycriptDirectory stringByAppendingPathComponent:moduleName] stringByAppendingPathExtension:@"cy"];
@@ -95,7 +109,7 @@
             }
             
             if(loadAtLaunch){
-                [_loadModulePaths addObject:fullPath];
+                [_loadModules setObject:fullPath forKey:priority];
             }
         }
     }
