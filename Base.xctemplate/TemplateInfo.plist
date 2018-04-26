@@ -83,6 +83,8 @@
 		<dict>
 			<key>Debug</key>
 			<dict>
+				<key>ONLY_ACTIVE_ARCH</key>
+				<string>YES</string>
 				<key>VALIDATE_PRODUCT</key>
 				<string>NO</string>
 				<key>GCC_OPTIMIZATION_LEVEL</key>
