@@ -132,12 +132,15 @@ NSString * const CYErrorMessageKey = @"CYErrorMessageKey";
     
     if(_configItem && _configItem.count > 0){
         
+        BOOL download = NO;
+        
         for (NSString* moduleName in _configItem.allKeys) {
             MDSettingObject * item = [[MDSettingObject alloc] initWithDicationary:_configItem[moduleName]];
             NSString *fullPath = [[_cycriptDirectory stringByAppendingPathComponent:moduleName] stringByAppendingPathExtension:@"cy"];
             
             if(item.url){
                 if(![fileManager fileExistsAtPath:fullPath] || update){
+                    download = YES;
                     [self.downloading addObject:moduleName];
                     [self downLoadUrl:item.url saveName:moduleName];
                 }
@@ -157,6 +160,10 @@ NSString * const CYErrorMessageKey = @"CYErrorMessageKey";
             if(item.loadAtConnect){
                 [_loadAtConnectModules setObject:fullPath forKey:@(item.priority)];
             }
+        }
+        
+        if(!download){
+            [self finishDownload];
         }
     }
 }
