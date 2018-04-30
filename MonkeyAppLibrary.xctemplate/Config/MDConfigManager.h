@@ -14,6 +14,8 @@
 #define MDCONFIG_TRACE_KEY              @"MethodTrace"
 #define MDCONFIG_ENABLE_KEY             @"ENABLE"
 #define MDCONFIG_CLASS_LIST             @"CLASS_LIST"
+#define MDCONFIG_LOADATLAUNCH_KEY       @"LoadAtLaunch"
+#define MDCONFIG_LOADATCONNECT_KEY      @"LoadAtConnect"
 
 @interface MDConfigManager : NSObject
 
