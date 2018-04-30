@@ -22,7 +22,7 @@
 
  @param update Force update of all scripts
  */
--(void)startDownloadCycript:(BOOL) update;
+-(void)loadCycript:(BOOL) update;
 
 /**
  eval javascript by cycript

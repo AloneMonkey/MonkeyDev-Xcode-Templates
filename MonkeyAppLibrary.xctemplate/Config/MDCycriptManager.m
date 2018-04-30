@@ -21,6 +21,8 @@
 #define IP_ADDR_IPv6    @"ipv6"
 #define MDLog(fmt, ...) NSLog((@"[Cycript] " fmt), ##__VA_ARGS__)
 
+extern JSGlobalContextRef CYGetJSContext(void);
+
 NSString * const CYErrorLineKey = @"CYErrorLineKey";
 NSString * const CYErrorNameKey = @"CYErrorNameKey";
 NSString * const CYErrorMessageKey = @"CYErrorMessageKey";
