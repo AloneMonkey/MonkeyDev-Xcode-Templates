@@ -37,12 +37,29 @@
 			<key>url</key>
 			<string>https://raw.githubusercontent.com/AloneMonkey/MDCycript/master/MS.cy</string>
 		</dict>
-		<key>md</key>
+		<key>hook</key>
 		<dict>
 			<key>LoadAtLaunch</key>
 			<true/>
 			<key>priority</key>
 			<string>2</string>
+			<key>content</key>
+			<string>try{
+  	var oldm = {};
+	HookMessage(CustomViewController, @selector(showChangeLog:), function(log) {
+    	NSLog(&quot;hooked by cycript!!!&quot;);
+    	return oldm-&gt;call(this,log);
+	}, oldm);
+}catch(err){
+  	NSLog(err.toString())
+}</string>
+		</dict>
+		<key>md</key>
+		<dict>
+			<key>LoadAtConnect</key>
+			<true/>
+			<key>priority</key>
+			<string>0</string>
 			<key>url</key>
 			<string>https://raw.githubusercontent.com/AloneMonkey/MDCycript/master/md.cy</string>
 		</dict>
