@@ -12,6 +12,7 @@
 #import <CaptainHook/CaptainHook.h>
 #import <UIKit/UIKit.h>
 #import <Cycript/Cycript.h>
+#import <MDCycriptManager.h>
 
 CHConstructor{
     NSLog(INSERT_SUCCESS_WELCOME);
@@ -20,6 +21,15 @@ CHConstructor{
         
 #ifndef __OPTIMIZE__
         CYListenServer(6666);
+
+        MDCycriptManager* manager = [MDCycriptManager sharedInstance];
+        [manager loadCycript:NO];
+        NSError* error;
+        NSString* result = [manager evaluateCycript:@"UIApp.keyWindow" error:&error];
+        NSLog(@"result: %@", result);
+        if(error.code != 0){
+            NSLog(@"error: %@", error.localizedDescription);
+        }
 #endif
         
     }];

@@ -24,4 +24,13 @@
  */
 -(void)startDownloadCycript:(BOOL) update;
 
+/**
+ eval javascript by cycript
+
+ @param cycript javascript string
+ @param error error happened
+ @return eval result
+ */
+-(NSString*)evaluateCycript:(NSString*) cycript error:(NSError **) error;
+
 @end
