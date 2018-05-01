@@ -22,6 +22,7 @@
 #define MDLog(fmt, ...) NSLog((@"[Cycript] " fmt), ##__VA_ARGS__)
 
 extern JSGlobalContextRef CYGetJSContext(void);
+extern void CydgetMemoryParse(const uint16_t **data, size_t *size);
 
 NSString * const CYErrorLineKey = @"CYErrorLineKey";
 NSString * const CYErrorNameKey = @"CYErrorNameKey";
@@ -195,8 +196,14 @@ NSString * const CYErrorMessageKey = @"CYErrorMessageKey";
 
 -(NSString *)evaluateCycript:(NSString *)cycript error:(NSError *__autoreleasing *)error{
     JSGlobalContextRef context = CYGetJSContext();
-    JSStringRef expression = JSStringCreateWithUTF8CString([cycript UTF8String]);
     
+    size_t length = cycript.length;
+    unichar *buffer = malloc(length * sizeof(unichar));
+    [cycript getCharacters:buffer range:NSMakeRange(0, length)];
+    const uint16_t *characters = buffer;
+    CydgetMemoryParse(&characters, &length);
+    JSStringRef expression = JSStringCreateWithCharacters(characters, length);
+
     // Evaluate the Javascript
     JSValueRef exception = NULL;
     JSValueRef result = JSEvaluateScript(context, expression, NULL, NULL, 0, &exception);
