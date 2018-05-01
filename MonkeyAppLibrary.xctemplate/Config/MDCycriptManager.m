@@ -48,7 +48,6 @@ NSString * const CYErrorMessageKey = @"CYErrorMessageKey";
         self.url = dictionary[@"url"];
         self.content = dictionary[@"content"];
         self.loadAtLaunch = dictionary[MDCONFIG_LOADATLAUNCH_KEY] ? YES : NO;
-        self.loadAtConnect = dictionary[MDCONFIG_LOADATCONNECT_KEY] ? YES : NO;
     }
     return self;
 }
@@ -61,7 +60,6 @@ NSString * const CYErrorMessageKey = @"CYErrorMessageKey";
 @property (nonatomic, copy) NSString* cycriptDirectory;
 @property (nonatomic, strong) NSMutableArray* downloading;
 @property (nonatomic, strong) NSMutableDictionary* loadAtLaunchModules;
-@property (nonatomic, strong) NSMutableDictionary* loadAtConnectModules;
 
 @end
 
@@ -80,7 +78,6 @@ NSString * const CYErrorMessageKey = @"CYErrorMessageKey";
     self = [super init];
     if (self) {
         _loadAtLaunchModules = [NSMutableDictionary dictionary];
-        _loadAtConnectModules = [NSMutableDictionary dictionary];
         _downloading = [NSMutableArray array];
         [self check];
         [self readConfigFile];
@@ -118,10 +115,6 @@ NSString * const CYErrorMessageKey = @"CYErrorMessageKey";
     return [result copy];
 }
 
--(NSArray*)loadAtLaunchs{
-    return [self sortedArray:_loadAtConnectModules];
-}
-
 -(void)readConfigFile{
     MDConfigManager * configManager = [MDConfigManager sharedInstance];
     _configItem = [configManager readConfigByKey:MDCONFIG_CYCRIPT_KEY];
@@ -155,10 +148,6 @@ NSString * const CYErrorMessageKey = @"CYErrorMessageKey";
             
             if(item.loadAtLaunch){
                 [_loadAtLaunchModules setObject:fullPath forKey:@(item.priority)];
-            }
-            
-            if(item.loadAtConnect){
-                [_loadAtConnectModules setObject:fullPath forKey:@(item.priority)];
             }
         }
         
