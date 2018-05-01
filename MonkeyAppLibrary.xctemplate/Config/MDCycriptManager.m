@@ -47,7 +47,7 @@ NSString * const CYErrorMessageKey = @"CYErrorMessageKey";
         self.priority = [dictionary[@"priority"] integerValue];
         self.url = dictionary[@"url"];
         self.content = dictionary[@"content"];
-        self.loadAtLaunch = dictionary[MDCONFIG_LOADATLAUNCH_KEY] ? YES : NO;
+        self.loadAtLaunch = [dictionary objectForKey:MDCONFIG_LOADATLAUNCH_KEY] && [dictionary[MDCONFIG_LOADATLAUNCH_KEY] boolValue];
     }
     return self;
 }
