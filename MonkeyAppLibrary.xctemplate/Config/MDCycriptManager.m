@@ -14,6 +14,9 @@
 #import <arpa/inet.h>
 #import <net/if.h>
 #import <Cycript/Cycript.h>
+#import <JavaScriptCore/JSObjectRef.h>
+#import <JavaScriptCore/JSStringRef.h>
+#import <JavaScriptCore/JSStringRefCF.h>
 
 #define IOS_CELLULAR    @"pdp_ip0"
 #define IOS_WIFI        @"en0"
