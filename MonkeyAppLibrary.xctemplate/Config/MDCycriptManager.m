@@ -13,7 +13,7 @@
 #import <ifaddrs.h>
 #import <arpa/inet.h>
 #import <net/if.h>
-#import <Cycript/Cycript.h>
+#import <JavaScriptCore/JavaScriptCore.h>
 
 #define IOS_CELLULAR    @"pdp_ip0"
 #define IOS_WIFI        @"en0"
@@ -34,7 +34,6 @@ NSString * const CYErrorMessageKey = @"CYErrorMessageKey";
 @property (nonatomic, copy) NSString* url;
 @property (nonatomic, copy) NSString* content;
 @property (nonatomic, assign) BOOL loadAtLaunch;
-@property (nonatomic, assign) BOOL loadAtConnect;
 
 -(instancetype)initWithDicationary:(NSDictionary*) dictionary;
 
