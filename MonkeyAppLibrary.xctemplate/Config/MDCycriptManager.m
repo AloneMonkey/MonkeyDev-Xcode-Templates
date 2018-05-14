@@ -8,6 +8,8 @@
 //  Copyright © 2018年 AloneMonkey. All rights reserved.
 //
 
+#ifndef __OPTIMIZE__
+
 #import "MDCycriptManager.h"
 #import "MDConfigManager.h"
 #import <ifaddrs.h>
@@ -297,3 +299,4 @@ NSString * const CYErrorMessageKey = @"CYErrorMessageKey";
 
 @end
 
+#endif

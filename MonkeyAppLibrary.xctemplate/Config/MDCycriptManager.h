@@ -8,6 +8,8 @@
 //  Copyright © 2018年 AloneMonkey. All rights reserved.
 //
 
+#ifndef __OPTIMIZE__
+
 #import <Foundation/Foundation.h>
 
 #define PORT            6666
@@ -34,3 +36,5 @@
 -(NSString*)evaluateCycript:(NSString*) cycript error:(NSError **) error;
 
 @end
+
+#endif
