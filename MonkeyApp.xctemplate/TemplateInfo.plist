@@ -103,6 +103,8 @@
 			<string>com.apple.product-type.application</string>
 			<key>SharedSettings</key>
 			<dict>
+				<key>MONKEYDEV_DEFAULT_BUNDLEID</key>
+				<string>NO</string>
 				<key>MONKEYDEV_ADD_SUBSTRATE</key>
 				<string>YES</string>
 				<key>MONKEYDEV_TARGET_APP</key>
