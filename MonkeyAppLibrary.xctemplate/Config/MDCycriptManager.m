@@ -180,7 +180,7 @@ NSString * const CYErrorMessageKey = @"CYErrorMessageKey";
         if(error){
             MDLog(@"Failed download script [%@]: %@", filename, error.localizedDescription);
         }else{
-            NSString *fullPath = [[_cycriptDirectory stringByAppendingPathComponent:filename] stringByAppendingPathExtension:@"cy"];
+            NSString *fullPath = [[weakSelf.cycriptDirectory stringByAppendingPathComponent:filename] stringByAppendingPathExtension:@"cy"];
             [[NSFileManager defaultManager] moveItemAtURL:location toURL:[NSURL fileURLWithPath:fullPath] error:nil];
             
             MDLog(@"Successful download script [%@]", filename);
