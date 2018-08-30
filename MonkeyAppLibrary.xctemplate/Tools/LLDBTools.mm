@@ -110,8 +110,8 @@ NSString* pactions(vm_address_t address){
 
 NSString* pblock(vm_address_t address){
     struct Block_literal_1 real = *((struct Block_literal_1 *)(void*)address);
-    NSMutableDictionary *dict = (id)[NSMutableDictionary dictionary];
-    [dict setObject:(id)[NSNumber numberWithLong:(long)real.invoke] forKey:@"invoke"];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setObject:[NSNumber numberWithLong:(long)real.invoke] forKey:@"invoke"];
     if (real.flags & BLOCK_HAS_SIGNATURE) {
         char *signature;
         if (real.flags & BLOCK_HAS_COPY_DISPOSE) {
@@ -123,11 +123,11 @@ NSString* pblock(vm_address_t address){
         NSMethodSignature *sig = [NSMethodSignature signatureWithObjCTypes:signature];
         NSMutableArray *types = [NSMutableArray array];
         
-        [types addObject:(id)[NSString stringWithUTF8String:(char *)[sig methodReturnType]]];
+        [types addObject:[NSString stringWithUTF8String:(char *)[sig methodReturnType]]];
         
         for (NSUInteger i = 0; i < sig.numberOfArguments; i++) {
             char *type = (char *)[sig getArgumentTypeAtIndex:i];
-            [types addObject:(id)[NSString stringWithUTF8String:type]];
+            [types addObject:[NSString stringWithUTF8String:type]];
         }
         
         [dict setObject:types forKey:@"signature"];
@@ -136,7 +136,7 @@ NSString* pblock(vm_address_t address){
     NSMutableArray* sigArr = dict[@"signature"];
     
     if(!sigArr){
-        return [NSString stringWithFormat:@"Imp: 0x%lx", (long)dict[@"invoke"]];
+        return [NSString stringWithFormat:@"Imp: 0x%lx", [dict[@"invoke"] longValue]];
     }else{
         NSMutableString* sig = [NSMutableString stringWithFormat:@"%@ ^(", decode(sigArr[0])];
         for (int i = 2; i < sigArr.count; i++) {
@@ -147,7 +147,7 @@ NSString* pblock(vm_address_t address){
             }
         }
         [sig appendString:@");"];
-        return [NSString stringWithFormat:@"Imp: 0x%lx    Signature: %s", (long)dict[@"invoke"], [sig UTF8String]];
+        return [NSString stringWithFormat:@"Imp: 0x%lx    Signature: %s", [dict[@"invoke"] longValue], [sig UTF8String]];
     }
 }
 
