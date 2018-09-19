@@ -15,6 +15,7 @@
 #import <ifaddrs.h>
 #import <arpa/inet.h>
 #import <net/if.h>
+#import <pthread.h>
 #import <JavaScriptCore/JavaScriptCore.h>
 
 #define IOS_CELLULAR    @"pdp_ip0"
@@ -196,53 +197,56 @@ NSString * const CYErrorMessageKey = @"CYErrorMessageKey";
 }
 
 -(NSString *)evaluateCycript:(NSString *)cycript error:(NSError *__autoreleasing *)error{
-    JSGlobalContextRef context = CYGetJSContext();
-    
-    size_t length = cycript.length;
-    unichar *buffer = malloc(length * sizeof(unichar));
-    [cycript getCharacters:buffer range:NSMakeRange(0, length)];
-    const uint16_t *characters = buffer;
-    CydgetMemoryParse(&characters, &length);
-    JSStringRef expression = JSStringCreateWithCharacters(characters, length);
-
-    // Evaluate the Javascript
-    JSValueRef exception = NULL;
-    JSValueRef result = JSEvaluateScript(context, expression, NULL, NULL, 0, &exception);
-    JSStringRelease(expression);
-    
     NSString *resultString = nil;
     
-    // If a result was returned, convert it into an NSString
-    if (result) {
-        JSStringRef string = JSValueToStringCopy(context, result, &exception);
-        if (string) {
-            resultString = (__bridge_transfer NSString *)JSStringCopyCFString(kCFAllocatorDefault, string);
-            JSStringRelease(string);
+    static pthread_mutex_t cycript_metex = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_lock(&cycript_metex); {
+        JSGlobalContextRef context = CYGetJSContext();
+        
+        size_t length = cycript.length;
+        unichar *buffer = malloc(length * sizeof(unichar));
+        [cycript getCharacters:buffer range:NSMakeRange(0, length)];
+        const uint16_t *characters = buffer;
+        CydgetMemoryParse(&characters, &length);
+        JSStringRef expression = JSStringCreateWithCharacters(characters, length);
+        
+        // Evaluate the Javascript
+        JSValueRef exception = NULL;
+        JSValueRef result = JSEvaluateScript(context, expression, NULL, NULL, 0, &exception);
+        JSStringRelease(expression);
+        
+        // If a result was returned, convert it into an NSString
+        if (result) {
+            JSStringRef string = JSValueToStringCopy(context, result, &exception);
+            if (string) {
+                resultString = (__bridge_transfer NSString *)JSStringCopyCFString(kCFAllocatorDefault, string);
+                JSStringRelease(string);
+            }
         }
-    }
-    
-    // If an exception was thrown, convert it into an NSError
-    if (exception && error) {
-        JSObjectRef exceptionObject = JSValueToObject(context, exception, NULL);
         
-        NSInteger line = (NSInteger)JSValueToNumber(context, JSObjectGetProperty(context, exceptionObject, JSStringCreateWithUTF8CString("line"), NULL), NULL);
-        JSStringRef string = JSValueToStringCopy(context, JSObjectGetProperty(context, exceptionObject, JSStringCreateWithUTF8CString("name"), NULL), NULL);
-        NSString *name = (__bridge_transfer NSString *)JSStringCopyCFString(kCFAllocatorDefault, string);
-        JSStringRelease(string);
-        string = JSValueToStringCopy(context, JSObjectGetProperty(context, exceptionObject, JSStringCreateWithUTF8CString("message"), NULL), NULL);
-        NSString *message = (__bridge_transfer NSString *)JSStringCopyCFString(kCFAllocatorDefault, string);
-        JSStringRelease(string);
-        string = JSValueToStringCopy(context, exception, NULL);
-        NSString *description = (__bridge_transfer NSString *)JSStringCopyCFString(kCFAllocatorDefault, string);
-        JSStringRelease(string);
-        
-        NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-        [userInfo setValue:@(line) forKey:CYErrorLineKey];
-        [userInfo setValue:name forKey:CYErrorNameKey];
-        [userInfo setValue:message forKey:CYErrorMessageKey];
-        [userInfo setValue:description forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"CYContextDomain" code:0 userInfo:userInfo];
-    }
+        // If an exception was thrown, convert it into an NSError
+        if (exception && error) {
+            JSObjectRef exceptionObject = JSValueToObject(context, exception, NULL);
+            
+            NSInteger line = (NSInteger)JSValueToNumber(context, JSObjectGetProperty(context, exceptionObject, JSStringCreateWithUTF8CString("line"), NULL), NULL);
+            JSStringRef string = JSValueToStringCopy(context, JSObjectGetProperty(context, exceptionObject, JSStringCreateWithUTF8CString("name"), NULL), NULL);
+            NSString *name = (__bridge_transfer NSString *)JSStringCopyCFString(kCFAllocatorDefault, string);
+            JSStringRelease(string);
+            string = JSValueToStringCopy(context, JSObjectGetProperty(context, exceptionObject, JSStringCreateWithUTF8CString("message"), NULL), NULL);
+            NSString *message = (__bridge_transfer NSString *)JSStringCopyCFString(kCFAllocatorDefault, string);
+            JSStringRelease(string);
+            string = JSValueToStringCopy(context, exception, NULL);
+            NSString *description = (__bridge_transfer NSString *)JSStringCopyCFString(kCFAllocatorDefault, string);
+            JSStringRelease(string);
+            
+            NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+            [userInfo setValue:@(line) forKey:CYErrorLineKey];
+            [userInfo setValue:name forKey:CYErrorNameKey];
+            [userInfo setValue:message forKey:CYErrorMessageKey];
+            [userInfo setValue:description forKey:NSLocalizedDescriptionKey];
+            *error = [NSError errorWithDomain:@"CYContextDomain" code:0 userInfo:userInfo];
+        }
+    }pthread_mutex_unlock(&cycript_metex);
     
     return resultString;
 }
