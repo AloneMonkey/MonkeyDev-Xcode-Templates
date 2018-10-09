@@ -19,6 +19,8 @@
 		<dict>
 			<key>SharedSettings</key>
 			<dict>
+				<key>CODE_SIGN_ENTITLEMENTS</key>
+				<string>___PACKAGENAME___/monkeydev.entitlements</string>
 				<key>CLANG_ENABLE_OBJC_ARC</key>
 				<string>YES</string>
 				<key>MonkeyDevkillProcessOnInstall</key>
@@ -324,12 +326,18 @@ printf(&quot;Hello, World!\n&quot;);
 	</array>
 	<key>Nodes</key>
 	<array>
+		<string>monkeydev.entitlements</string>
 		<string>Package/DEBIAN/control:debianControl:section</string>
 		<string>Package/DEBIAN/control:debianControl:depends</string>
 		<string>Package/usr/bin/0xdeadfa11</string>
 	</array>
 	<key>Definitions</key>
 	<dict>
+		<key>monkeydev.entitlements</key>
+		<dict>
+			<key>Path</key>
+			<string>monkeydev.entitlements</string>
+		</dict>
 		<key>Package/usr/bin/0xdeadfa11</key>
 		<dict>
 			<key>Group</key>
