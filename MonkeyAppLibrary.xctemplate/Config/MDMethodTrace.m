@@ -71,12 +71,13 @@ typedef NS_ENUM(NSUInteger, MDTraceSource) {
 @property (nonatomic, assign) MDTraceLogWhen        logWhen;                // 日志输出时机
 @property (nonatomic, strong) NSString              *logRegexString;        // 日志正则匹配字符串，仅当logWhen=MDTraceLogWhenRegexString有效
 @property (nonatomic, assign) NSInteger             numberOfPendingLog;     // logRegexString匹配后，待输出afer日志个数
+@property (nonatomic, assign) CGFloat               lastSystemVolume;       // 上一次系统音量
 @property (nonatomic, assign) MDTraceFlag           traceFlag;              // 控制trace行为的一些特殊flag
 @property (nonatomic, assign) MDTraceObject         traceObject;            // trace对象
-@property (nonatomic, assign) CGFloat               lastSystemVolume;       // 上一次系统音量
+@property (nonatomic, strong) NSString              *classRegexString;      // 类正则匹配字符串
 @property (nonatomic, strong) NSMutableArray        *coreClassInfoList;     // 引擎类信息列表
 @property (nonatomic, strong) NSMutableArray        *userClassInfoList;     // 用户类信息列表
-@property (nonatomic, strong) NSMutableArray        *allClassInfoList;      // 所有类信息列表
+@property (nonatomic, strong) NSMutableArray        *regexClassInfoList;    // 正则类信息列表
 
 // 解析配置文件
 - (void)parseConfig:(NSDictionary *)config;
@@ -321,7 +322,7 @@ typedef NS_ENUM(NSUInteger, MDTraceSource) {
         self.traceObject        = MDTraceObjectNone;
         self.coreClassInfoList  = [[NSMutableArray alloc] init];
         self.userClassInfoList  = [[NSMutableArray alloc] init];
-        self.allClassInfoList   = [[NSMutableArray alloc] init];
+        self.regexClassInfoList = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -350,34 +351,14 @@ typedef NS_ENUM(NSUInteger, MDTraceSource) {
     return nil;
 }
 
-// 正则匹配
+// 正则匹配 optionss是否需要更多参数???
 // FIXME -[NSString rangeOfString:options:NSRegularExpressionSearch]在实际运行中会死循环，不太明白原因
 + (BOOL)isMatchRegexString:(NSString *)regexString inputString:(NSString *)inputString
 {
     NSError *error = NULL;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexString options:NSRegularExpressionCaseInsensitive error:&error];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexString options:NSRegularExpressionDotMatchesLineSeparators | NSRegularExpressionAnchorsMatchLines error:&error];
     NSTextCheckingResult *result = [regex firstMatchInString:inputString options:0 range:NSMakeRange(0, [inputString length])];
     return nil != result;
-}
-
-// 判断是否是构造函数(实现比较粗犷，不是特别准确)
-+ (BOOL)isConstructorWithTarget:(id)target selector:(SEL)selector
-{
-    NSString *selectorName = NSStringFromSelector(selector);
-    if (![selectorName containsString:@"init"]) {
-        return NO;
-    }
-    
-    Method method = class_getInstanceMethod(object_getClass(target), selector);
-    if (NULL == method) {
-        MDLog(@"No Method, target: %@ selector: %@", [target class], NSStringFromSelector(selector));
-        assert(NULL != method);
-    }
-    
-    char returnType[1024];
-    memset(returnType, 0, sizeof(returnType));
-    method_getReturnType(method, returnType, sizeof(returnType));
-    return (0 == strcmp(returnType, @encode(id)));
 }
 
 // 获取object名称
@@ -388,15 +369,16 @@ typedef NS_ENUM(NSUInteger, MDTraceSource) {
         case MDTraceObjectNone:
             name = @"未指定类";
             break;
-        case MDTraceObjectUserClass:
-            name = @"用户类";
-            break;
         case MDTraceObjectCoreClass:
             name = @"引擎类";
             break;
-        case MDTraceObjectAllClass:
-            name = @"引擎+用户类";
+        case MDTraceObjectUserClass:
+            name = @"用户类";
             break;
+        case MDTraceObjectRegexClass:
+            name = @"正则类";
+            break;
+            
         default:
             NSAssert1(0, @"Unkown trace object: %tu", traceObject);
             break;
@@ -408,18 +390,18 @@ typedef NS_ENUM(NSUInteger, MDTraceSource) {
 // 判断object是否属于测试模式
 + (BOOL)isTestTraceObject:(MDTraceObject)traceObject
 {
-    return (traceObject == MDTraceObjectCoreClass || traceObject == MDTraceObjectAllClass);
+    return (traceObject == MDTraceObjectCoreClass);
 }
 
 // 获取当前classInfoList
 - (NSArray *)classInfoList
 {
-    if (self.traceObject == MDTraceObjectUserClass) {
-        return self.userClassInfoList;
-    } else if (self.traceObject == MDTraceObjectCoreClass) {
+    if (self.traceObject == MDTraceObjectCoreClass) {
         return self.coreClassInfoList;
-    } else if (self.traceObject == MDTraceObjectAllClass) {
-        return self.allClassInfoList;
+    } else if (self.traceObject == MDTraceObjectUserClass) {
+        return self.userClassInfoList;
+    } else if (self.traceObject == MDTraceObjectRegexClass) {
+        return self.regexClassInfoList;
     }
     return nil;
 }
@@ -596,28 +578,44 @@ typedef NS_ENUM(NSUInteger, MDTraceSource) {
           [[self class] NSStringFromTraceObject:self.traceObject],
           [[self class] isTestTraceObject:self.traceObject] ? @"(仅测试验证使用，不建议开启)" : @"");
     
+    // 检查配置有效性
+    [self checkConfig];
+    
+    // 初始化日志
+    [self initLogger];
+    
+    // 屏蔽trace输出。避免hook准备过程中导致的递归调用
+    [self enableTrace:NO];
+    
+    // 实际hook类的各种方法
+    [self traceClassObject];
+    
+    // 恢复trace输出
+    [self enableTrace:YES];
+}
+
+- (void)checkConfig
+{
     NSAssert(self.logLevel >= MDTraceLogLeveError && self.logLevel < MDTraceLogLeveMax, @"invalid loglevel");
     NSAssert(self.logWhen >= MDTraceLogWhenStartup && self.logWhen < MDTraceLogWhenMax, @"invalid logWhen");
     NSAssert(self.traceFlag >= 0 && self.traceFlag <= MDTraceFlagMask, @"invalid traceFlag");
     NSAssert(self.traceObject >= MDTraceObjectNone && self.traceObject < MDTraceObjectMax, @"invalid traceObject");
     
     if (self.logWhen == MDTraceLogWhenRegexString) {
-        self.logRegexString = SAFE_CHECK(config[MDCONFIG_LOG_REGEX_STRING_KEY], NSString);
+        self.logRegexString = SAFE_CHECK(self.config[MDCONFIG_LOG_REGEX_STRING_KEY], NSString);
         if (self.logRegexString.length == 0) {
-            MDFatal(@"logRegexString is nil");
+            MDFatal(@"LogRegexString is nil");
         }
-        MDLog(@"logRegexString: %@", self.logRegexString);
+        MDLog(@"LogRegexString: %@", self.logRegexString);
     }
     
-    [self initLogger];
-    
-    // 屏蔽trace输出。避免hook准备过程中导致的递归调用
-    [self enableTrace:NO];
-    
-    [self traceClassObject];
-    
-    // 恢复trace输出
-    [self enableTrace:YES];
+    if (self.traceObject == MDTraceObjectRegexClass) {
+        self.classRegexString = SAFE_CHECK(self.config[MDCONFIG_CLASS_REGEX_STRING_KEY], NSString);
+        if (self.classRegexString.length == 0) {
+            MDFatal(@"ClassRegexString is nil");
+        }
+        MDLog(@"ClassRegexString: %@", self.classRegexString);
+    }
 }
 
 - (void)traceClassObject
@@ -631,57 +629,14 @@ typedef NS_ENUM(NSUInteger, MDTraceSource) {
     [self dumpClassListInfo];
     [self traceClassListInfo];
 }
-   
-- (void)traceClassListInfo
-{
-    MDLog(@" ");
-    MDLog(@"////////////////////////////////////////////////////////////////////////////////");
-    MDLog(@" ");
-    
-    if (self.traceObject == MDTraceObjectAllClass) {
-        int numberOfClasses = objc_getClassList(NULL, 0);
-        MDLog(@"numberOfClasses: %d", numberOfClasses);
-        Class *classList = (Class *)malloc(sizeof(Class) * numberOfClasses);
-        if (NULL != classList) {
-            objc_getClassList(classList, numberOfClasses);
-            for (int i = 0; i < numberOfClasses; i++) {
-                NSString *className = NSStringFromClass(classList[i]);
-                MDTraceClassInfo *coreClassInfo = [self infoInClassInfoList:className];
-                // methodList调试时经常修改方法列表，这里总是尝试trace验证
-                if ((nil != coreClassInfo && coreClassInfo.mode != MDTraceModeOff) || nil == coreClassInfo) {
-                    MDLog(@"[TEST] trace ClassList[%05d]: %@", i, className);
-                    if (nil != coreClassInfo) {
-                        [self traceClass:coreClassInfo];
-                    } else {
-                        [self traceClass:[MDTraceClassInfo defaultUserClassInfo:className]];
-                    }
-                }
-            }
-            free(classList);
-        }
-    } else if (self.traceObject == MDTraceObjectUserClass || self.traceObject == MDTraceObjectCoreClass) {
-        NSArray *classInfoList = [self classInfoList];
-        for (int i = 0; i < classInfoList.count; i++) {
-            MDTraceClassInfo *info = classInfoList[i];
-            if (nil != objc_getClass([info.name UTF8String])) {
-                MDLog(@"ClassList[%05d]: %@", i, info.name);
-                [self traceClass:info];
-            } else {
-                MDLog(@"Cannot find class %@", info.name);
-            }
-        }
-    }
-    
-    MDLog(@" ");
-    MDLog(@"////////////////////////////////////////////////////////////////////////////////");
-    MDLog(@" ");
-}
 
 - (void)parseClassListInfo
 {
     id object = nil;
     NSDictionary *coreClassListDict = nil;
     NSDictionary *userClassListDict = nil;
+    NSMutableArray *classList = [[NSMutableArray alloc] init];
+    NSMutableArray *regexClassList = [[NSMutableArray alloc] init];
     
     object = [self.config valueForKey:MDCONFIG_CORE_CLASS_LIST];
     if (nil != object) {
@@ -692,39 +647,98 @@ typedef NS_ENUM(NSUInteger, MDTraceSource) {
         userClassListDict = SAFE_CHECK(object, NSDictionary);
     }
     
-    // core
+    // 1 获取真实存在的类
+    int numberOfClasses = objc_getClassList(NULL, 0);
+    Class *tmpClassList = (Class *)malloc(sizeof(Class) * numberOfClasses);
+    if (NULL != tmpClassList) {
+        objc_getClassList(tmpClassList, numberOfClasses);
+        for (int i = 0; i < numberOfClasses; i++) {
+            NSString *className = NSStringFromClass(tmpClassList[i]);
+            [classList addObject:className];
+            if (self.traceObject == MDTraceObjectRegexClass && [[self class] isMatchRegexString:self.classRegexString inputString:className]) {
+                // 多次匹配可能是重复类，需要去重
+                if (![regexClassList containsObject:className]) {
+                    [regexClassList addObject:className];
+                }
+            }
+        }
+        free(tmpClassList);
+    }
+    
+    // 2 获取classInfo
     if (self.traceObject == MDTraceObjectCoreClass) {
+        // 2.1 core
         for (NSString *className in coreClassListDict.allKeys) {
+            if (![classList containsObject:className]) {
+                MDLog(@"Cannot find class %@", className);
+                continue;
+            }
+            
             NSDictionary *coreConfig = coreClassListDict[className];
             MDTraceClassInfo *coreInfo = [MDTraceClassInfo infoWithName:className source:MDTraceSourceCore config:coreConfig];
             [self.coreClassInfoList addObject:coreInfo];
         }
-    }
-
-    // user，注意，user需要跟core合并，core优先级更高
-    if (self.traceObject == MDTraceObjectUserClass || self.traceObject == MDTraceObjectAllClass) {
+    } else if (self.traceObject == MDTraceObjectUserClass) {
+        // 2.2 user，注意，user需要跟core合并，优先级：core > user
         for (NSString *className in userClassListDict.allKeys) {
+            if (![classList containsObject:className]) {
+                MDLog(@"Cannot find class %@", className);
+                continue;
+            }
+            
             NSDictionary *coreConfig = coreClassListDict[className];
             NSDictionary *userConfig = userClassListDict[className];
             MDTraceClassInfo *mergeinfo = [MDTraceClassInfo mergeInfoWithName:className coreConfig:coreConfig userConfig:userConfig];
             [self.userClassInfoList addObject:mergeinfo];
         }
-    }
-    
-    // all
-    if (self.traceObject == MDTraceObjectAllClass) {
-        // 添加user已经解析出来的Info
-        [self.allClassInfoList addObjectsFromArray:self.userClassInfoList];
+    } else if (self.traceObject == MDTraceObjectRegexClass) {
+        // 2.3 regex, 优先级：core > user > regex
         
-        // 另外有可能core还有一些类不在user列表里，需要另外添加
-        for (NSString *className in coreClassListDict.allKeys) {
+        // 2.3.1 user需要跟core合并，优先级：core > user
+        for (NSString *className in userClassListDict.allKeys) {
+            if (![classList containsObject:className]) {
+                MDLog(@"Cannot find class %@", className);
+                continue;
+            }
+            
+            NSDictionary *coreConfig = coreClassListDict[className];
+            NSDictionary *userConfig = userClassListDict[className];
+            MDTraceClassInfo *mergeinfo = [MDTraceClassInfo mergeInfoWithName:className coreConfig:coreConfig userConfig:userConfig];
+            [self.regexClassInfoList addObject:mergeinfo];
+        }
+        
+        // 2.3.2 regex需要跟core合并，优先级：core > regex。regex匹配的类可理解成更低优先级的user类
+        NSDictionary *defaultUserConfig = [[NSDictionary alloc] init];
+        for (NSString *className in regexClassList) {
             if (nil == [self infoInClassInfoList:className]) {
                 NSDictionary *coreConfig = coreClassListDict[className];
-                MDTraceClassInfo *coreInfo = [MDTraceClassInfo infoWithName:className source:MDTraceSourceCore config:coreConfig];
-                [self.allClassInfoList addObject:coreInfo];
+                MDTraceClassInfo *mergeinfo = [MDTraceClassInfo mergeInfoWithName:className coreConfig:coreConfig userConfig:defaultUserConfig];
+                [self.regexClassInfoList addObject:mergeinfo];
             }
         }
     }
+}
+
+- (void)traceClassListInfo
+{
+    MDLog(@" ");
+    MDLog(@"////////////////////////////////////////////////////////////////////////////////");
+    MDLog(@" ");
+    
+    NSArray *classInfoList = [self classInfoList];
+    for (int i = 0; i < classInfoList.count; i++) {
+        MDTraceClassInfo *info = classInfoList[i];
+        if (nil != objc_getClass([info.name UTF8String])) {
+            MDLog(@"ClassList[%05d]: %@", i, info.name);
+            [self traceClass:info];
+        } else {
+            MDLog(@"Cannot find class %@", info.name);
+        }
+    }
+    
+    MDLog(@" ");
+    MDLog(@"////////////////////////////////////////////////////////////////////////////////");
+    MDLog(@" ");
 }
 
 - (void)traceClass:(MDTraceClassInfo *)classInfo
@@ -799,7 +813,7 @@ typedef NS_ENUM(NSUInteger, MDTraceSource) {
             // 2 当obj为类对象（包括元类和根类以及根元类）时，调用的是类方法：+ (Class)class，返回的结果为其本身。
             NSString *prefix = target == [target class] ?  @"+" : @"-";
             // target不是强引用，如果打印接口异步，可能未实际调用description就被释放了，所以提前获取desc，保证线程安全
-            NSString *description = [self descriptionWithTarget:target selector:sel returnState:NO];
+            NSString *description = [self descriptionWithTarget:target class:cls selector:sel targetPosition:OMTTargetPositionBeforeSelf];
             NSString *logString = nil;
             if ([target class] != [cls class]) {
                 // 如果是子类调用基类方法，则()内打印基类名
@@ -822,7 +836,7 @@ typedef NS_ENUM(NSUInteger, MDTraceSource) {
                 for (int i = 0; i < deep; i++) {
                     [deepString appendString:@"-"];
                 }
-            
+                
                 NSString *prefix = target == [target class] ?  @"+" : @"-";
                 MDLog(@"%@%@ret:%@", deepString, prefix, ret);
             }
@@ -834,28 +848,58 @@ typedef NS_ENUM(NSUInteger, MDTraceSource) {
 
 #pragma mark - OCMethodTraceDelegate
 
-- (NSString *)descriptionWithTarget:(id)target selector:(SEL)selector returnState:(BOOL)returnState
+- (NSString *)descriptionWithTarget:(id)target class:(Class)cls selector:(SEL)sel targetPosition:(OMTTargetPosition)targetPosition
 {
     if (nil == target) {
         return @"nil";
     }
     
-    // 调用构造函数时因为target还没初始化完全，建议before时先不调用description(after时可以调用)
-    NSString *className = NSStringFromClass([target class]);
+    NSString *targetClassName = NSStringFromClass([target class]);
     
     // 全局跳过对象description方法
     if (self.traceFlag & MDTraceFlagDoesNotUseDescription) {
-        return [NSString stringWithFormat:@"<%@: %p>", className, target];
+        return [NSString stringWithFormat:@"<%@: %p>", targetClassName, target];
     }
     
     // 类跳过对象description方法，粒度更小一点
-    MDTraceClassInfo *info = [self infoInClassInfoList:className];
+    MDTraceClassInfo *info = [self infoInClassInfoList:targetClassName];
     BOOL doesNotUseDescription = (nil != info && info.flag & MDTraceFlagDoesNotUseDescription);
     if (!doesNotUseDescription) {
-        // 当执行initXXX等构造函数，进入before回调时(before指非返回状态，after指返回状态)，因为实例对象并没有初始化完成，所以，此时不要调用target的description方法
-        doesNotUseDescription = !returnState && [[self class] isConstructorWithTarget:target selector:selector];
+        // 构造初始化函数特殊处理, 系统类初始化比较喜欢"_init"这样的方式
+        NSString *selectorName = NSStringFromSelector(sel);
+        BOOL isAllocFunc = [selectorName hasPrefix:@"new"] || [selectorName hasPrefix:@"alloc"];
+        BOOL maybeInitFunc = [selectorName hasPrefix:@"init"] || [selectorName hasPrefix:@"_init"];
+        BOOL isDeallocFunc = [selectorName isEqualToString:@"dealloc"];
+        if (isAllocFunc || maybeInitFunc) {
+            switch (targetPosition) {
+                case OMTTargetPositionBeforeSelf:
+                    // 调用构造函数时，此时实例还没初始化完全，不能调用description
+                    doesNotUseDescription = YES;
+                    break;
+                case OMTTargetPositionBeforeArgument:
+                    break;
+                case OMTTargetPositionAfterSelf:
+                case OMTTargetPositionAfterReturnValue:
+                    if (isAllocFunc) {
+                        doesNotUseDescription = YES;
+                    } else if (maybeInitFunc) {
+                        // 调用构造函数时，可能是调用父类的构造函数，此时实例还没初始化完全，不能调用description
+                        if (![targetClassName isEqualToString:NSStringFromClass(cls)]) {
+                            doesNotUseDescription = YES;
+                        }
+                    }
+                    break;
+                
+                default:
+                    break;
+            }
+        } else if (isDeallocFunc) {
+            // 析构函数所有只打印指针，因为dealloc after时，对象已被释放
+            doesNotUseDescription = YES;
+        }
     }
-    return doesNotUseDescription ? [NSString stringWithFormat:@"<%@: %p>", className, target] : [target description];
+    
+    return doesNotUseDescription ? [NSString stringWithFormat:@"<%@: %p>", targetClassName, target] : [target description];
 }
 
 - (void)log:(OMTLogLevel)level format:(NSString *)format, ...
