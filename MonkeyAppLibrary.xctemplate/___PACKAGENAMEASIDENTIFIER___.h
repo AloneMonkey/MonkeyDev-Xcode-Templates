@@ -10,7 +10,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define INSERT_SUCCESS_WELCOME @"\n               🎉!!！congratulations!!！🎉\n👍----------------insert dylib success----------------👍"
+#define INSERT_SUCCESS_WELCOME "               🎉!!！congratulations!!！🎉\n👍----------------insert dylib success----------------👍\n"
 
 @interface CustomViewController
 

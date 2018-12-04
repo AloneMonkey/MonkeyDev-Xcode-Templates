@@ -225,18 +225,18 @@
 		<string>Config/MDCycriptManager.m</string>
 		<string>Config/MDMethodTrace.h</string>
 		<string>Config/MDMethodTrace.m</string>
-		<string>Config/a1a2-selectortramps-arm.s</string>
-		<string>Config/a1a2-selectortramps-arm64.s</string>
-		<string>Config/a1a2-selectortramps-i386.s</string>
-		<string>Config/a1a2-selectortramps-x86_64.s</string>
-		<string>Config/a2a3-selectortramps-arm.s</string>
-		<string>Config/a2a3-selectortramps-i386.s</string>
-		<string>Config/a2a3-selectortramps-x86_64.s</string>
-		<string>Config/OCMethodTrace.h</string>
-		<string>Config/OCMethodTrace.m</string>
-		<string>Config/OCSelectorTrampolines.h</string>
-		<string>Config/OCSelectorTrampolines.mm</string>
-		<string>Config/selectortramps.mac</string>
+		<string>Trace/a1a2-selectortramps-arm.s</string>
+		<string>Trace/a1a2-selectortramps-arm64.s</string>
+		<string>Trace/a1a2-selectortramps-i386.s</string>
+		<string>Trace/a1a2-selectortramps-x86_64.s</string>
+		<string>Trace/a2a3-selectortramps-arm.s</string>
+		<string>Trace/a2a3-selectortramps-i386.s</string>
+		<string>Trace/a2a3-selectortramps-x86_64.s</string>
+		<string>Trace/OCMethodTrace.h</string>
+		<string>Trace/OCMethodTrace.m</string>
+		<string>Trace/OCSelectorTrampolines.h</string>
+		<string>Trace/OCSelectorTrampolines.mm</string>
+		<string>Trace/selectortramps.mac</string>
 		<string>Tools/LLDBTools.h</string>
 		<string>Tools/LLDBTools.mm</string>
 		<string>___PACKAGENAME___-Prefix.pch:objC:importFoundation</string>
@@ -321,112 +321,112 @@
 				<string>Config</string>
 			</array>
 		</dict>
-		<key>Config/a1a2-selectortramps-arm.s</key>
+		<key>Trace/a1a2-selectortramps-arm.s</key>
 		<dict>
 			<key>Path</key>
-			<string>Config/a1a2-selectortramps-arm.s</string>
+			<string>Trace/a1a2-selectortramps-arm.s</string>
 			<key>Group</key>
 			<array>
-				<string>Config</string>
+				<string>Trace</string>
 			</array>
 		</dict>
-		<key>Config/a1a2-selectortramps-arm64.s</key>
+		<key>Trace/a1a2-selectortramps-arm64.s</key>
 		<dict>
 			<key>Path</key>
-			<string>Config/a1a2-selectortramps-arm64.s</string>
+			<string>Trace/a1a2-selectortramps-arm64.s</string>
 			<key>Group</key>
 			<array>
-				<string>Config</string>
+				<string>Trace</string>
 			</array>
 		</dict>
-		<key>Config/a1a2-selectortramps-i386.s</key>
+		<key>Trace/a1a2-selectortramps-i386.s</key>
 		<dict>
 			<key>Path</key>
-			<string>Config/a1a2-selectortramps-i386.s</string>
+			<string>Trace/a1a2-selectortramps-i386.s</string>
 			<key>Group</key>
 			<array>
-				<string>Config</string>
+				<string>Trace</string>
 			</array>
 		</dict>
-		<key>Config/a1a2-selectortramps-x86_64.s</key>
+		<key>Trace/a1a2-selectortramps-x86_64.s</key>
 		<dict>
 			<key>Path</key>
-			<string>Config/a1a2-selectortramps-x86_64.s</string>
+			<string>Trace/a1a2-selectortramps-x86_64.s</string>
 			<key>Group</key>
 			<array>
-				<string>Config</string>
+				<string>Trace</string>
 			</array>
 		</dict>
-		<key>Config/a2a3-selectortramps-arm.s</key>
+		<key>Trace/a2a3-selectortramps-arm.s</key>
 		<dict>
 			<key>Path</key>
-			<string>Config/a2a3-selectortramps-arm.s</string>
+			<string>Trace/a2a3-selectortramps-arm.s</string>
 			<key>Group</key>
 			<array>
-				<string>Config</string>
+				<string>Trace</string>
 			</array>
 		</dict>
-		<key>Config/a2a3-selectortramps-i386.s</key>
+		<key>Trace/a2a3-selectortramps-i386.s</key>
 		<dict>
 			<key>Path</key>
-			<string>Config/a2a3-selectortramps-i386.s</string>
+			<string>Trace/a2a3-selectortramps-i386.s</string>
 			<key>Group</key>
 			<array>
-				<string>Config</string>
+				<string>Trace</string>
 			</array>
 		</dict>
-		<key>Config/a2a3-selectortramps-x86_64.s</key>
+		<key>Trace/a2a3-selectortramps-x86_64.s</key>
 		<dict>
 			<key>Path</key>
-			<string>Config/a2a3-selectortramps-x86_64.s</string>
+			<string>Trace/a2a3-selectortramps-x86_64.s</string>
 			<key>Group</key>
 			<array>
-				<string>Config</string>
+				<string>Trace</string>
 			</array>
 		</dict>
-		<key>Config/OCMethodTrace.h</key>
+		<key>Trace/OCMethodTrace.h</key>
 		<dict>
 			<key>Path</key>
-			<string>Config/OCMethodTrace.h</string>
+			<string>Trace/OCMethodTrace.h</string>
 			<key>Group</key>
 			<array>
-				<string>Config</string>
+				<string>Trace</string>
 			</array>
 		</dict>
-		<key>Config/OCMethodTrace.m</key>
+		<key>Trace/OCMethodTrace.m</key>
 		<dict>
 			<key>Path</key>
-			<string>Config/OCMethodTrace.m</string>
+			<string>Trace/OCMethodTrace.m</string>
 			<key>Group</key>
 			<array>
-				<string>Config</string>
+				<string>Trace</string>
 			</array>
 		</dict>
-		<key>Config/OCSelectorTrampolines.h</key>
+		<key>Trace/OCSelectorTrampolines.h</key>
 		<dict>
 			<key>Path</key>
-			<string>Config/OCSelectorTrampolines.h</string>
+			<string>Trace/OCSelectorTrampolines.h</string>
 			<key>Group</key>
 			<array>
-				<string>Config</string>
+				<string>Trace</string>
 			</array>
 		</dict>
-		<key>Config/OCSelectorTrampolines.mm</key>
+		<key>Trace/OCSelectorTrampolines.mm</key>
 		<dict>
 			<key>Path</key>
-			<string>Config/OCSelectorTrampolines.mm</string>
+			<string>Trace/OCSelectorTrampolines.mm</string>
 			<key>Group</key>
 			<array>
-				<string>Config</string>
+				<string>Trace</string>
 			</array>
 		</dict>
-		<key>Config/selectortramps.mac</key>
+		<key>Trace/selectortramps.mac</key>
 		<dict>
 			<key>Path</key>
-			<string>Config/selectortramps.mac</string>
+			<string>Trace/selectortramps.mac</string>
 			<key>Group</key>
 			<array>
-				<string>Config</string>
+				<string>Trace</string>
 			</array>
 		</dict>
 		<key>Tools/LLDBTools.h</key>

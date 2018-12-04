@@ -15,7 +15,7 @@
 #import <MDCycriptManager.h>
 
 CHConstructor{
-    NSLog(INSERT_SUCCESS_WELCOME);
+    printf(INSERT_SUCCESS_WELCOME);
     
     [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidFinishLaunchingNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
         
