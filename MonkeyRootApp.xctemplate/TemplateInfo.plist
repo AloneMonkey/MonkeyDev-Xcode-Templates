@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Kind</key>
+    <string>Xcode.Xcode3.ProjectTemplateUnitKind</string>
+    <key>Identifier</key>
+    <string>com.apple.dt.unit.singleViewApplication</string>
+    <key>Ancestors</key>
+    <array>
+        <string>com.apple.dt.unit.storyboardApplication</string>
+        <string>com.apple.dt.unit.coreDataCocoaTouchApplication</string>
+    </array>
+    <key>Concrete</key>
+    <true/>
+    <key>Description</key>
+    <string>This template provides a starting point for an root application that uses a single view. It provides a view controller to manage the view, and a storyboard or nib file that contains the view.</string>
+    <key>SortOrder</key>
+    <integer>1</integer>
+	<key>Targets</key>
+	<array>
+		<dict>
+			<key>SharedSettings</key>
+			<dict>
+				<key>MonkeyDevClearUiCacheOnInstall</key>
+				<string>NO</string>
+				<key>MonkeyDevkillProcessOnInstall</key>
+				<string></string>
+				<key>CODE_SIGN_IDENTITY</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>MonkeyDevDeviceIP</key>
+				<string></string>
+				<key>MonkeyDevDevicePort</key>
+				<string></string>
+				<key>MonkeyDevDevicePassword</key>
+				<string></string>
+				<key>MonkeyDevInstallOnProfiling</key>
+				<string>YES</string>
+				<key>MonkeyDevCopyOnBuild</key>
+				<string>NO</string>
+				<key>MonkeyDevInstallOnAnyBuild</key>
+				<string>YES</string>
+			</dict>
+			<key>BuildPhases</key>
+			<array>
+				<dict>
+					<key>ShellScript</key>
+					<string>/opt/MonkeyDev/bin/md --xcbp</string>
+					<key>ShellPath</key>
+					<string>/bin/sh</string>
+					<key>RunOnlyForDeploymentPostprocessing</key>
+					<false/>
+					<key>Class</key>
+					<string>ShellScript</string>
+				</dict>
+			</array>
+		</dict>
+	</array>
+    <key>Options</key>
+    <array>
+        <dict>
+            <key>Identifier</key>
+            <string>languageChoice</string>
+            <key>Units</key>
+            <dict>
+                <key>Objective-C</key>
+                <dict>
+                    <key>Nodes</key>
+                    <array>
+                        <string>ViewController.h:comments</string>
+                        <string>ViewController.h:imports:importCocoa</string>
+                        <string>ViewController.h:interface(___FILEBASENAME___ : UIViewController)</string>
+                        <string>ViewController.m:comments</string>
+                        <string>ViewController.m:imports:importHeader:ViewController.h</string>
+                        <string>ViewController.m:extension</string>
+                        <string>ViewController.m:implementation:methods:viewDidLoad(- (void\)viewDidLoad)</string>
+                        <string>ViewController.m:implementation:methods:viewDidLoad:super</string>
+                    </array>
+                </dict>
+                <key>Swift</key>
+                <dict>
+                    <key>Nodes</key>
+                    <array>
+                        <string>ViewController.swift:comments</string>
+                        <string>ViewController.swift:imports:importCocoa</string>
+                        <string>ViewController.swift:implementation(___FILEBASENAME___: UIViewController)</string>
+                        <string>ViewController.swift:implementation:methods:viewDidLoad(override func viewDidLoad(\))</string>
+                        <string>ViewController.swift:implementation:methods:viewDidLoad:super</string>
+                    </array>
+                </dict>
+            </dict>
+        </dict>
+    </array>
+	<key>Nodes</key>
+	<array>
+		<string>Package/DEBIAN/control</string>
+		<string>Package/DEBIAN/control:debianControl</string>
+		<string>Applications/0xdeadfa11</string>
+	</array>
+    <key>Definitions</key>
+    <dict>
+        <key>Base.lproj/Main.storyboard</key>
+        <dict>
+            <key>Path</key>
+            <string>Main.storyboard</string>
+            <key>SortOrder</key>
+            <integer>99</integer>
+        </dict>
+		<key>Package/DEBIAN/control</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>Package</string>
+				<string>DEBIAN</string>
+			</array>
+		</dict>
+		<key>*:debianControl</key>
+		<dict>
+			<key>Beginning</key>
+			<string>Package: ___VARIABLE_bundleIdentifierPrefix:bundleIdentifier___.___VARIABLE_productName:RFC1034Identifier___
+Name: ___VARIABLE_productName___
+Version: 0.1-1
+Description: </string>
+			<key>End</key>
+			<string>Conflicts: 
+Replaces: 
+Priority: optional
+Architecture: iphoneos-arm
+Author: ___FULLUSERNAME___
+dev: 
+Homepage: 
+Depiction: 
+Maintainer: 
+Icon: 
+</string>
+		</dict>
+		<key>Applications/0xdeadfa11</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>Applications</string>
+			</array>
+		</dict>
+    </dict>
+</dict>
+</plist>
