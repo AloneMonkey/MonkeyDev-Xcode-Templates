@@ -166,6 +166,29 @@
 	<key>Options</key>
 	<array>
 		<dict>
+			<key>NotPersisted</key>
+			<true/>
+			<key>Identifier</key>
+			<string>uiInspectorType</string>
+			<key>Name</key>
+			<string>UI Inspector:</string>
+			<key>Description</key>
+			<string>Which UI inspector to use</string>
+			<key>Type</key>
+			<string>popup</string>
+			<key>Default</key>
+			<string>None</string>
+			<key>Units</key>
+			<dict>
+				<key>Reveal</key>
+				<array/>
+				<key>Lookin</key>
+				<array/>
+				<key>None</key>
+				<array/>
+			</dict>
+		</dict>
+		<dict>
 			<key>Identifier</key>
 			<string>TargetAppInfo</string>
 			<key>Required</key>
