@@ -104,8 +104,6 @@
 		<dict>
 			<key>Debug</key>
 			<dict>
-				<key>OTHER_LDFLAGS</key>
-				<string>$(inherited)  -weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib -weak_library $(MonkeyDevPath)/Frameworks/libsubstrate.dylib -lcycript -framework RevealServer</string>
 				<key>VALIDATE_PRODUCT</key>
 				<string>NO</string>
 				<key>GCC_OPTIMIZATION_LEVEL</key>
@@ -130,6 +128,71 @@
 	</dict>
 	<key>Options</key>
 	<array>
+		<dict>
+			<key>NotPersisted</key>
+			<true/>
+			<key>Identifier</key>
+			<string>uiInspectorType</string>
+			<key>Name</key>
+			<string>UI Inspector:</string>
+			<key>Description</key>
+			<string>Which UI inspector to use</string>
+			<key>Type</key>
+			<string>popup</string>
+			<key>Default</key>
+			<string>none</string>
+			<key>Units</key>
+			<dict>
+				<key>Reveal</key>
+				<array>
+					<dict>
+						<key>Project</key>
+						<dict>
+							<key>Configurations</key>
+							<dict>
+								<key>Debug</key>
+								<dict>
+									<key>OTHER_LDFLAGS</key>
+									<string>$(inherited)  -weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib -weak_library $(MonkeyDevPath)/Frameworks/libsubstrate.dylib -lcycript -framework RevealServer</string>
+								</dict>
+							</dict>
+						</dict>
+					</dict>
+				</array>
+				<key>Lookin</key>
+				<array>
+					<dict>
+						<key>Project</key>
+						<dict>
+							<key>Configurations</key>
+							<dict>
+								<key>Debug</key>
+								<dict>
+									<key>OTHER_LDFLAGS</key>
+									<string>$(inherited)  -weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib -weak_library $(MonkeyDevPath)/Frameworks/libsubstrate.dylib -lcycript -ObjC -weak_framework LookinServer</string>
+								</dict>
+							</dict>
+						</dict>
+					</dict>
+				</array>
+				<key>None</key>
+				<array>
+					<dict>
+						<key>Project</key>
+						<dict>
+							<key>Configurations</key>
+							<dict>
+								<key>Debug</key>
+								<dict>
+									<key>OTHER_LDFLAGS</key>
+									<string>$(inherited)  -weak_library /usr/lib/libc++.dylib -weak_library /usr/lib/libstdc++.dylib -weak_library $(MonkeyDevPath)/Frameworks/libsubstrate.dylib -lcycript</string>
+								</dict>
+							</dict>
+						</dict>
+					</dict>
+				</array>
+			</dict>
+		</dict>
 		<dict>
 			<key>NotPersisted</key>
 			<true/>
