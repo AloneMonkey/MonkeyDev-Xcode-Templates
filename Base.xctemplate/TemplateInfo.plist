@@ -2,162 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Identifier</key>
-	<string>com.monkey.monkeydev.base</string>
-	<key>Kind</key>
-	<string>Xcode.Xcode3.ProjectTemplateUnitKind</string>
 	<key>Ancestors</key>
 	<array>
 		<string>com.apple.dt.unit.iosBase</string>
 		<string>com.monkey.monkeydev.debianPackage</string>
 		<string>com.monkey.monkeydev.preferenceLoader</string>
 	</array>
-	<key>Targets</key>
-	<array>
-		<dict>
-			<key>Name</key>
-			<string>___PACKAGENAME___</string>
-			<key>SharedSettings</key>
-			<dict>
-				<key>MonkeyDevClearUiCacheOnInstall</key>
-				<string>NO</string>
-				<key>MonkeyDevkillProcessOnInstall</key>
-				<string>SpringBoard</string>
-				<key>CODE_SIGN_IDENTITY</key>
-				<string></string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>MonkeyDevDeviceIP</key>
-				<string></string>
-				<key>MonkeyDevDevicePort</key>
-				<string></string>
-				<key>MonkeyDevDevicePassword</key>
-				<string></string>
-				<key>MonkeyDevInstallOnProfiling</key>
-				<string>YES</string>
-				<key>MonkeyDevCopyOnBuild</key>
-				<string>NO</string>
-				<key>MonkeyDevInstallOnAnyBuild</key>
-				<string>YES</string>
-			</dict>
-		</dict>
-	</array>
-	<key>Platforms</key>
-	<array>
-		<string>com.apple.platform.iphoneos</string>
-	</array>
-	<key>Project</key>
-	<dict>
-		<key>SharedSettings</key>
-		<dict>
-			<key>MonkeyDevTheosPath</key>
-			<string>/opt/theos</string>
-			<key>TARGETED_DEVICE_FAMILY</key>
-			<string>1,2</string>
-			<key>GCC_WARN_ABOUT_MISSING_PROTOTYPES</key>
-			<string>YES</string>
-			<key>GCC_WARN_UNUSED_VARIABLE</key>
-			<string>YES</string>
-			<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
-			<string>YES</string>
-			<key>GCC_C_LANGUAGE_STANDARD</key>
-			<string>gnu99</string>
-			<key>EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES</key>
-			<string>*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj</string>
-			<key>OTHER_CFLAGS</key>
-			<string>-DTHEOS_INSTANCE_NAME=&quot;\&quot;___PACKAGENAME___\&quot;&quot;</string>
-			<key>HEADER_SEARCH_PATHS</key>
-			<string>$(MonkeyDevTheosPath)/vendor/include/**</string>
-			<key>LIBRARY_SEARCH_PATHS</key>
-			<string>$(MonkeyDevTheosPath)/vendor/lib/**</string>
-			<key>MonkeyDevPath</key>
-			<string>/opt/MonkeyDev</string>
-			<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-			<string>8.0</string>
-			<key>FRAMEWORK_SEARCH_PATHS</key>
-			<string>$(MonkeyDevPath)/frameworks/** $(MonkeyDevTheosPath)/vendor/lib</string>
-		</dict>
-		<key>SDK</key>
-		<string>iphoneos</string>
-		<key>Configurations</key>
-		<dict>
-			<key>Debug</key>
-			<dict>
-				<key>ONLY_ACTIVE_ARCH</key>
-				<string>YES</string>
-				<key>VALIDATE_PRODUCT</key>
-				<string>NO</string>
-				<key>GCC_OPTIMIZATION_LEVEL</key>
-				<string>0</string>
-				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-				<string>DEBUG=1 $(inherited)</string>
-				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
-				<string>NO</string>
-				<key>COPY_PHASE_STRIP</key>
-				<string>NO</string>
-				<key>GCC_DYNAMIC_NO_PIC</key>
-				<string>NO</string>
-			</dict>
-			<key>Release</key>
-			<dict>
-				<key>COPY_PHASE_STRIP</key>
-				<string>YES</string>
-				<key>VALIDATE_PRODUCT</key>
-				<string>YES</string>
-			</dict>
-		</dict>
-	</dict>
-	<key>Options</key>
-	<array>
-		<dict>
-			<key>Identifier</key>
-			<string>productName</string>
-			<key>Required</key>
-			<true/>
-			<key>Name</key>
-			<string>Product Name</string>
-			<key>NotPersisted</key>
-			<true/>
-			<key>Description</key>
-			<string>Your new product&apos;s name.</string>
-			<key>EmptyReplacement</key>
-			<string>ProductName</string>
-			<key>Type</key>
-			<string>text</string>
-		</dict>
-		<dict>
-			<key>Identifier</key>
-			<string>bundleIdentifierPrefix</string>
-			<key>Required</key>
-			<true/>
-			<key>Name</key>
-			<string>Company Identifier</string>
-			<key>Description</key>
-			<string>Your company&apos;s bundle identifier prefix.</string>
-			<key>EmptyReplacement</key>
-			<string>com.yourcompany</string>
-			<key>Type</key>
-			<string>text</string>
-		</dict>
-		<dict>
-			<key>Identifier</key>
-			<string>bundleIdentifier</string>
-			<key>Name</key>
-			<string>Bundle Identifier</string>
-			<key>NotPersisted</key>
-			<true/>
-			<key>Description</key>
-			<string>Your new product&apos;s bundle identifier.</string>
-			<key>Default</key>
-			<string>___VARIABLE_bundleIdentifierPrefix:bundleIdentifier___.___VARIABLE_productName:RFC1034Identifier___</string>
-			<key>Type</key>
-			<string>static</string>
-		</dict>
-	</array>
 	<key>Definitions</key>
 	<dict>
+		<key>*:*:importFoundation</key>
+		<string>#import &lt;Foundation/Foundation.h&gt;
+</string>
 		<key>*:*:importTheosPrefix</key>
-		<string>#import &quot;/opt/theos/Prefix.pch&quot;  //path/to/theos/Prefix.pch</string>
+		<string>#import &lt;UIKit/UIKit.h&gt;</string>
 		<key>*:comments</key>
 		<string>//
 //  ___FILENAME___
@@ -168,16 +25,13 @@
 //
 </string>
 		<key>*:import:*</key>
-		<string>#import &quot;___*___&quot;
-</string>
-		<key>*:*:importFoundation</key>
-		<string>#import &lt;Foundation/Foundation.h&gt;
+		<string>#import "___*___"
 </string>
 		<key>___PACKAGENAME___-Prefix.pch</key>
 		<dict>
 			<key>Beginning</key>
 			<string>//
-// Prefix header for all source files of the &apos;___PACKAGENAME___&apos; target in the &apos;___PACKAGENAME___&apos; project
+// Prefix header for all source files of the '___PACKAGENAME___' target in the '___PACKAGENAME___' project
 //
 </string>
 			<key>Group</key>
@@ -195,5 +49,167 @@
 			<integer>1</integer>
 		</dict>
 	</dict>
+	<key>Identifier</key>
+	<string>com.monkey.monkeydev.base</string>
+	<key>Kind</key>
+	<string>Xcode.Xcode3.ProjectTemplateUnitKind</string>
+	<key>Options</key>
+	<array>
+		<dict>
+			<key>Description</key>
+			<string>Your new product's name.</string>
+			<key>EmptyReplacement</key>
+			<string>ProductName</string>
+			<key>Identifier</key>
+			<string>productName</string>
+			<key>Name</key>
+			<string>Product Name</string>
+			<key>NotPersisted</key>
+			<true/>
+			<key>Required</key>
+			<true/>
+			<key>Type</key>
+			<string>text</string>
+		</dict>
+		<dict>
+			<key>Description</key>
+			<string>Your company's bundle identifier prefix.</string>
+			<key>EmptyReplacement</key>
+			<string>com.yourcompany</string>
+			<key>Identifier</key>
+			<string>bundleIdentifierPrefix</string>
+			<key>Name</key>
+			<string>Company Identifier</string>
+			<key>Required</key>
+			<true/>
+			<key>Type</key>
+			<string>text</string>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<string>___VARIABLE_bundleIdentifierPrefix:bundleIdentifier___.___VARIABLE_productName:RFC1034Identifier___</string>
+			<key>Description</key>
+			<string>Your new product's bundle identifier.</string>
+			<key>Identifier</key>
+			<string>bundleIdentifier</string>
+			<key>Name</key>
+			<string>Bundle Identifier</string>
+			<key>NotPersisted</key>
+			<true/>
+			<key>Type</key>
+			<string>static</string>
+		</dict>
+	</array>
+	<key>Platforms</key>
+	<array>
+		<string>com.apple.platform.iphoneos</string>
+	</array>
+	<key>Project</key>
+	<dict>
+		<key>Configurations</key>
+		<dict>
+			<key>Debug</key>
+			<dict>
+				<key>COPY_PHASE_STRIP</key>
+				<string>NO</string>
+				<key>GCC_DYNAMIC_NO_PIC</key>
+				<string>NO</string>
+				<key>GCC_OPTIMIZATION_LEVEL</key>
+				<string>0</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<string>DEBUG=1 $(inherited)</string>
+				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
+				<string>NO</string>
+				<key>ONLY_ACTIVE_ARCH</key>
+				<string>YES</string>
+				<key>VALIDATE_PRODUCT</key>
+				<string>NO</string>
+			</dict>
+			<key>Release</key>
+			<dict>
+				<key>COPY_PHASE_STRIP</key>
+				<string>YES</string>
+				<key>VALIDATE_PRODUCT</key>
+				<string>YES</string>
+			</dict>
+		</dict>
+		<key>SDK</key>
+		<string>iphoneos</string>
+		<key>SharedSettings</key>
+		<dict>
+			<key>ARCHS</key>
+			<string>arm64</string>
+			<key>ENABLE_BITCODE</key>
+			<string>NO</string>
+			<key>ENABLE_USER_SCRIPT_SANDBOXING</key>
+			<string>NO</string>
+			<key>EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES</key>
+			<string>*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj</string>
+			<key>FRAMEWORK_SEARCH_PATHS</key>
+			<string>$(MonkeyDevPath)/frameworks/** $(MonkeyDevTheosPath)/vendor/lib</string>
+			<key>GCC_C_LANGUAGE_STANDARD</key>
+			<string>gnu99</string>
+			<key>GCC_WARN_ABOUT_MISSING_PROTOTYPES</key>
+			<string>YES</string>
+			<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
+			<string>YES</string>
+			<key>GCC_WARN_UNUSED_VARIABLE</key>
+			<string>YES</string>
+			<key>HEADER_SEARCH_PATHS</key>
+			<string>$(inherited) $(MonkeyDevPath)/include $(MonkeyDevTheosPath)/include $(MonkeyDevTheosPath)/vendor/include</string>
+			<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+			<string>15.0</string>
+			<key>LIBRARY_SEARCH_PATHS</key>
+			<string>$(inherited) $(MonkeyDevPath)/Frameworks $(MonkeyDevTheosPath)/lib $(MonkeyDevTheosPath)/vendor/lib</string>
+			<key>MonkeyDevPath</key>
+			<string>/opt/MonkeyDev</string>
+			<key>MonkeyDevTheosPath</key>
+			<string>$(HOME)/theos</string>
+			<key>OTHER_CFLAGS</key>
+			<string>-DTHEOS_INSTANCE_NAME="\"___PACKAGENAME___\""</string>
+			<key>SUPPORTED_PLATFORMS</key>
+			<string>iphoneos</string>
+			<key>TARGETED_DEVICE_FAMILY</key>
+			<string>1,2</string>
+		</dict>
+	</dict>
+	<key>Targets</key>
+	<array>
+		<dict>
+			<key>Name</key>
+			<string>___PACKAGENAME___</string>
+			<key>SharedSettings</key>
+			<dict>
+				<key>ARCHS</key>
+				<string>arm64</string>
+				<key>CODE_SIGN_IDENTITY</key>
+				<string></string>
+				<key>ENABLE_USER_SCRIPT_SANDBOXING</key>
+				<string>NO</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>15.0</string>
+				<key>MonkeyDevClearUiCacheOnInstall</key>
+				<string>NO</string>
+				<key>MonkeyDevCopyOnBuild</key>
+				<string>NO</string>
+				<key>MonkeyDevDeviceIP</key>
+				<string></string>
+				<key>MonkeyDevDevicePassword</key>
+				<string></string>
+				<key>MonkeyDevDevicePort</key>
+				<string></string>
+				<key>MonkeyDevInstallOnAnyBuild</key>
+				<string>YES</string>
+				<key>MonkeyDevInstallOnProfiling</key>
+				<string>YES</string>
+				<key>MonkeyDevkillProcessOnInstall</key>
+				<string>SpringBoard</string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SUPPORTED_PLATFORMS</key>
+				<string>iphoneos</string>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>

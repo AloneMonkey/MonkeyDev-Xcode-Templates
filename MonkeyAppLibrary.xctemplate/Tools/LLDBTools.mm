@@ -1,432 +1,168 @@
-//  weibo: http://weibo.com/xiaoqing28
-//  blog:  http://www.alonemonkey.com
-//
-//  LLDBTools.m
-//  MonkeyDev
-//
-//  Created by AloneMonkey on 2018/3/8.
-//  Copyright © 2018年 AloneMonkey. All rights reserved.
-//
-
-#pragma GCC diagnostic ignored "-Wundeclared-selector"
-
+// MonkeyDev debugger helpers; no constructors, hooks or automatic heap scanning.
 #import "LLDBTools.h"
-#import <set>
-#import <mach/mach_types.h>
-#import <malloc/malloc.h>
+#import <TargetConditionals.h>
 #import <objc/runtime.h>
-#import <mach/mach_init.h>
-#import <mach/mach_error.h>
+#if TARGET_OS_IOS
+#import <UIKit/UIKit.h>
+#endif
 
-enum {
-    BLOCK_HAS_COPY_DISPOSE =  (1 << 25),
-    BLOCK_HAS_CTOR =          (1 << 26), // helpers have C++ code
-    BLOCK_IS_GLOBAL =         (1 << 28),
-    BLOCK_HAS_STRET =         (1 << 29), // IFF BLOCK_HAS_SIGNATURE
-    BLOCK_HAS_SIGNATURE =     (1 << 30),
-};
+#if DEBUG
+#define MD_DEBUG_EXPORT __attribute__((used, noinline, visibility("default")))
 
-struct Block_literal_1 {
-    void *isa; // initialized to &_NSConcreteStackBlock or &_NSConcreteGlobalBlock
-    int flags;
-    int reserved;
-    void (*invoke)(void *, ...);
-    struct Block_descriptor_1 {
-        unsigned long int reserved; // NULL
-        unsigned long int size;         // sizeof(struct Block_literal_1)
-        // optional helper functions
-        void (*copy_helper)(void *dst, void *src);     // IFF (1<<25)
-        void (*dispose_helper)(void *src);             // IFF (1<<25)
-        // required ABI.2010.3.16
-        const char *signature;                         // IFF (1<<30)
-    } *descriptor;
-    // imported variables
-};
+static NSString *MDString(const char *text) {
+    return text ? ([NSString stringWithUTF8String:text] ?: @"<invalid UTF-8>") : @"<unknown>";
+}
 
-NSString* decode(NSString* code);
-NSArray* choose_inner(const char * classname);
-char * protection_bits_to_rwx (vm_prot_t p);
-const char * unparse_inheritance (vm_inherit_t i);
-char * behavior_to_text (vm_behavior_t  b);
-
-NSString* decode(NSString* code){
-    NSDictionary * encodeMap = @{
-                                 @"c": @"char",
-                                 @"i": @"int",
-                                 @"s": @"short",
-                                 @"l": @"long",
-                                 @"q": @"long long",
-                                 
-                                 @"C": @"unsigned char",
-                                 @"I": @"unsigned int",
-                                 @"S": @"unsigned short",
-                                 @"L": @"unsigned long",
-                                 @"Q": @"unsigned long long",
-                                 
-                                 @"f": @"float",
-                                 @"d": @"double",
-                                 @"B": @"bool",
-                                 @"v": @"void",
-                                 @"*": @"char *",
-                                 @"@": @"id",
-                                 @"#": @"Class",
-                                 @":": @"SEL"
-                                 };
-    
-    if(encodeMap[code]){
-        return encodeMap[code];
-    }else if([code characterAtIndex:0] == '@'){
-        if([code characterAtIndex:1] == '?'){
-            return code;
-        }else if([code characterAtIndex:2] == '<'){
-            return [NSString stringWithFormat:@"id%@", [[code substringWithRange:NSMakeRange(2, code.length-3)] stringByReplacingOccurrencesOfString:@"><" withString:@", "]];
-        }else{
-            return [NSString stringWithFormat:@"%@ *", [code substringWithRange:NSMakeRange(2, code.length-3)]];
+MD_DEBUG_EXPORT NSString *methods(const char *className) {
+    if (!className || !*className) return @"LLDBTools: provide an Objective-C runtime class name.";
+    Class cls = objc_lookUpClass(className);
+    if (!cls) return [NSString stringWithFormat:@"LLDBTools: class not found: %@", MDString(className)];
+    NSMutableString *result = [NSMutableString string];
+    for (NSUInteger depth = 0; cls && depth < 64; ++depth, cls = class_getSuperclass(cls)) {
+        [result appendFormat:@"Class %@\n", MDString(class_getName(cls))];
+        for (unsigned kind = 0; kind < 2; ++kind) {
+            unsigned count = 0;
+            Method *list = class_copyMethodList(kind ? object_getClass(cls) : cls, &count);
+            NSMutableArray<NSString *> *lines = [NSMutableArray array];
+            for (unsigned i = 0; i < count; ++i) {
+                Method method = list[i];
+                [lines addObject:[NSString stringWithFormat:@"%c[%@ %@] type=%@ IMP=%p\n", kind ? '+' : '-',
+                    MDString(class_getName(cls)), MDString(sel_getName(method_getName(method))),
+                    MDString(method_getTypeEncoding(method)), (void *)method_getImplementation(method)]];
+            }
+            free(list);
+            for (NSString *line in [lines sortedArrayUsingSelector:@selector(compare:)]) [result appendString:line];
         }
-    }else if([code characterAtIndex:0] == '^'){
-        return [NSString stringWithFormat:@"%@ *", decode([code substringFromIndex:1])];
-    }
-    return code;
-}
-
-NSString* pvc(){
-    return [[[UIWindow performSelector:@selector(keyWindow)] performSelector:@selector(rootViewController)] performSelector:@selector(_printHierarchy)];
-}
-
-NSString* pviews(){
-    return [[[UIApplication sharedApplication] keyWindow] performSelector:@selector(recursiveDescription)];
-}
-
-NSString* pactions(vm_address_t address){
-    NSMutableString* result = [NSMutableString new];
-    UIControl* control = (__bridge UIControl*)(void*)address;
-    NSArray* targets = [[control allTargets] allObjects];
-    for (id item in targets) {
-        NSArray* actions = [control actionsForTarget:item forControlEvent:0];
-        [result appendFormat:@"<%s: 0x%lx>: %@\n", object_getClassName(item), (unsigned long)item, [actions componentsJoinedByString:@","]];
     }
     return result;
 }
 
-NSString* pblock(vm_address_t address){
-    struct Block_literal_1 real = *((struct Block_literal_1 *)(void*)address);
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setObject:[NSNumber numberWithLong:(long)real.invoke] forKey:@"invoke"];
-    if (real.flags & BLOCK_HAS_SIGNATURE) {
-        char *signature;
-        if (real.flags & BLOCK_HAS_COPY_DISPOSE) {
-            signature = (char *)(real.descriptor)->signature;
-        } else {
-            signature = (char *)(real.descriptor)->copy_helper;
+MD_DEBUG_EXPORT NSString *ivars(uintptr_t address) {
+    if (!address) return @"LLDBTools: provide the address of a live Objective-C object.";
+    // Do not retain, describe, or read ivar values of the inspected object.
+    __unsafe_unretained id target = (__bridge id)(void *)address;
+    Class cls = object_getClass(target);
+    NSMutableString *result = [NSMutableString stringWithFormat:@"Object %p class=%@ (ivar metadata)\n", (void *)address, MDString(class_getName(cls))];
+    for (NSUInteger depth = 0; cls && depth < 64; ++depth, cls = class_getSuperclass(cls)) {
+        unsigned count = 0;
+        Ivar *list = class_copyIvarList(cls, &count);
+        for (unsigned i = 0; i < count; ++i) {
+            [result appendFormat:@"%@.%@ type=%@ offset=%td\n", MDString(class_getName(cls)),
+                MDString(ivar_getName(list[i])), MDString(ivar_getTypeEncoding(list[i])), ivar_getOffset(list[i])];
         }
-        
-        NSMethodSignature *sig = [NSMethodSignature signatureWithObjCTypes:signature];
-        NSMutableArray *types = [NSMutableArray array];
-        
-        [types addObject:[NSString stringWithUTF8String:(char *)[sig methodReturnType]]];
-        
-        for (NSUInteger i = 0; i < sig.numberOfArguments; i++) {
-            char *type = (char *)[sig getArgumentTypeAtIndex:i];
-            [types addObject:[NSString stringWithUTF8String:type]];
-        }
-        
-        [dict setObject:types forKey:@"signature"];
+        free(list);
     }
-    
-    NSMutableArray* sigArr = dict[@"signature"];
-    
-    if(!sigArr){
-        return [NSString stringWithFormat:@"Imp: 0x%lx", [dict[@"invoke"] longValue]];
-    }else{
-        NSMutableString* sig = [NSMutableString stringWithFormat:@"%@ ^(", decode(sigArr[0])];
-        for (int i = 2; i < sigArr.count; i++) {
-            if(i == sigArr.count - 1){
-                [sig appendFormat:@"%@", decode(sigArr[i])];
-            }else{
-                [sig appendFormat:@"%@ ,", decode(sigArr[i])];
-            }
-        }
-        [sig appendString:@");"];
-        return [NSString stringWithFormat:@"Imp: 0x%lx    Signature: %s", [dict[@"invoke"] longValue], [sig UTF8String]];
-    }
+    return result;
 }
 
-struct CYChoice {
-    std::set<Class> query_;
-    std::set<id> results_;
-};
+#if TARGET_OS_IOS
+static NSArray<UIWindow *> *MDWindows(void) {
+    UIApplication *app = UIApplication.sharedApplication;
+    NSMutableArray<UIWindow *> *windows = [NSMutableArray array];
+    // Enumerate scenes rather than assuming a single global keyWindow.
+    for (UIScene *scene in app.connectedScenes) {
+        if (![scene isKindOfClass:UIWindowScene.class]) continue;
+        if (scene.activationState != UISceneActivationStateForegroundActive &&
+            scene.activationState != UISceneActivationStateForegroundInactive) continue;
+        [windows addObjectsFromArray:((UIWindowScene *)scene).windows];
+    }
+    if (!windows.count) {
+        // Legacy applications without their own scene lifecycle (the bundled Demo).
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [windows addObjectsFromArray:app.windows];
+#pragma clang diagnostic pop
+    }
+    NSMutableArray<UIWindow *> *visible = [NSMutableArray array];
+    for (UIWindow *window in windows) if (!window.hidden && window.alpha > 0) [visible addObject:window];
+    return visible;
+}
 
-struct CYObjectStruct {
-    Class isa_;
-};
+static NSString *MDMainThreadError(void) {
+    return NSThread.isMainThread ? nil : @"LLDBTools: select the main thread in LLDB before invoking a UI helper; no dispatch_sync is performed.";
+}
 
-static void choose_(task_t task, void *baton, unsigned type, vm_range_t *ranges, unsigned count) {
-    CYChoice *choice(reinterpret_cast<CYChoice *>(baton));
-    
-    for (unsigned i(0); i != count; ++i) {
-        vm_range_t &range(ranges[i]);
-        void *data(reinterpret_cast<void *>(range.address));
-        size_t size(range.size);
-        
-        if (size < sizeof(CYObjectStruct))
-            continue;
-        
-        uintptr_t *pointers(reinterpret_cast<uintptr_t *>(data));
-#ifdef __arm64__
-        Class isa = (__bridge Class)((void *)(pointers[0] & 0x1fffffff8));
+static void MDWalkView(UIView *view, NSUInteger depth, NSMutableString *output, NSMutableSet<NSValue *> *seen, NSUInteger *remaining) {
+    if (!view || !*remaining || depth > 32) return;
+    NSValue *key = [NSValue valueWithPointer:(__bridge const void *)view];
+    if ([seen containsObject:key]) return;
+    [seen addObject:key]; --*remaining;
+    [output appendFormat:@"%@<%@:%p> frame=%@ hidden=%d alpha=%.3f\n",
+        [@"" stringByPaddingToLength:depth * 2 withString:@" " startingAtIndex:0],
+        MDString(class_getName(object_getClass(view))), (__bridge void *)view, NSStringFromCGRect(view.frame), view.hidden, view.alpha];
+    for (UIView *child in view.subviews) MDWalkView(child, depth + 1, output, seen, remaining);
+}
+
+static void MDWalkController(UIViewController *controller, NSUInteger depth, NSMutableString *output, NSMutableSet<NSValue *> *seen, NSUInteger *remaining) {
+    if (!controller || !*remaining || depth > 32) return;
+    NSValue *key = [NSValue valueWithPointer:(__bridge const void *)controller];
+    if ([seen containsObject:key]) return;
+    [seen addObject:key]; --*remaining;
+    [output appendFormat:@"%@<%@:%p> viewLoaded=%d\n", [@"" stringByPaddingToLength:depth * 2 withString:@" " startingAtIndex:0],
+        MDString(class_getName(object_getClass(controller))), (__bridge void *)controller, controller.isViewLoaded];
+    for (UIViewController *child in controller.childViewControllers) MDWalkController(child, depth + 1, output, seen, remaining);
+    MDWalkController(controller.presentedViewController, depth + 1, output, seen, remaining);
+}
+#endif
+
+MD_DEBUG_EXPORT NSString *pviews(void) {
+#if TARGET_OS_IOS
+    NSString *error = MDMainThreadError(); if (error) return error;
+    NSMutableString *result = [NSMutableString string];
+    NSUInteger remaining = 2000;
+    NSMutableSet<NSValue *> *seen = [NSMutableSet set];
+    for (UIWindow *window in MDWindows()) MDWalkView(window, 0, result, seen, &remaining);
+    if (!remaining) [result appendString:@"[truncated: 2000 views]\n"];
+    return result.length ? result : @"LLDBTools: no visible foreground windows.";
 #else
-        Class isa =(__bridge Class)(void *)pointers[0];
+    return @"LLDBTools: pviews requires UIKit on iOS.";
 #endif
-        std::set<Class>::const_iterator result(choice->query_.find(isa));
-        if (result == choice->query_.end())
-            continue;
-        
-        size_t needed(class_getInstanceSize(*result));
-        // XXX: if (size < needed)
-        
-        size_t boundary(496);
-#ifdef __LP64__
-        boundary *= 2;
+}
+
+MD_DEBUG_EXPORT NSString *pvc(void) {
+#if TARGET_OS_IOS
+    NSString *error = MDMainThreadError(); if (error) return error;
+    NSMutableString *result = [NSMutableString string];
+    NSUInteger remaining = 2000;
+    NSMutableSet<NSValue *> *seen = [NSMutableSet set];
+    for (UIWindow *window in MDWindows()) {
+        [result appendFormat:@"Window <%@:%p> key=%d\n", MDString(class_getName(object_getClass(window))), (__bridge void *)window, window.isKeyWindow];
+        MDWalkController(window.rootViewController, 1, result, seen, &remaining);
+    }
+    if (!remaining) [result appendString:@"[truncated: 2000 controllers]\n"];
+    return result.length ? result : @"LLDBTools: no visible foreground windows.";
+#else
+    return @"LLDBTools: pvc requires UIKit on iOS.";
 #endif
-        if ((needed <= boundary && (needed + 15) / 16 * 16 != size) || (needed > boundary && (needed + 511) / 512 * 512 != size))
-            continue;
-        choice->results_.insert((__bridge id)(data));
-    }
 }
 
-static Class *CYCopyClassList(size_t &size) {
-    size = objc_getClassList(NULL, 0);
-    Class *data(reinterpret_cast<Class *>(malloc(sizeof(Class) * size)));
-    
-    for (;;) {
-        size_t writ(objc_getClassList(data, (int)size));
-        if (writ <= size) {
-            size = writ;
-            return data;
+MD_DEBUG_EXPORT NSString *pactions(uintptr_t address) {
+#if TARGET_OS_IOS
+    NSString *error = MDMainThreadError(); if (error) return error;
+    if (!address) return @"LLDBTools: provide a live UIControl address.";
+    __unsafe_unretained UIControl *control = (__bridge UIControl *)(void *)address;
+    if (![control isKindOfClass:UIControl.class]) return @"LLDBTools: object is not a UIControl.";
+    NSMutableString *result = [NSMutableString string];
+    for (id target in control.allTargets) {
+        NSMutableOrderedSet<NSString *> *actions = [NSMutableOrderedSet orderedSet];
+        UIControlEvents registered = control.allControlEvents;
+        for (UIControlEvents event = 1; event; event <<= 1) {
+            if (!(registered & event)) continue;
+            NSArray<NSString *> *names = [control actionsForTarget:target forControlEvent:event];
+            if (names) [actions addObjectsFromArray:names];
         }
-        
-        Class *copy(reinterpret_cast<Class *>(realloc(data, sizeof(Class) * writ)));
-        if (copy == NULL) {
-            free(data);
-            return NULL;
-        }
-        
-        data = copy;
-        size = writ;
+        if (actions.count) [result appendFormat:@"<%@:%p> %@\n", MDString(class_getName(object_getClass(target))), (__bridge void *)target, [actions.array componentsJoinedByString:@", "]];
     }
+    return result.length ? result : @"LLDBTools: no target/action selectors (UIAction handlers are not enumerated).";
+#else
+    (void)address;
+    return @"LLDBTools: pactions requires UIKit on iOS.";
+#endif
 }
-
-static kern_return_t CYReadMemory(task_t task, vm_address_t address, vm_size_t size, void **data) {
-    *data = reinterpret_cast<void *>(address);
-    return KERN_SUCCESS;
-}
-
-NSArray* choose_inner(const char * classname){
-    
-    Class _class = NSClassFromString([NSString stringWithUTF8String:classname]);
-    
-    vm_address_t *zones = NULL;
-    unsigned size = 0;
-    //获取所有的zone信息  堆上的区域
-    kern_return_t error = malloc_get_all_zones(mach_task_self(), &CYReadMemory, &zones, &size);
-    assert(error == KERN_SUCCESS);
-    
-    size_t number;
-    Class *classes(CYCopyClassList(number));
-    assert(classes != NULL);
-    
-    CYChoice choice;
-    
-    //找到目标Class
-    for (size_t i(0); i != number; ++i)
-        for (Class current(classes[i]); current != Nil; current = class_getSuperclass(current))
-            if (current == _class) {
-                choice.query_.insert(classes[i]);
-                break;
-            }
-    
-    for (unsigned i(0); i != size; ++i) {
-        const malloc_zone_t *zone(reinterpret_cast<const malloc_zone_t *>(zones[i]));
-        if (zone == NULL || zone->introspect == NULL)
-            continue;
-        
-        //枚举堆上的对象
-        zone->introspect->enumerator(mach_task_self(), &choice, MALLOC_PTR_IN_USE_RANGE_TYPE, zones[i], &CYReadMemory, &choose_);
-    }
-    NSMutableArray * result = [[NSMutableArray alloc] init];
-    
-    for (auto iter = choice.results_.begin(); iter != choice.results_.end(); iter++) {
-        [result addObject:(id)*iter];
-    }
-    return result;
-}
-
-NSString* choose(const char* classname){
-    NSMutableString* result = [NSMutableString new];
-    NSArray* results = choose_inner(classname);
-    [result appendFormat:@"Find %lu instance objects in memory!\n" , (unsigned long)results.count];
-    for (id item in results) {
-        [result appendFormat:@"<%s: 0x%llx>\n", object_getClassName(item), (long long)item];
-    }
-    return result;
-}
-
-NSString* methods(const char * classname){
-    return [objc_getClass(classname) performSelector:@selector(_shortMethodDescription)];
-}
-
-NSString* ivars(vm_address_t address){
-    id target = (__bridge id)(void*)address;
-    return [target performSelector:@selector(_ivarDescription)];
-}
-
-char * protection_bits_to_rwx (vm_prot_t p){
-    static char returned[4];
-    
-    returned[0] = (p & VM_PROT_READ    ? 'r' : '-');
-    returned[1] = (p & VM_PROT_WRITE   ? 'w' : '-');
-    returned[2] = (p & VM_PROT_EXECUTE ? 'x' : '-');
-    returned[3] = '\0';
-    
-    // memory leak here. No biggy
-    return (strdup(returned));
-}
-
-const char * unparse_inheritance (vm_inherit_t i){
-    switch (i){
-        case VM_INHERIT_SHARE:
-            return "share";
-        case VM_INHERIT_COPY:
-            return "copy";
-        case VM_INHERIT_NONE:
-            return "none";
-        default:
-            return "???";
-    }
-}
-
-char * behavior_to_text (vm_behavior_t  b){
-    switch (b){
-        case VM_BEHAVIOR_DEFAULT: return((char*)"default");
-        case VM_BEHAVIOR_RANDOM:  return((char*)"random");
-        case VM_BEHAVIOR_SEQUENTIAL: return((char*)"fwd-seq");
-        case VM_BEHAVIOR_RSEQNTL: return((char*)"rev-seq");
-        case VM_BEHAVIOR_WILLNEED: return((char*)"will-need");
-        case VM_BEHAVIOR_DONTNEED: return((char*)"will-need");
-        case VM_BEHAVIOR_FREE: return((char*)"free-nowb");
-        case VM_BEHAVIOR_ZERO_WIRED_PAGES: return((char*)"zero-wire");
-        case VM_BEHAVIOR_REUSABLE: return((char*)"reusable");
-        case VM_BEHAVIOR_REUSE: return((char*)"reuse");
-        case VM_BEHAVIOR_CAN_REUSE: return((char*)"canreuse");
-        default: return ((char*)"?");
-    }
-}
-
-__BEGIN_DECLS
-
-extern kern_return_t mach_vm_region
-(
- vm_map_t target_task,
- mach_vm_address_t *address,
- mach_vm_size_t *size,
- vm_region_flavor_t flavor,
- vm_region_info_t info,
- mach_msg_type_number_t *infoCnt,
- mach_port_t *object_name
- );
-
-__END_DECLS
-
-NSString* vmmap(){
-    vm_region_basic_info_data_t info, prev_info;
-    mach_vm_address_t address = 1, prev_address;
-    mach_vm_size_t size, prev_size;
-    mach_msg_type_number_t count = VM_REGION_BASIC_INFO_COUNT_64;
-    mach_port_t object_name;
-    
-    int nsubregions = 0;
-    kern_return_t kr = mach_vm_region(mach_task_self(), &address, &size, VM_REGION_BASIC_INFO, (vm_region_info_t)&info, &count, &object_name);
-    
-    NSMutableString* result = [[NSMutableString alloc] init];
-    
-    if(kr != KERN_SUCCESS){
-        [result appendFormat:@"mach_vm_region: Error %d - %s", kr, mach_error_string(kr)];
-        return [result copy];
-    }
-    
-    //保存之前查到的info
-    memcpy (&prev_info, &info, sizeof (vm_region_basic_info_data_t));
-    prev_address = address;
-    prev_size = size;
-    nsubregions = 1;
-    
-    while (true) {
-        int print = 0, done = 0;
-        
-        address = prev_address + prev_size;
-        
-        if (address == 0){
-            print = done = 1;
-        }
-        
-        if (!done){
-            kr = mach_vm_region (mach_task_self(), &address, &size, VM_REGION_BASIC_INFO, (vm_region_info_t)&info, &count, &object_name);
-            
-            if (kr != KERN_SUCCESS){
-                [result appendFormat:@"mach_vm_region failed for address %llu - Error: %x\n",address, (kr)];
-                print = done = 1;
-            }
-        }
-        
-        //等于才是连续的内存，不等于才打印
-        if (address != prev_address + prev_size)
-            print = 1;
-        
-        //或者权限信息改变了也打印
-        if ((info.protection != prev_info.protection)
-            || (info.max_protection != prev_info.max_protection)
-            || (info.inheritance != prev_info.inheritance)
-            || (info.shared != prev_info.reserved)
-            || (info.reserved != prev_info.reserved))
-            print = 1;
-        
-        if (print){
-            char *print_size_unit = NULL;
-            
-            mach_vm_size_t print_size = prev_size;
-            if (print_size > 1024) { print_size /= 1024; print_size_unit = (char*)"K"; }
-            if (print_size > 1024) { print_size /= 1024; print_size_unit = (char*)"M"; }
-            if (print_size > 1024) { print_size /= 1024; print_size_unit = (char*)"G"; }
-            
-            [result appendFormat:@" %p-%p [%llu%s](%s/%s; %s, %s, %s) %s",
-             (void*)(prev_address),
-             (void*)(prev_address + prev_size),
-             print_size,
-             print_size_unit,
-             protection_bits_to_rwx (prev_info.protection),
-             protection_bits_to_rwx (prev_info.max_protection),
-             unparse_inheritance (prev_info.inheritance),
-             prev_info.shared ? "shared" : "private",
-             prev_info.reserved ? "reserved" : "not-reserved",
-             behavior_to_text (prev_info.behavior)];
-            
-            if (nsubregions > 1)
-                [result appendFormat:@" (%d sub-regions)", nsubregions];
-            
-            [result appendFormat:@"\n"];
-            prev_address = address;
-            prev_size = size;
-            memcpy (&prev_info, &info, sizeof (vm_region_basic_info_data_t));
-            nsubregions = 1;
-        }else{
-            prev_size += size;
-            nsubregions++;
-        }
-        
-        if (done)
-            break;
-    }
-    return [result copy];
-}
-
-
+// C calls bind to this translation unit, not LLDB's broad symbol-name lookup.
+MD_DEBUG_EXPORT NSString *md_pvc(void) { return pvc(); }
+MD_DEBUG_EXPORT NSString *md_pviews(void) { return pviews(); }
+MD_DEBUG_EXPORT NSString *md_pactions(uintptr_t address) { return pactions(address); }
+MD_DEBUG_EXPORT NSString *md_methods(const char *className) { return methods(className); }
+MD_DEBUG_EXPORT NSString *md_ivars(uintptr_t address) { return ivars(address); }
+#endif // DEBUG

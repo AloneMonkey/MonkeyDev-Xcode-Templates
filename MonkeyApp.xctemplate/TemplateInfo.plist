@@ -2,50 +2,31 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Kind</key>
-	<string>Xcode.Xcode3.ProjectTemplateUnitKind</string>
-	<key>Identifier</key>
-	<string>com.monkey.monkeydev.singleViewApplication</string>
 	<key>Ancestors</key>
 	<array>
 		<string>com.apple.dt.unit.bundleBase</string>
 		<string>com.apple.dt.unit.iosBase</string>
 	</array>
+	<key>Components</key>
+	<array>
+		<dict>
+			<key>Identifier</key>
+			<string>com.monkey.monkeydev.cocoaTouchLibrary</string>
+			<key>Name</key>
+			<string>___PACKAGENAME___Dylib</string>
+			<key>ProductBuildPhaseInjections</key>
+			<array>
+				<dict>
+					<key>TargetIdentifier</key>
+					<string>com.monkey.monkeydev.TargetApp</string>
+				</dict>
+			</array>
+		</dict>
+	</array>
 	<key>Concrete</key>
 	<true/>
-	<key>Description</key>
-	<string>This template provides a starting point for an application that uses a single view. It provides a view controller to manage the view, and a storyboard or nib file that contains the view.</string>
-	<key>SortOrder</key>
-	<integer>1</integer>
-	<key>Nodes</key>
-	<array>
-		<string>icon.png</string>
-		<string>Scripts/quick-resign.sh</string>
-		<string>Config/MDConfig.plist</string>
-		<string>Info.plist:PackageType</string>
-		<string>Info.plist:IconFiles</string>
-		<string>TargetApp/put ipa or app here</string>
-	</array>
 	<key>Definitions</key>
 	<dict>
-		<key>icon.png</key>
-		<dict>
-			<key>TargetIndices</key>
-			<array/>
-			<key>Path</key>
-			<string>icon.png</string>
-		</dict>
-		<key>Scripts/quick-resign.sh</key>
-		<dict>
-			<key>TargetIndices</key>
-			<array/>
-			<key>Group</key>
-			<array>
-				<string>Scripts</string>
-			</array>
-			<key>Path</key>
-			<string>Scripts/quick-resign.sh</string>
-		</dict>
 		<key>Config/MDConfig.plist</key>
 		<dict>
 			<key>Group</key>
@@ -54,6 +35,47 @@
 			</array>
 			<key>Path</key>
 			<string>Config/MDConfig.plist</string>
+		</dict>
+		<key>Info.plist:IconFiles</key>
+		<string>&lt;key&gt;CFBundleIconFiles&lt;/key&gt;
+&lt;array&gt;
+&lt;string&gt;___PACKAGENAME___/icon.png&lt;/string&gt;
+&lt;/array&gt;</string>
+		<key>Info.plist:PackageType</key>
+		<string>&lt;key&gt;CFBundlePackageType&lt;/key&gt;
+&lt;string&gt;APPL&lt;/string&gt;
+</string>
+		<key>Scripts/quick-resign.sh</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>Scripts</string>
+			</array>
+			<key>Path</key>
+			<string>Scripts/quick-resign.sh</string>
+			<key>TargetIndices</key>
+			<array/>
+		</dict>
+		<key>TargetApp/put ipa or app here</key>
+		<dict>
+			<key>Group</key>
+			<array>
+				<string>TargetApp</string>
+			</array>
+			<key>TargetIndices</key>
+			<array/>
+		</dict>
+		<key>icon.png</key>
+		<dict>
+			<key>Path</key>
+			<string>icon.png</string>
+			<key>TargetIndices</key>
+			<array/>
+		</dict>
+		<key>main.m</key>
+		<dict>
+			<key>SortOrder</key>
+			<integer>999</integer>
 		</dict>
 		<key>main.m:main</key>
 		<dict>
@@ -64,56 +86,183 @@
 			<key>Indent</key>
 			<integer>1</integer>
 		</dict>
-		<key>main.m</key>
+	</dict>
+	<key>Description</key>
+	<string>This template provides a starting point for an application that uses a single view. It provides a view controller to manage the view, and a storyboard or nib file that contains the view.</string>
+	<key>Identifier</key>
+	<string>com.monkey.monkeydev.singleViewApplication</string>
+	<key>Kind</key>
+	<string>Xcode.Xcode3.ProjectTemplateUnitKind</string>
+	<key>Nodes</key>
+	<array>
+		<string>icon.png</string>
+		<string>Scripts/quick-resign.sh</string>
+		<string>Config/MDConfig.plist</string>
+		<string>Info.plist:PackageType</string>
+		<string>Info.plist:IconFiles</string>
+		<string>TargetApp/put ipa or app here</string>
+	</array>
+	<key>Options</key>
+	<array>
 		<dict>
-			<key>SortOrder</key>
-			<integer>999</integer>
+			<key>Default</key>
+			<string>Optional</string>
+			<key>Description</key>
+			<string>The displayname or bundle id of the application you debug.</string>
+			<key>Identifier</key>
+			<string>TargetAppInfo</string>
+			<key>Name</key>
+			<string>Target App</string>
+			<key>NotPersisted</key>
+			<true/>
+			<key>Required</key>
+			<false/>
+			<key>Type</key>
+			<string>text</string>
 		</dict>
-		<key>Info.plist:PackageType</key>
-		<string>&lt;key&gt;CFBundlePackageType&lt;/key&gt;
-&lt;string&gt;APPL&lt;/string&gt;
-</string>
-		<key>Info.plist:IconFiles</key>
-		<string>&lt;key&gt;CFBundleIconFiles&lt;/key&gt;
-&lt;array&gt;
-&lt;string&gt;___PACKAGENAME___/icon.png&lt;/string&gt;
-&lt;/array&gt;</string>
-		<key>TargetApp/put ipa or app here</key>
 		<dict>
-			<key>TargetIndices</key>
-			<array/>
-			<key>Group</key>
+			<key>Default</key>
+			<string>YES</string>
+			<key>Description</key>
+			<string>Inject the project dylib into the target app.</string>
+			<key>Identifier</key>
+			<string>mdInsertDylib</string>
+			<key>Name</key>
+			<string>Inject Dylib</string>
+			<key>NotPersisted</key>
+			<true/>
+			<key>Required</key>
+			<true/>
+			<key>SortOrder</key>
+			<integer>210</integer>
+			<key>Type</key>
+			<string>popup</string>
+			<key>Values</key>
 			<array>
-				<string>TargetApp</string>
+				<string>YES</string>
+				<string>NO</string>
 			</array>
 		</dict>
+		<dict>
+			<key>Default</key>
+			<string>NO</string>
+			<key>Description</key>
+			<string>Keep the input Bundle ID. Your provisioning profile must authorize that ID.</string>
+			<key>Identifier</key>
+			<string>mdKeepBundleID</string>
+			<key>Name</key>
+			<string>Keep Original Bundle ID</string>
+			<key>NotPersisted</key>
+			<true/>
+			<key>Required</key>
+			<true/>
+			<key>SortOrder</key>
+			<integer>220</integer>
+			<key>Type</key>
+			<string>popup</string>
+			<key>Values</key>
+			<array>
+				<string>YES</string>
+				<string>NO</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<string>NO</string>
+			<key>Description</key>
+			<string>Restore Objective-C method symbols for debugger breakpoints.</string>
+			<key>Identifier</key>
+			<string>mdRestoreSymbols</string>
+			<key>Name</key>
+			<string>Restore OC Symbols</string>
+			<key>NotPersisted</key>
+			<true/>
+			<key>Required</key>
+			<true/>
+			<key>SortOrder</key>
+			<integer>230</integer>
+			<key>Type</key>
+			<string>popup</string>
+			<key>Values</key>
+			<array>
+				<string>YES</string>
+				<string>NO</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<string>NO</string>
+			<key>Description</key>
+			<string>Export Objective-C headers with class-dump.</string>
+			<key>Identifier</key>
+			<string>mdExportHeaders</string>
+			<key>Name</key>
+			<string>Export OC Headers</string>
+			<key>NotPersisted</key>
+			<true/>
+			<key>Required</key>
+			<true/>
+			<key>SortOrder</key>
+			<integer>240</integer>
+			<key>Type</key>
+			<string>popup</string>
+			<key>Values</key>
+			<array>
+				<string>YES</string>
+				<string>NO</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<string>NO</string>
+			<key>Description</key>
+			<string>Load the locally installed Reveal SDK in Debug builds only.</string>
+			<key>Identifier</key>
+			<string>mdReveal</string>
+			<key>Name</key>
+			<string>Reveal (Debug)</string>
+			<key>NotPersisted</key>
+			<true/>
+			<key>Required</key>
+			<true/>
+			<key>SortOrder</key>
+			<integer>250</integer>
+			<key>Type</key>
+			<string>popup</string>
+			<key>Values</key>
+			<array>
+				<string>YES</string>
+				<string>NO</string>
+			</array>
+		</dict>
+	</array>
+	<key>Project</key>
+	<dict>
+		<key>SharedSettings</key>
+		<dict>
+			<key>ARCHS</key>
+			<string>arm64</string>
+			<key>ENABLE_BITCODE</key>
+			<string>NO</string>
+			<key>ENABLE_USER_SCRIPT_SANDBOXING</key>
+			<string>NO</string>
+			<key>HEADER_SEARCH_PATHS</key>
+			<string>$(inherited) $(MonkeyDevPath)/include $(MonkeyDevTheosPath)/include $(MonkeyDevTheosPath)/vendor/include</string>
+			<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+			<string>15.0</string>
+			<key>LIBRARY_SEARCH_PATHS</key>
+			<string>$(inherited) $(MonkeyDevPath)/Frameworks $(MonkeyDevTheosPath)/lib $(MonkeyDevTheosPath)/vendor/lib</string>
+			<key>MonkeyDevTheosPath</key>
+			<string>$(HOME)/theos</string>
+			<key>SUPPORTED_PLATFORMS</key>
+			<string>iphoneos</string>
+		</dict>
 	</dict>
+	<key>SortOrder</key>
+	<integer>1</integer>
 	<key>Targets</key>
 	<array>
 		<dict>
-			<key>ProductType</key>
-			<string>com.apple.product-type.application</string>
-			<key>SharedSettings</key>
-			<dict>
-				<key>MONKEYDEV_DEFAULT_BUNDLEID</key>
-				<string>NO</string>
-				<key>MONKEYDEV_ADD_SUBSTRATE</key>
-				<string>YES</string>
-				<key>MONKEYDEV_TARGET_APP</key>
-				<string>___VARIABLE_TargetAppInfo___</string>
-				<key>MONKEYDEV_INSERT_DYLIB</key>
-				<string>YES</string>
-				<key>PODS_CONFIGURATION_BUILD_DIR</key>
-				<string>$BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)</string>
-				<key>MONKEYDEV_CLASS_DUMP</key>
-				<string>NO</string>
-				<key>MONKEYDEV_RESTORE_SYMBOL</key>
-				<string>NO</string>
-				<key>PODS_ROOT</key>
-				<string>${SRCROOT}/Pods</string>
-				<key>ENABLE_BITCODE</key>
-				<string>NO</string>
-			</dict>
 			<key>BuildPhases</key>
 			<array>
 				<dict>
@@ -125,12 +274,12 @@
 					<string>Frameworks</string>
 				</dict>
 				<dict>
-					<key>RunOnlyForDeploymentPostprocessing</key>
-					<false/>
 					<key>Class</key>
 					<string>ShellScript</string>
+					<key>RunOnlyForDeploymentPostprocessing</key>
+					<false/>
 					<key>ShellPath</key>
-					<string>/bin/sh</string>
+					<string>/bin/bash</string>
 					<key>ShellScript</key>
 					<string>/opt/MonkeyDev/Tools/pack.sh</string>
 				</dict>
@@ -139,71 +288,69 @@
 					<string>Resources</string>
 				</dict>
 				<dict>
-					<key>RunOnlyForDeploymentPostprocessing</key>
-					<false/>
-					<key>DstSubfolderSpec</key>
-					<integer>10</integer>
-					<key>DstPath</key>
-					<string></string>
 					<key>Class</key>
 					<string>CopyFiles</string>
-				</dict>
-				<dict>
+					<key>DstPath</key>
+					<string></string>
+					<key>DstSubfolderSpec</key>
+					<integer>10</integer>
 					<key>RunOnlyForDeploymentPostprocessing</key>
 					<false/>
+				</dict>
+				<dict>
 					<key>Class</key>
 					<string>ShellScript</string>
+					<key>RunOnlyForDeploymentPostprocessing</key>
+					<false/>
 					<key>ShellPath</key>
-					<string>/bin/sh</string>
+					<string>/bin/bash</string>
 					<key>ShellScript</key>
 					<string>/opt/MonkeyDev/Tools/pack.sh codesign</string>
 				</dict>
 			</array>
+			<key>ProductType</key>
+			<string>com.apple.product-type.application</string>
+			<key>SharedSettings</key>
+			<dict>
+				<key>ARCHS</key>
+				<string>arm64</string>
+				<key>ENABLE_BITCODE</key>
+				<string>NO</string>
+				<key>ENABLE_DEBUG_DYLIB</key>
+				<string>NO</string>
+				<key>ENABLE_USER_SCRIPT_SANDBOXING</key>
+				<string>NO</string>
+				<key>EXCLUDED_SOURCE_FILE_NAMES</key>
+				<string>$(inherited) *.ipa *.app</string>
+				<key>GENERATE_INFOPLIST_FILE</key>
+				<string>NO</string>
+				<key>INFOPLIST_FILE</key>
+				<string>___PACKAGENAME___/Info.plist</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>15.0</string>
+				<key>MONKEYDEV_CLASS_DUMP</key>
+				<string>___VARIABLE_mdExportHeaders___</string>
+				<key>MONKEYDEV_DEFAULT_BUNDLEID</key>
+				<string>___VARIABLE_mdKeepBundleID___</string>
+				<key>MONKEYDEV_INSERT_DYLIB</key>
+				<string>___VARIABLE_mdInsertDylib___</string>
+				<key>MONKEYDEV_MINIMAL</key>
+				<string>YES</string>
+				<key>MONKEYDEV_RESTORE_SYMBOL</key>
+				<string>___VARIABLE_mdRestoreSymbols___</string>
+				<key>MONKEYDEV_REVEAL</key>
+				<string>___VARIABLE_mdReveal___</string>
+				<key>MONKEYDEV_TARGET_APP</key>
+				<string>___VARIABLE_TargetAppInfo___</string>
+				<key>PODS_CONFIGURATION_BUILD_DIR</key>
+				<string>$BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)</string>
+				<key>PODS_ROOT</key>
+				<string>${SRCROOT}/Pods</string>
+				<key>SUPPORTED_PLATFORMS</key>
+				<string>iphoneos</string>
+			</dict>
 			<key>TargetIdentifier</key>
 			<string>com.monkey.monkeydev.TargetApp</string>
-		</dict>
-	</array>
-	<key>Options</key>
-	<array>
-		<dict>
-			<key>Identifier</key>
-			<string>TargetAppInfo</string>
-			<key>Required</key>
-			<false/>
-			<key>Name</key>
-			<string>Target App</string>
-			<key>NotPersisted</key>
-			<true/>
-			<key>Description</key>
-			<string>The displayname or bundle id of the application you debug.</string>
-			<key>Default</key>
-			<string>Optional</string>
-			<key>Type</key>
-			<string>text</string>
-		</dict>
-	</array>
-	<key>Project</key>
-	<dict>
-		<key>SharedSettings</key>
-		<dict>
-			<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-			<string>8.0</string>
-		</dict>
-	</dict>
-	<key>Components</key>
-	<array>
-		<dict>
-			<key>ProductBuildPhaseInjections</key>
-			<array>
-				<dict>
-					<key>TargetIdentifier</key>
-					<string>com.monkey.monkeydev.TargetApp</string>
-				</dict>
-			</array>
-			<key>Identifier</key>
-			<string>com.monkey.monkeydev.cocoaTouchLibrary</string>
-			<key>Name</key>
-			<string>___PACKAGENAME___Dylib</string>
 		</dict>
 	</array>
 </dict>

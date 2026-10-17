@@ -10,7 +10,6 @@
 
 #import <Foundation/Foundation.h>
 
-#define MDCONFIG_CYCRIPT_KEY                @"Cycript"
 #define MDCONFIG_LOADATLAUNCH_KEY           @"LoadAtLaunch"
 
 #define MDCONFIG_TRACE_KEY                  @"MethodTrace"

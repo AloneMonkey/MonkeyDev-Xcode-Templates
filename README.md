@@ -1,3 +1,27 @@
+# MonkeyDev Xcode Templates
+
+这里维护完整的 MonkeyDev Xcode 模板，包括模板配置、向导选项和项目源码。MonkeyDev 安装器直接下载、校验并安装，不再覆盖源码或修改模板配置。
+
+当前适配范围为 Apple Silicon Mac、Xcode 27 和 iPhoneOS arm64。MonkeyApp 提供普通 Objective-C / CaptainHook、Logos internal、fishhook、Debug LLDBTools 与 Trace；Reveal 使用用户本机 SDK，不捆绑 Cycript 或旧 Substrate 运行库。
+
+安装和使用见 [MonkeyDev](https://github.com/AloneMonkey/MonkeyDev)。在 MonkeyDev 源码目录测试本地模板：
+
+```bash
+sudo env MONKEYDEV_SOURCE_DIR="$PWD" \
+  MONKEYDEV_TEMPLATES_DIR="$(dirname "$PWD")/MonkeyDev-Xcode-Templates" \
+  /bin/bash bin/md-install
+```
+
+更新只影响之后创建的项目，不改动 Xcode.app 或已有工程。其他历史模板尚未纳入本轮兼容验收。
+
+模板回归检查（macOS / Apple Silicon / 完整 Xcode）：
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v
+```
+
+## 模板结构参考
+
 工程模块配置:
 
 * Identifier 
