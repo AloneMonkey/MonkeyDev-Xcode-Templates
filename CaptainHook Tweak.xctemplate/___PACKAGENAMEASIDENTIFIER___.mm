@@ -87,7 +87,11 @@ CHConstructor // code block that runs immediately upon load
 		// CHLoadClass(ClassToHook); // load class (that is "available now")
 		// CHLoadLateClass(ClassToHook);  // load class (that will be "available later")
 		
-		CHHook(0, ClassToHook, messageName); // register hook
-		CHHook(2, ClassToHook, arg1, arg2); // register hook
+		// Replace ClassToHook and method names with classes from your target app.
+		CHLoadLateClass(ClassToHook);
+		if (CHClass(ClassToHook)) {
+			CHHook(0, ClassToHook, messageName);
+			CHHook(2, ClassToHook, arg1, arg2);
+		}
 	}
 }

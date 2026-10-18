@@ -9,7 +9,7 @@
 	<key>Concrete</key>
 	<true/>
 	<key>Description</key>
-	<string>This template builds a command-line tool.</string>
+	<string>Build an arm64 iOS command-line tool for rootless or rootful jailbreaks.</string>
 	<key>Ancestors</key>
 	<array>
 		<string>com.monkey.monkeydev.base</string>
@@ -25,10 +25,60 @@
 				<string>YES</string>
 				<key>MonkeyDevkillProcessOnInstall</key>
 				<string></string>
-				<key>CODE_SIGN_IDENTITY</key>
-				<string>iPhone Developer</string>
 				<key>INSTALL_PATH</key>
-				<string>/usr/bin</string>
+				<string>$(MONKEYDEV_PACKAGE_PREFIX)/usr/bin</string>
+				<key>MONKEYDEV_PACKAGE_SCHEME</key>
+				<string>rootless</string>
+				<key>MONKEYDEV_PACKAGE_PREFIX_rootless</key>
+				<string>/var/jb</string>
+				<key>MONKEYDEV_PACKAGE_PREFIX_rootful</key>
+				<string></string>
+				<key>MONKEYDEV_PACKAGE_PREFIX</key>
+				<string>$(MONKEYDEV_PACKAGE_PREFIX_$(MONKEYDEV_PACKAGE_SCHEME))</string>
+				<key>CODE_SIGNING_ALLOWED</key>
+				<string>NO</string>
+				<key>MonkeyDevInstallOnAnyBuild</key>
+				<string>$(MONKEYDEV_INSTALL_$(MonkeyDevAuthentication))</string>
+				<key>MonkeyDevInstallOnProfiling</key>
+				<string>NO</string>
+				<key>MonkeyDevBuildPackageOnAnyBuild</key>
+				<string>YES</string>
+				<key>MonkeyDevDeviceUser</key>
+				<string>$(MONKEYDEV_SSH_USER_$(MonkeyDevAuthentication))</string>
+				<key>MonkeyDevDeviceKey</key>
+				<string></string>
+				<key>MonkeyDevDevicePasswordFile</key>
+				<string></string>
+				<key>MonkeyDevConnectionType</key>
+				<string>USB</string>
+				<key>MonkeyDevAuthentication</key>
+				<string>___VARIABLE_mdAuthentication___</string>
+				<key>MonkeyDevDeviceUDID</key>
+				<string></string>
+				<key>MonkeyDevDeviceIP</key>
+				<string>monkeydev-usb</string>
+				<key>MonkeyDevDevicePort</key>
+				<string>22</string>
+				<key>MONKEYDEV_SSH_USER_KEY</key>
+				<string></string>
+				<key>MONKEYDEV_SSH_USER_PASSWORD</key>
+				<string>___VARIABLE_mdSSHUser___</string>
+				<key>MONKEYDEV_SSH_PASSWORD_KEY</key>
+				<string></string>
+				<key>MONKEYDEV_SSH_PASSWORD_PASSWORD</key>
+				<string>___VARIABLE_mdSSHPassword___</string>
+				<key>MonkeyDevDevicePassword</key>
+				<string>$(MONKEYDEV_SSH_PASSWORD_$(MonkeyDevAuthentication))</string>
+				<key>MONKEYDEV_INSTALL_None</key>
+				<string>NO</string>
+				<key>MONKEYDEV_INSTALL_KEY</key>
+				<string>YES</string>
+				<key>MONKEYDEV_INSTALL_PASSWORD</key>
+				<string>YES</string>
+				<key>MONKEYDEV_SSH_USER_None</key>
+				<string></string>
+				<key>MONKEYDEV_SSH_PASSWORD_None</key>
+				<string></string>
 			</dict>
 			<key>ProductType</key>
 			<string>com.apple.product-type.tool</string>
@@ -46,11 +96,13 @@
 					<key>ShellScript</key>
 					<string>/opt/MonkeyDev/bin/md --xcbp</string>
 					<key>ShellPath</key>
-					<string>/bin/sh</string>
+					<string>/bin/bash</string>
 					<key>RunOnlyForDeploymentPostprocessing</key>
 					<false/>
 					<key>Class</key>
 					<string>ShellScript</string>
+					<key>ShowEnvVarsInLog</key>
+					<false/>
 				</dict>
 			</array>
 		</dict>
@@ -112,120 +164,6 @@ std::cout &lt;&lt; &quot;Hello, World!\n&quot;;
 </string>
 					</dict>
 				</dict>
-				<key>Core Data</key>
-				<dict>
-					<key>Project</key>
-					<dict>
-						<key>SharedSettings</key>
-						<dict>
-							<key>GCC_ENABLE_OBJC_GC</key>
-							<string>required</string>
-						</dict>
-					</dict>
-					<key>Targets</key>
-					<array>
-						<dict>
-							<key>SharedSettings</key>
-							<dict>
-								<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
-								<string>YES</string>
-								<key>GCC_PREFIX_HEADER</key>
-								<string>___PACKAGENAME___/___PACKAGENAME___-Prefix.pch</string>
-							</dict>
-							<key>Frameworks</key>
-							<array>
-								<string>CoreData</string>
-								<string>Foundation</string>
-							</array>
-						</dict>
-					</array>
-					<key>Nodes</key>
-					<array>
-						<string>main.m:comments</string>
-						<string>main.m:include</string>
-						<string>main.m:main:content</string>
-						<string>main.m:coreData</string>
-						<string>___PACKAGENAME___-Prefix.pch:objC:importFoundation</string>
-						<string>___PACKAGENAME___-Prefix.pch:objC:importCoreData</string>
-						<string>___PACKAGENAMEASIDENTIFIER___.xcdatamodeld</string>
-					</array>
-					<key>Definitions</key>
-					<dict>
-						<key>main.m:include</key>
-						<string>NSManagedObjectModel *managedObjectModel(void);
-NSManagedObjectContext *managedObjectContext(void);
-</string>
-						<key>main.m:main:content</key>
-						<string>	@autoreleasepool
-	{
-		// Create the managed object context
-		NSManagedObjectContext *context = managedObjectContext();
-
-		// Custom code here...
-		// Save the managed object context
-		NSError *error = nil;	
-		if (![context save:&amp;error]) {
-			NSLog(@&quot;Error while saving %@&quot;, ([error localizedDescription] != nil) ? [error localizedDescription] : @&quot;Unknown Error&quot;);
-			exit(1);
-		}
-	}
-</string>
-						<key>main.m:coreData</key>
-						<string>NSManagedObjectModel *managedObjectModel() {
-
-	static NSManagedObjectModel *model = nil;
-
-	if (model != nil) {
-		return model;
-	}
-
-	NSString *path = [[[NSProcessInfo processInfo] arguments] objectAtIndex:0];
-	path = [path stringByDeletingPathExtension];
-	NSURL *modelURL = [NSURL fileURLWithPath:[path stringByAppendingPathExtension:@&quot;momd&quot;]];
-	model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-
-	return model;
-}
-
-NSManagedObjectContext *managedObjectContext() {
-
-	static NSManagedObjectContext *context = nil;
-	if (context != nil) {
-		return context;
-	}
-
-	@autoreleasepool
-	{
-		context = [[NSManagedObjectContext alloc] init];
-
-		NSPersistentStoreCoordinator *coordinator = ___RP___[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel()]___AR___;
-		[context setPersistentStoreCoordinator:coordinator];
-
-		NSString *STORE_TYPE = NSSQLiteStoreType;
-
-		NSString *path = [[[NSProcessInfo processInfo] arguments] objectAtIndex:0];
-		path = [path stringByDeletingPathExtension];
-		NSURL *url = [NSURL fileURLWithPath:[path stringByAppendingPathExtension:@&quot;sqlite&quot;]];
-
-		NSError *error;
-		NSPersistentStore *newStore = [coordinator addPersistentStoreWithType:STORE_TYPE configuration:nil URL:url options:nil error:&amp;error];
-
-		if (newStore == nil) {
-			NSLog(@&quot;Store Configuration Failure %@&quot;, ([error localizedDescription] != nil) ? [error localizedDescription] : @&quot;Unknown Error&quot;);
-		}
-	}
-	return context;
-}
-</string>
-						<key>___PACKAGENAME___-Prefix.pch:objC:importCoreData</key>
-						<string>#import &lt;CoreData/CoreData.h&gt;</string>
-						<key>___PACKAGENAMEASIDENTIFIER___.xcdatamodeld</key>
-						<dict>
-							<key>Path</key>
-							<string>___PACKAGENAMEASIDENTIFIER___.xcdatamodeld</string>
-						</dict>
-					</dict>
-				</dict>
 				<key>Core Foundation</key>
 				<dict>
 					<key>Targets</key>
@@ -251,34 +189,6 @@ NSManagedObjectContext *managedObjectContext() {
 						<key>main.c:main:content</key>
 						<string>// insert code here...
 CFShow(CFSTR(&quot;Hello, World!\n&quot;));
-</string>
-					</dict>
-				</dict>
-				<key>Core Services</key>
-				<dict>
-					<key>Targets</key>
-					<array>
-						<dict>
-							<key>Frameworks</key>
-							<array>
-								<string>CoreServices</string>
-							</array>
-						</dict>
-					</array>
-					<key>Nodes</key>
-					<array>
-						<string>main.c:comments</string>
-						<string>main.c:include</string>
-						<string>main.c:main:content</string>
-					</array>
-					<key>Definitions</key>
-					<dict>
-						<key>main.c:include</key>
-						<string>#include &lt;CoreServices/CoreServices.h&gt;
-</string>
-						<key>main.c:main:content</key>
-						<string>// insert code here...
-printf(&quot;Hello, World!\n&quot;);
 </string>
 					</dict>
 				</dict>
@@ -323,13 +233,78 @@ printf(&quot;Hello, World!\n&quot;);
 				</dict>
 			</dict>
 		</dict>
+		<dict>
+			<key>Identifier</key>
+			<string>mdAuthentication</string>
+			<key>Name</key>
+			<string>SSH Authentication</string>
+			<key>Description</key>
+			<string>None builds the deb without installation; KEY and PASSWORD install automatically.</string>
+			<key>Type</key>
+			<string>popup</string>
+			<key>Values</key>
+			<array>
+				<string>None</string>
+				<string>KEY</string>
+				<string>PASSWORD</string>
+			</array>
+			<key>Default</key>
+			<string>KEY</string>
+			<key>Required</key>
+			<true/>
+			<key>NotPersisted</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Identifier</key>
+			<string>mdSSHUser</string>
+			<key>Name</key>
+			<string>SSH User</string>
+			<key>Description</key>
+			<string>Account on the jailbroken device.</string>
+			<key>Type</key>
+			<string>text</string>
+			<key>Default</key>
+			<string>mobile</string>
+			<key>Required</key>
+			<true/>
+			<key>NotPersisted</key>
+			<true/>
+			<key>RequiredOptions</key>
+			<dict>
+				<key>mdAuthentication</key>
+				<string>PASSWORD</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Identifier</key>
+			<string>mdSSHPassword</string>
+			<key>Name</key>
+			<string>SSH Password</string>
+			<key>Description</key>
+			<string>Device account password; stored in the generated project. Do not share or commit it.</string>
+			<key>Type</key>
+			<string>text</string>
+			<key>Default</key>
+			<string></string>
+			<key>EmptyReplacement</key>
+			<string></string>
+			<key>Required</key>
+			<true/>
+			<key>NotPersisted</key>
+			<true/>
+			<key>RequiredOptions</key>
+			<dict>
+				<key>mdAuthentication</key>
+				<string>PASSWORD</string>
+			</dict>
+		</dict>
 	</array>
 	<key>Nodes</key>
 	<array>
 		<string>monkeydev.entitlements</string>
 		<string>Package/DEBIAN/control:debianControl:section</string>
 		<string>Package/DEBIAN/control:debianControl:depends</string>
-		<string>Package/usr/bin/0xdeadfa11</string>
 	</array>
 	<key>Definitions</key>
 	<dict>
@@ -338,24 +313,10 @@ printf(&quot;Hello, World!\n&quot;);
 			<key>Path</key>
 			<string>monkeydev.entitlements</string>
 		</dict>
-		<key>Package/usr/bin/0xdeadfa11</key>
-		<dict>
-			<key>Group</key>
-			<array>
-				<string>Package</string>
-				<string>usr</string>
-				<string>bin</string>
-			</array>
-			<key>Beginning</key>
-			<string>
-This file was created only to help build the project&apos;s group structure, and it can now be deleted.
-
-Why 0xdeadfa11? See http://developer.apple.com/library/ios/#technotes/tn2151/_index.html.</string>
-		</dict>
 		<key>*:debianControl:section</key>
 		<string>Section: System</string>
 		<key>*:debianControl:depends</key>
-		<string>Depends: firmware (&gt;= 5.0)</string>
+		<string>Depends: firmware (&gt;= 15.0)</string>
 		<key>*:main</key>
 		<dict>
 			<key>Beginning</key>
