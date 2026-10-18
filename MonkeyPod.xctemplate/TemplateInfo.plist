@@ -15,7 +15,7 @@
 	<key>Concrete</key>
 	<true/>
 	<key>Description</key>
-	<string>This template creates a framework that uses UIKit.</string>
+	<string>Create an Objective-C CaptainHook plugin for local CocoaPods integration with MonkeyApp.</string>
 	<key>SortOrder</key>
 	<integer>1</integer>
 	<key>AssociatedTargetSpecification</key>
@@ -42,44 +42,26 @@
 	<array>
 		<dict>
 			<key>Identifier</key>
-			<string>hasUnitTests</string>
-			<key>Name</key>
-			<string>Include Unit Tests</string>
-			<key>NotPersisted</key>
-			<false/>
-			<key>SortOrder</key>
-			<integer>100</integer>
-			<key>Type</key>
-			<string>checkbox</string>
-			<key>Default</key>
-			<string>true</string>
-			<key>Units</key>
-			<dict>
-				<key>true</key>
-				<dict>
-					<key>Components</key>
-					<array>
-						<dict>
-							<key>Identifier</key>
-							<string>com.apple.dt.unit.cocoaTouchFrameworkUnitTestBundle</string>
-							<key>Name</key>
-							<string>___PACKAGENAME___Tests</string>
-						</dict>
-					</array>
-				</dict>
-			</dict>
+			<string>languageChoice</string>
+			<key>Override</key>
+			<string>Objective-C</string>
 		</dict>
 	</array>
 	<key>Targets</key>
 	<array>
 		<dict>
-			<key>TargetIdentifier</key>
-			<string>com.apple.dt.cocoaTouchLibraryOrFrameworkTarget</string>
 			<key>SharedSettings</key>
 			<dict>
 				<key>LD_RUNPATH_SEARCH_PATHS</key>
 				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks</string>
 			</dict>
+			<key>ProductType</key>
+			<string>com.apple.product-type.framework</string>
+			<key>Frameworks</key>
+			<array>
+				<string>Foundation</string>
+				<string>UIKit</string>
+			</array>
 		</dict>
 	</array>
 	<key>Project</key>
@@ -91,11 +73,18 @@
 			<key>MonkeyDevPath</key>
 			<string>/opt/MonkeyDev</string>
 			<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-			<string>8.0</string>
+			<string>15.0</string>
+			<key>ARCHS</key>
+			<string>arm64</string>
+			<key>SUPPORTED_PLATFORMS</key>
+			<string>iphoneos</string>
+			<key>CLANG_ENABLE_OBJC_ARC</key>
+			<string>YES</string>
 		</dict>
 	</dict>
 	<key>Nodes</key>
 	<array>
+		<string>___PACKAGENAMEASIDENTIFIER___.h</string>
 		<string>___PACKAGENAMEASIDENTIFIER___.m</string>
 		<string>___PACKAGENAMEASIDENTIFIER___.podspec</string>
 	</array>
@@ -110,13 +99,13 @@
 		<dict>
 			<key>Path</key>
 			<string>___PACKAGENAMEASIDENTIFIER___.podspec</string>
+			<key>TargetIndices</key>
+			<array/>
 		</dict>
-		<key>___TARGETNAME:c99ExtIdentifier___.h</key>
+		<key>___PACKAGENAMEASIDENTIFIER___.h</key>
 		<dict>
-			<key>TargetIdentifiers</key>
-			<array>
-				<string>com.apple.dt.cocoaTouchLibraryOrFrameworkTarget</string>
-			</array>
+			<key>Path</key>
+			<string>___PACKAGENAMEASIDENTIFIER___.h</string>
 			<key>BuildAttributes</key>
 			<array>
 				<string>Public</string>

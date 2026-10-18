@@ -20,5 +20,7 @@ CHOptimizedMethod(0, self, NSString*, CustomViewController,getMyName){
 
 CHConstructor{
     CHLoadLateClass(CustomViewController);
-    CHClassHook(0, CustomViewController, getMyName);
+    if (CHClass(CustomViewController)) {
+        CHHook(0, CustomViewController, getMyName);
+    }
 }
