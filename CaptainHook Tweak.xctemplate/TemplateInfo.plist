@@ -9,7 +9,7 @@
 	<key>Concrete</key>
 	<true/>
 	<key>Description</key>
-	<string>Build an arm64 CaptainHook tweak using its internal Objective-C runtime backend.</string>
+	<string>Build an arm64 CaptainHook tweak for rootless, rootful or roothide using its internal Objective-C runtime backend.</string>
 	<key>Ancestors</key>
 	<array>
 		<string>com.monkey.monkeydev.base</string>
@@ -24,7 +24,7 @@
 				<key>CLANG_ENABLE_OBJC_ARC</key>
 				<string>YES</string>
 				<key>HEADER_SEARCH_PATHS</key>
-				<string>$(inherited) $(MonkeyDevPath)/include</string>
+				<string>$(MONKEYDEV_ROOTHIDE_INCLUDE_$(MONKEYDEV_PACKAGE_SCHEME)) $(inherited) $(MonkeyDevPath)/include</string>
 				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
 				<string>YES</string>
 				<key>GCC_PREFIX_HEADER</key>
@@ -36,7 +36,7 @@
 				<key>DYLIB_COMPATIBILITY_VERSION</key>
 				<string>1</string>
 				<key>MONKEYDEV_PACKAGE_SCHEME</key>
-				<string>rootless</string>
+				<string>___VARIABLE_mdPackageScheme___</string>
 				<key>MONKEYDEV_PACKAGE_PREFIX_rootless</key>
 				<string>/var/jb</string>
 				<key>MONKEYDEV_PACKAGE_PREFIX_rootful</key>
@@ -90,7 +90,55 @@
 				<key>MONKEYDEV_SSH_PASSWORD_None</key>
 				<string></string>
 				<key>LD_DYLIB_INSTALL_NAME</key>
+				<string>$(MONKEYDEV_TWEAK_INSTALL_NAME_$(MONKEYDEV_PACKAGE_SCHEME))</string>
+				<key>MONKEYDEV_PACKAGE_PREFIX_roothide</key>
+				<string></string>
+				<key>MONKEYDEV_TWEAK_INSTALL_NAME_rootless</key>
 				<string>@rpath/$(EXECUTABLE_PATH)</string>
+				<key>MONKEYDEV_TWEAK_INSTALL_NAME_rootful</key>
+				<string>@rpath/$(EXECUTABLE_PATH)</string>
+				<key>MONKEYDEV_TWEAK_INSTALL_NAME_roothide</key>
+				<string>@loader_path/.jbroot/Library/MobileSubstrate/DynamicLibraries/$(EXECUTABLE_PATH)</string>
+				<key>LIBRARY_SEARCH_PATHS</key>
+				<string>$(inherited) $(MONKEYDEV_ROOTHIDE_LIB_$(MONKEYDEV_PACKAGE_SCHEME))</string>
+				<key>MONKEYDEV_ROOTHIDE_LIB_roothide</key>
+				<string>$(MonkeyDevPath)/Librarys/roothide</string>
+				<key>MONKEYDEV_ROOTHIDE_LIB_rootless</key>
+				<string></string>
+				<key>MONKEYDEV_ROOTHIDE_LIB_rootful</key>
+				<string></string>
+				<key>OTHER_LDFLAGS</key>
+				<string>$(inherited)</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<string>$(inherited) $(MONKEYDEV_ROOTHIDE_DEFINES_$(MONKEYDEV_PACKAGE_SCHEME))</string>
+				<key>MONKEYDEV_ROOTHIDE_DEFINES_roothide</key>
+				<string>THEOS_PACKAGE_SCHEME_ROOTHIDE=1</string>
+				<key>MONKEYDEV_ROOTHIDE_DEFINES_rootless</key>
+				<string></string>
+				<key>MONKEYDEV_ROOTHIDE_DEFINES_rootful</key>
+				<string></string>
+				<key>MONKEYDEV_ROOTHIDE_INCLUDE_roothide</key>
+				<string>$(MonkeyDevPath)/Librarys/roothide/include</string>
+				<key>MONKEYDEV_ROOTHIDE_INCLUDE_rootless</key>
+				<string></string>
+				<key>MONKEYDEV_ROOTHIDE_INCLUDE_rootful</key>
+				<string></string>
+				<key>OTHER_CFLAGS</key>
+				<string>$(inherited) $(MONKEYDEV_ROOTHIDE_CFLAGS_$(MONKEYDEV_PACKAGE_SCHEME))</string>
+				<key>OTHER_CPLUSPLUSFLAGS</key>
+				<string>$(inherited) $(OTHER_CFLAGS) $(MONKEYDEV_ROOTHIDE_CXXFLAGS_$(MONKEYDEV_PACKAGE_SCHEME))</string>
+				<key>MONKEYDEV_ROOTHIDE_CFLAGS_roothide</key>
+				<string>-fmodules</string>
+				<key>MONKEYDEV_ROOTHIDE_CFLAGS_rootless</key>
+				<string></string>
+				<key>MONKEYDEV_ROOTHIDE_CFLAGS_rootful</key>
+				<string></string>
+				<key>MONKEYDEV_ROOTHIDE_CXXFLAGS_roothide</key>
+				<string>-fcxx-modules</string>
+				<key>MONKEYDEV_ROOTHIDE_CXXFLAGS_rootless</key>
+				<string></string>
+				<key>MONKEYDEV_ROOTHIDE_CXXFLAGS_rootful</key>
+				<string></string>
 			</dict>
 			<key>BuildPhases</key>
 			<array>
@@ -159,6 +207,26 @@
 	</dict>
 	<key>Options</key>
 	<array>
+		<dict>
+			<key>Identifier</key>
+			<string>mdPackageScheme</string>
+			<key>Name</key>
+			<string>Package Scheme</string>
+			<key>Description</key>
+			<string>Choose the package layout for the device environment.</string>
+			<key>Type</key>
+			<string>popup</string>
+			<key>Values</key>
+			<array>
+				<string>rootless</string>
+				<string>rootful</string>
+				<string>roothide</string>
+			</array>
+			<key>Default</key>
+			<string>rootless</string>
+			<key>NotPersisted</key>
+			<true/>
+		</dict>
 		<dict>
 			<key>Identifier</key>
 			<string>mdAuthentication</string>

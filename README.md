@@ -4,6 +4,8 @@
 
 当前适配范围为 Apple Silicon Mac、Xcode 27 和 iPhoneOS arm64。MonkeyApp 提供普通 Objective-C / CaptainHook、Logos internal、fishhook、Debug LLDBTools 与 Trace；Reveal 使用用户本机 SDK，不捆绑 Cycript 或旧 Substrate 运行库。
 
+Logos Tweak、CaptainHook Tweak、Command-line Tool 创建时可在 Package Scheme 选择 `rootless`（默认）、`rootful` 或 `roothide`。roothide 需配套支持该方案的新版 MonkeyDev，以及设备上的 roothide 兼容 ElleKit；已验证普通 App 的 Logos / CaptainHook 方法 Hook。Command-line Tool 的 C 示例已验证 roothide 自动安装与 SSH 执行，无需 Hook 框架。 仅 roothide 方案提供官方 `<roothide.h>` 路径 API；未调用时不会保留运行库依赖，rootless/rootful 不引入 SDK。
+
 安装和使用见 [MonkeyDev](https://github.com/AloneMonkey/MonkeyDev)。在 MonkeyDev 源码目录测试本地模板：
 
 ```bash
