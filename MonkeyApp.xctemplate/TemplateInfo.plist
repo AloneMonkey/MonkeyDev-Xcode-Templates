@@ -214,13 +214,13 @@
 		</dict>
 		<dict>
 			<key>Default</key>
-			<string>NO</string>
+			<string>None</string>
 			<key>Description</key>
-			<string>Load the locally installed Reveal SDK in Debug builds only.</string>
+			<string>Choose None, the locally installed Reveal SDK, or the bundled LookinServer for Debug builds.</string>
 			<key>Identifier</key>
-			<string>mdReveal</string>
+			<string>mdUIInspector</string>
 			<key>Name</key>
-			<string>Reveal (Debug)</string>
+			<string>UI Inspector (Debug)</string>
 			<key>NotPersisted</key>
 			<true/>
 			<key>Required</key>
@@ -231,8 +231,9 @@
 			<string>popup</string>
 			<key>Values</key>
 			<array>
-				<string>YES</string>
-				<string>NO</string>
+				<string>None</string>
+				<string>Reveal</string>
+				<string>Lookin</string>
 			</array>
 		</dict>
 	</array>
@@ -338,8 +339,6 @@
 				<string>YES</string>
 				<key>MONKEYDEV_RESTORE_SYMBOL</key>
 				<string>___VARIABLE_mdRestoreSymbols___</string>
-				<key>MONKEYDEV_REVEAL</key>
-				<string>___VARIABLE_mdReveal___</string>
 				<key>MONKEYDEV_TARGET_APP</key>
 				<string>___VARIABLE_TargetAppInfo___</string>
 				<key>PODS_CONFIGURATION_BUILD_DIR</key>
@@ -348,6 +347,8 @@
 				<string>${SRCROOT}/Pods</string>
 				<key>SUPPORTED_PLATFORMS</key>
 				<string>iphoneos</string>
+				<key>MONKEYDEV_UI_INSPECTOR</key>
+				<string>___VARIABLE_mdUIInspector___</string>
 			</dict>
 			<key>TargetIdentifier</key>
 			<string>com.monkey.monkeydev.TargetApp</string>

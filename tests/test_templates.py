@@ -43,7 +43,6 @@ class TemplateTests(unittest.TestCase):
             ('mdKeepBundleID', 'MONKEYDEV_DEFAULT_BUNDLEID', 'NO'),
             ('mdRestoreSymbols', 'MONKEYDEV_RESTORE_SYMBOL', 'NO'),
             ('mdExportHeaders', 'MONKEYDEV_CLASS_DUMP', 'NO'),
-            ('mdReveal', 'MONKEYDEV_REVEAL', 'NO'),
         ]:
             option = options[identifier]
             self.assertEqual(option['Type'], 'popup')
@@ -51,6 +50,12 @@ class TemplateTests(unittest.TestCase):
             self.assertEqual(option['Default'], default)
             self.assertTrue(option['NotPersisted'])
             self.assertEqual(settings[setting], '___VARIABLE_' + identifier + '___')
+        inspector = options['mdUIInspector']
+        self.assertEqual(inspector['Values'], ['None', 'Reveal', 'Lookin'])
+        self.assertEqual(inspector['Default'], 'None')
+        self.assertTrue(inspector['NotPersisted'])
+        self.assertEqual(settings['MONKEYDEV_UI_INSPECTOR'], '___VARIABLE_mdUIInspector___')
+        self.assertNotIn('MONKEYDEV_REVEAL', settings)
         signing = [phase for phase in target['BuildPhases']
                    if phase.get('ShellScript', '').endswith('/Tools/pack.sh codesign')]
         self.assertEqual(len(signing), 1)
